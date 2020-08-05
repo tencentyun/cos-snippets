@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".cs",
+  "caseRelativePath": "dist/",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "upper-camel",
+  "methodNamingConvention": "upper-camel",
+  "classNamingConvention": "upper-camel"
+}

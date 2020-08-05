@@ -1,0 +1,108 @@
+using COSXML.Common;
+using COSXML.CosException;
+using COSXML.Model;
+using COSXML.Model.Object;
+using COSXML.Model.Tag;
+using COSXML.Model.Bucket;
+using COSXML.Model.Service;
+using COSXML.Utils;
+using COSXML.Auth;
+using COSXML.Transfer;
+using System;
+using COSXML;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace COSSnippet
+{
+    public class TransferCopyObjectModel {
+
+      private CosXml cosXml;
+
+      TransferCopyObjectModel() {
+        CosXmlConfig config = new CosXmlConfig.Builder()
+          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
+          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
+          .IsHttps(true)  //设置默认 HTTPS 请求
+          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
+          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .Build();
+        
+        string secretId = "COS_SECRETID";   //云 API 密钥 SecretId
+        string secretKey = "COS_SECRETKEY"; //云 API 密钥 SecretKey
+        long durationSecond = 600;          //每次请求签名有效时长，单位为秒
+        QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
+          secretKey, durationSecond);
+        
+        this.cosXml = new CosXmlServer(config, qCloudCredentialProvider);
+      }
+
+      /// 高级接口拷贝对象
+      public void TransferCopyObject()
+      {
+        TransferConfig transferConfig = new TransferConfig();
+        
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXml, transferConfig);
+
+        //.cssg-snippet-body-start:[transfer-copy-object]
+        string sourceAppid = "1250000000"; //账号 appid
+        string sourceBucket = "sourcebucket-1250000000"; //"源对象所在的存储桶
+        string sourceRegion = "COS_REGION"; //源对象的存储桶所在的地域
+        string sourceKey = "sourceObject"; //源对象键
+        //构造源对象属性
+        CopySourceStruct copySource = new CopySourceStruct(sourceAppid, sourceBucket, 
+            sourceRegion, sourceKey);
+
+
+        string bucket = "examplebucket-1250000000"; //目标存储桶，格式：BucketName-APPID
+        string key = "exampleobject"; //目标对象的对象键
+
+        COSXMLCopyTask copytask = new COSXMLCopyTask(bucket, "COS_REGION", key, copySource);
+
+        // 同步调用
+        var autoEvent = new AutoResetEvent(false);
+
+        copytask.successCallback = delegate (CosResult cosResult) 
+        {
+            COSXML.Transfer.COSXMLCopyTask.CopyTaskResult result = cosResult 
+              as COSXML.Transfer.COSXMLCopyTask.CopyTaskResult;
+            Console.WriteLine(result.GetResultInfo());
+            string eTag = result.eTag;
+            autoEvent.Set();
+        };
+        copytask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
+        {
+            if (clientEx != null)
+            {
+                Console.WriteLine("CosClientException: " + clientEx);
+            }
+            if (serverEx != null)
+            {
+                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+            }
+            autoEvent.Set();
+        };
+        transferManager.Copy(copytask);
+        // 等待任务结束
+        autoEvent.WaitOne();
+        //.cssg-snippet-body-end
+      }
+
+      // .cssg-methods-pragma
+
+      static void Main(string[] args)
+      {
+        TransferCopyObjectModel m = new TransferCopyObjectModel();
+
+        /// 高级接口拷贝对象
+        m.TransferCopyObject();
+        // .cssg-methods-pragma
+      }
+    }
+}

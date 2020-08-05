@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".java",
+  "caseRelativePath": "app/src/androidTest/java/com/tencent/qcloud/cosxml/cssg/",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "upper-camel",
+  "methodNamingConvention": "lower-camel",
+  "classNamingConvention": "upper-camel"
+}

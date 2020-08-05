@@ -1,0 +1,18 @@
+
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'COS_Swift_Test' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+	  pod 'QCloudCOSXML'
+  pod 'CSSGTestCase', path:"Examples"
+  # Pods for COS_Swift_Test
+
+
+  target 'COS_Swift_TestTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

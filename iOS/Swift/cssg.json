@@ -1,0 +1,9 @@
+{
+  "sourceExtension": ".swift",
+  "snippetNameCommonPrefix": "swift-",
+  "caseRelativePath": "Examples/cases/",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "upper-camel",
+  "methodNamingConvention": "lower-camel",
+  "classNamingConvention": "upper-camel"
+}
