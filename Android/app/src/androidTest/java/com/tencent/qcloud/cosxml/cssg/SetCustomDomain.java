@@ -138,6 +138,16 @@ public class SetCustomDomain {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 设置请求域名后缀
+     */
+    private void setEndpointSuffix() {
+        //.cssg-snippet-body-start:[set-endpoint-suffix]
+        
+        //.cssg-snippet-body-end
+    }
+
+
 
     // .cssg-methods-pragma
 
@@ -168,6 +178,10 @@ public class SetCustomDomain {
 
         // 设置全球加速域名
         setAccelerateDomain();
+
+        // 设置请求域名后缀
+        setEndpointSuffix();
+        
         
         
         // .cssg-methods-pragma

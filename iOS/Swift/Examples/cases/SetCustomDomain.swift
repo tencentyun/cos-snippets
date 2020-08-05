@@ -78,6 +78,15 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     }
 
 
+    // 设置请求域名后缀
+    func setEndpointSuffix() {
+        //.cssg-snippet-body-start:[swift-set-endpoint-suffix]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+
     // .cssg-methods-pragma
 
     func testSetCustomDomain() {
@@ -90,6 +99,9 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
 
         // 设置全球加速域名
         self.setAccelerateDomain();
+
+        // 设置请求域名后缀
+        self.setEndpointSuffix();
         // .cssg-methods-pragma
     }
 }

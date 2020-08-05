@@ -64,7 +64,8 @@ namespace COSSnippet
           .IsHttps(true)  //设置默认 HTTPS 请求
           .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
-          .setEndpointSuffix("your.domain.com") //自定义域名
+          //请求域名为 your.domain.com
+          .setHost("your.domain.com") //自定义域名
           .Build();
         //.cssg-snippet-body-end
       }
@@ -82,6 +83,21 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 设置请求域名后缀
+      public void SetEndpointSuffix()
+      {
+        //.cssg-snippet-body-start:[set-endpoint-suffix]
+        CosXmlConfig config = new CosXmlConfig.Builder()
+          .IsHttps(true)  //设置默认 HTTPS 请求
+          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
+          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          //请求域名为 [bucketName-APPID].your.domain.com
+          .setEndpointSuffix("your.domain.com")
+          .Build();
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -96,6 +112,9 @@ namespace COSSnippet
         m.SetCustomDomain();
         /// 设置全球加速域名
         m.SetAccelerateDomain();
+
+        /// 设置请求域名后缀
+        m.SetEndpointSuffix();
         // .cssg-methods-pragma
       }
     }
