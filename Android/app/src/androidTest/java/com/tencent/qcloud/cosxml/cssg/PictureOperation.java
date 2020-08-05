@@ -75,7 +75,8 @@ public class PictureOperation {
 
         //.cssg-snippet-body-start:[upload-with-pic-operation]
         List<PicOperationRule> rules = new LinkedList<>();
-        // 添加一条将图片转化为 png 格式的 rule，处理后的图片在存储桶中的位置标识符为 examplepngobject
+        // 添加一条将图片转化为 png 格式的 rule，处理后的图片在存储桶中的位置标识符为
+        // examplepngobject
         rules.add(new PicOperationRule("examplepngobject", "imageView2/format/png"));
         PicOperations picOperations = new PicOperations(true, rules);
 

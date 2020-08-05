@@ -91,7 +91,7 @@ public class TransferDownloadObject {
         cosxmlDownloadTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLDownloadTask.COSXMLDownloadTaskResult cOSXMLDownloadTaskResult =
+                COSXMLDownloadTask.COSXMLDownloadTaskResult downloadTaskResult =
                         (COSXMLDownloadTask.COSXMLDownloadTaskResult) result;
             }
 

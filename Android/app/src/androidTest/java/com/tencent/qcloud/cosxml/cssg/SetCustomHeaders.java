@@ -58,20 +58,53 @@ public class SetCustomHeaders {
      */
     private void setCustomHeaders() {
 
+        String bucket = null;
+        String cosPath = null;
         ServerCredentialProvider credentialProvider = new ServerCredentialProvider();
         //.cssg-snippet-body-start:[set-custom-headers]
         String region = "ap-beijing"; // 您的存储桶地域
-        String customHeaderKey = "examplekey"; // 自定义 Header 的键
-        String customHeaderValue = "examplevalue"; // 自定义 Header 的值
+        String commonHeaderKey = "commonexamplekey"; // 自定义公共 Header 的键
+        String commonHeaderValue = "commonexamplevalue"; // 自定义公共 Header 的值
+        String requestHeaderKey = "requestexamplekey"; // 自定义请求 Header 的键
+        String requestHeaderValue = "requestexamplevalue"; // 自定义请求 Header 的值
 
         CosXmlServiceConfig cosXmlServiceConfig = new CosXmlServiceConfig.Builder()
                 .isHttps(true)
                 .setRegion(region)
                 .setDebuggable(false)
-                .addHeader(customHeaderKey, customHeaderValue) // 添加自定义 Header
+                // 给所有的请求添加公共的自定义 Header
+                .addHeader(commonHeaderKey, commonHeaderValue)
                 .builder();
 
-        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig, credentialProvider);
+        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig,
+                credentialProvider);
+
+        // 给单个请求添加自定义 Header，优先级比公共 Header 更高
+        HeadObjectRequest headObjectRequest = new HeadObjectRequest(bucket, cosPath);
+        try {
+            headObjectRequest.setRequestHeaders(requestHeaderKey, requestHeaderValue, false);
+        } catch (CosXmlClientException e) {
+            e.printStackTrace();
+        }
+
+        // 发起请求
+        cosXmlService.headObjectAsync(headObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                HeadObjectResult headObjectResult = (HeadObjectResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+
         //.cssg-snippet-body-end
     }
 

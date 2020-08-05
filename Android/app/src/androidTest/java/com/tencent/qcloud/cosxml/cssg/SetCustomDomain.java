@@ -59,7 +59,8 @@ public class SetCustomDomain {
     private void setCdnDomain() {
         //.cssg-snippet-body-start:[set-cdn-domain]
         String region = "ap-beijing"; // 您的存储桶地域
-        String cdnDomain = "examplebucket-1250000000.file.myqcloud.com"; // 存储桶的默认加速域名
+        // 存储桶的默认加速域名
+        String cdnDomain = "examplebucket-1250000000.file.myqcloud.com";
 
         CosXmlServiceConfig cosXmlServiceConfig = new CosXmlServiceConfig.Builder()
                 .isHttps(true)
@@ -104,7 +105,7 @@ public class SetCustomDomain {
         ServerCredentialProvider credentialProvider = new ServerCredentialProvider();
         //.cssg-snippet-body-start:[set-custom-domain]
         String region = "ap-beijing"; // 您的存储桶地域
-        String customDomain = "exampledomain.com"; // 自定义加速域名
+        String customDomain = "exampledomain.com"; // 自定义域名
 
         CosXmlServiceConfig cosXmlServiceConfig = new CosXmlServiceConfig.Builder()
                 .isHttps(true)
@@ -113,7 +114,8 @@ public class SetCustomDomain {
                 .setHostFormat(customDomain) // 修改请求的域名
                 .builder();
 
-        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig, credentialProvider);
+        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig,
+                credentialProvider);
         //.cssg-snippet-body-end
     }
 
@@ -134,7 +136,8 @@ public class SetCustomDomain {
                 .setAccelerate(true) // 使能全球加速域名
                 .builder();
 
-        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig, credentialProvider);
+        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig,
+                credentialProvider);
         //.cssg-snippet-body-end
     }
 
@@ -142,8 +145,21 @@ public class SetCustomDomain {
      * 设置请求域名后缀
      */
     private void setEndpointSuffix() {
+
+        ServerCredentialProvider credentialProvider = new ServerCredentialProvider();
         //.cssg-snippet-body-start:[set-endpoint-suffix]
-        
+        String region = "ap-beijing"; // 您的存储桶地域
+
+        CosXmlServiceConfig cosXmlServiceConfig = new CosXmlServiceConfig.Builder()
+                .isHttps(true)
+                .setRegion(region)
+                .setDebuggable(false)
+                // 修改请求的域名，sdk 会自动将 ${bucket} 和 ${region} 分别替换为真正的
+                // 存储桶和地域
+                .setHostFormat("${bucket}.cos.${region}.example.com")
+                .builder();
+
+        CosXmlService cosXmlService = new CosXmlService(context, cosXmlServiceConfig, credentialProvider);
         //.cssg-snippet-body-end
     }
 
