@@ -138,7 +138,7 @@ namespace COSSnippet
         string localDir = System.IO.Path.GetTempPath();//本地文件夹
         
         for (int i = 0; i < 5; i++) {
-          // 上传对象
+          // 下载对象
           string cosPath = "exampleobject" + i; //对象在存储桶中的位置标识符，即称对象键
           string localFileName = "my-local-temp-file"; //指定本地保存的文件名
           // COS_REGION 为存储桶所在地域
