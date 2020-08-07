@@ -1,0 +1,24 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha server.js --timeout 120000"
+  },
+  "keywords": [
+    "cos"
+  ],
+  "author": "wjielai",
+  "license": "MIT",
+  "dependencies": {
+    "cos-js-sdk-v5": "^0.5.22",
+    "cos-nodejs-sdk-v5": "^2.5.14",
+    "express": "^4.17.1",
+    "mocha": "^6.2.2",
+    "puppeteer": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

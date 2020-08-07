@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".js",
+  "caseRelativePath": "src/",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "under-score",
+  "methodNamingConvention": "lower-camel",
+  "classNamingConvention": "upper-camel"
+}

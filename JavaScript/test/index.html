@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>cos-js-sdk-test</title>
+    <link rel="stylesheet" href="./qunit-2.4.0.css">
+</head>
+<body>
+
+<h1 id="qunit-header">cos-js-sdk-test</h1>
+<h2 id="qunit-banner"></h2>
+<ol id="qunit-tests"></ol>
+
+<script src="./qunit-2.4.0.js"></script>
+<script src="https://unpkg.com/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js"></script>
+<script src="./key.js"></script>
+<script src="./util.js"></script>
+<script src="./src/InitServiceTest.js"></script>
+<script src="./src/ServiceTest.js"></script>
+<script src="./src/BucketTest.js"></script>
+<script src="./src/ObjectTest.js"></script>
+
+<script>
+QUnit.done(function(report) {
+    console.log('[exit]');
+});
+</script>
+
+</body>
+</html>

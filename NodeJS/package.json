@@ -1,0 +1,20 @@
+{
+  "name": "cos-nodejs-sdk-ut",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --timeout 30000"
+  },
+  "keywords": [
+    "nodejs",
+    "cos"
+  ],
+  "author": "wjielai",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/promisify": "^1.0.4",
+    "cos-nodejs-sdk-v5": "^2.5.14",
+    "mocha": "^6.2.2"
+  }
+}
