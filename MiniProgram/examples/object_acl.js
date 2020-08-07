@@ -57,6 +57,46 @@ function getObjectAcl() {
   //.cssg-snippet-body-end
 }
 
+// 设置对象 ACL
+function putObjectAclUser() {
+  //.cssg-snippet-body-start:[put-object-acl-user]
+  cos.putObjectAcl({
+      Bucket: 'examplebucket-1250000000', /* 必须 */
+      Region: 'ap-beijing',    /* 必须 */
+      Key: 'picture.jpg',              /* 必须 */
+      GrantFullControl: 'id="100000000001"' // 100000000001是主账号 uin
+  }, function(err, data) {
+      console.log(err || data);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
+// 设置对象 ACL
+function putObjectAclAcp() {
+  //.cssg-snippet-body-start:[put-object-acl-acp]
+  cos.putObjectAcl({
+      Bucket: 'examplebucket-1250000000', /* 必须 */
+      Region: 'ap-beijing',    /* 必须 */
+      Key: 'picture.jpg',              /* 必须 */
+      AccessControlPolicy: {
+          "Owner": { // AccessControlPolicy 里必须有 owner
+              "ID": 'qcs::cam::uin/100000000001:uin/100000000001' // 100000000001是 Bucket 所属用户的 QQ 号
+          },
+          "Grants": [{
+              "Grantee": {
+                  "ID": "qcs::cam::uin/100000000011:uin/100000000011", // 100000000011是 QQ 号
+              },
+              "Permission": "WRITE"
+          }]
+      }
+  }, function(err, data) {
+      console.log(err || data);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
 //.cssg-methods-pragma
 
 function callObjectACL() {
@@ -65,6 +105,12 @@ function callObjectACL() {
 
   // 获取对象 ACL
   getObjectAcl()
+
+  // 设置对象 ACL
+  putObjectAclUser()
+
+  // 设置对象 ACL
+  putObjectAclAcp()
 
   //.cssg-methods-pragma
 }

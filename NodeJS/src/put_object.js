@@ -23,7 +23,7 @@ function putObject() {
   //.cssg-snippet-body-end
 }
 
-// 简单上传内存数据
+// 简单上传对象
 function putObjectBytes() {
   //.cssg-snippet-body-start:[put-object-bytes]
   cos.putObject({
@@ -31,6 +31,36 @@ function putObjectBytes() {
       Region: 'COS_REGION',    /* 必须 */
       Key: 'exampleobject',              /* 必须 */
       Body: Buffer.from('hello!'), /* 必须 */
+  }, function(err, data) {
+      console.log(err || data);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
+// 简单上传对象
+function putObjectString() {
+  //.cssg-snippet-body-start:[put-object-string]
+  cos.putObject({
+      Bucket: 'examplebucket-1250000000', /* 必须 */
+      Region: 'COS_REGION',    /* 必须 */
+      Key: 'exampleobject',              /* 必须 */
+      Body: 'hello!',
+  }, function(err, data) {
+      console.log(err || data);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
+// 简单上传对象
+function putObjectFolder() {
+  //.cssg-snippet-body-start:[put-object-folder]
+  cos.putObject({
+      Bucket: 'examplebucket-1250000000', /* 必须 */
+      Region: 'COS_REGION',    /* 必须 */
+      Key: 'a/',              /* 必须 */
+      Body: '',
   }, function(err, data) {
       console.log(err || data);
   });
@@ -46,9 +76,19 @@ describe("PutObject", function() {
     return putObject()
   })
 
-  // 简单上传内存数据
+  // 简单上传对象
   it("putObjectBytes", function() {
     return putObjectBytes()
+  })
+
+  // 简单上传对象
+  it("putObjectString", function() {
+    return putObjectString()
+  })
+
+  // 简单上传对象
+  it("putObjectFolder", function() {
+    return putObjectFolder()
   })
 
   //.cssg-methods-pragma

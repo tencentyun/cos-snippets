@@ -22,6 +22,33 @@ function transferUploadFile(assert) {
   //.cssg-snippet-body-end
 }
 
+// 上传暂停
+function transferUploadPause(assert) {
+  //.cssg-snippet-body-start:[transfer-upload-pause]
+  var taskId = 'xxxxx';                   /* 必须 */
+  cos.pauseTask(taskId);
+  
+  //.cssg-snippet-body-end
+}
+
+// 上传续传
+function transferUploadResume(assert) {
+  //.cssg-snippet-body-start:[transfer-upload-resume]
+  var taskId = 'xxxxx';                   /* 必须 */
+  cos.restartTask(taskId);
+  
+  //.cssg-snippet-body-end
+}
+
+// 上传取消
+function transferUploadCancel(assert) {
+  //.cssg-snippet-body-start:[transfer-upload-cancel]
+  var taskId = 'xxxxx';                   /* 必须 */
+  cos.cancelTask(taskId);
+  
+  //.cssg-snippet-body-end
+}
+
 // 批量上传
 function transferBatchUploadObjects(assert) {
   //.cssg-snippet-body-start:[transfer-batch-upload-objects]
@@ -58,6 +85,15 @@ function transferBatchUploadObjects(assert) {
 test("TransferUploadObject", async function(assert) {
   // 高级接口上传对象
   await transferUploadFile(assert)
+
+  // 上传暂停
+  await transferUploadPause(assert)
+
+  // 上传续传
+  await transferUploadResume(assert)
+
+  // 上传取消
+  await transferUploadCancel(assert)
 
   // 批量上传
   await transferBatchUploadObjects(assert)

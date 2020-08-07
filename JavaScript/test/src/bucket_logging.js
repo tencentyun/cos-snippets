@@ -30,6 +30,20 @@ function getBucketLogging(assert) {
   //.cssg-snippet-body-end
 }
 
+// 开启存储桶日志服务
+function putBucketLoggingDisable(assert) {
+  //.cssg-snippet-body-start:[put-bucket-logging-disable]
+  cos.putBucketLogging({
+      Bucket: 'sourcebucket-1250000000',  /* 必须 */
+      Region: 'ap-beijing',               /* 必须 */
+      BucketLoggingStatus: {}             /* 必须 */
+  }, function(err, data) {
+      console.log(err || data);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
 //.cssg-methods-pragma
 
 test("BucketLogging", async function(assert) {
@@ -38,6 +52,9 @@ test("BucketLogging", async function(assert) {
 
   // 获取存储桶日志服务
   await getBucketLogging(assert)
+
+  // 开启存储桶日志服务
+  await putBucketLoggingDisable(assert)
 
 //.cssg-methods-pragma
 })

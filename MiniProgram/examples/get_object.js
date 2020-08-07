@@ -42,11 +42,29 @@ function getObject() {
   //.cssg-snippet-body-end
 }
 
+// 下载对象
+function getObjectRange() {
+  //.cssg-snippet-body-start:[get-object-range]
+  cos.getObject({
+      Bucket: 'examplebucket-1250000000', /* 必须 */
+      Region: 'ap-beijing',    /* 必须 */
+      Key: 'picture.jpg',              /* 必须 */
+      Range: 'bytes=1-3',        /* 非必须 */
+  }, function(err, data) {
+      console.log(err || data.Body);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
 //.cssg-methods-pragma
 
 function callGetObject() {
   // 下载对象
   getObject()
+
+  // 下载对象
+  getObjectRange()
 
   //.cssg-methods-pragma
 }

@@ -41,11 +41,27 @@ function deleteBucket() {
   //.cssg-snippet-body-end
 }
 
+// 删除存储桶
+function deleteBucketDomain() {
+  //.cssg-snippet-body-start:[delete-bucket-domain]
+  cos.deleteBucketDomain({
+      Bucket: 'examplebucket-1250000000', /* 必须 */
+      Region: 'ap-beijing',    /* 必须 */
+  }, function(err, data) {
+      console.log(err || data);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
 //.cssg-methods-pragma
 
 function callDeleteBucket() {
   // 删除存储桶
   deleteBucket()
+
+  // 删除存储桶
+  deleteBucketDomain()
 
   //.cssg-methods-pragma
 }

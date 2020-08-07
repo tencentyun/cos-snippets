@@ -29,6 +29,33 @@ function transferUploadFile() {
   //.cssg-snippet-body-end
 }
 
+// 上传暂停
+function transferUploadPause() {
+  //.cssg-snippet-body-start:[transfer-upload-pause]
+  var taskId = 'xxxxx';                   /* 必须 */
+  cos.pauseTask(taskId);
+  
+  //.cssg-snippet-body-end
+}
+
+// 上传续传
+function transferUploadResume() {
+  //.cssg-snippet-body-start:[transfer-upload-resume]
+  var taskId = 'xxxxx';                   /* 必须 */
+  cos.restartTask(taskId);
+  
+  //.cssg-snippet-body-end
+}
+
+// 上传取消
+function transferUploadCancel() {
+  //.cssg-snippet-body-start:[transfer-upload-cancel]
+  var taskId = 'xxxxx';                   /* 必须 */
+  cos.cancelTask(taskId);
+  
+  //.cssg-snippet-body-end
+}
+
 // 批量上传
 function transferBatchUploadObjects() {
   //.cssg-snippet-body-start:[transfer-batch-upload-objects]
@@ -68,6 +95,21 @@ describe("TransferUploadObject", function() {
   // 高级接口上传对象
   it("transferUploadFile", function() {
     return transferUploadFile()
+  })
+
+  // 上传暂停
+  it("transferUploadPause", function() {
+    return transferUploadPause()
+  })
+
+  // 上传续传
+  it("transferUploadResume", function() {
+    return transferUploadResume()
+  })
+
+  // 上传取消
+  it("transferUploadCancel", function() {
+    return transferUploadCancel()
   })
 
   // 批量上传

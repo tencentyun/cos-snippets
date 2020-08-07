@@ -40,11 +40,91 @@ function getPresignDownloadUrl() {
   //.cssg-snippet-body-end
 }
 
+// 获取预签名下载链接
+function getPresignDownloadUrlNosign() {
+  //.cssg-snippet-body-start:[get-presign-download-url-nosign]
+  var url = cos.getObjectUrl({
+      Bucket: 'examplebucket-1250000000',
+      Region: 'ap-beijing',
+      Key: 'picture.jpg',
+      Sign: false
+  });
+  
+  //.cssg-snippet-body-end
+}
+
+// 获取预签名下载链接
+function getPresignDownloadUrlCallback() {
+  //.cssg-snippet-body-start:[get-presign-download-url-callback]
+  cos.getObjectUrl({
+      Bucket: 'examplebucket-1250000000',
+      Region: 'ap-beijing',
+      Key: 'picture.jpg',
+      Sign: false
+  }, function (err, data) {
+      console.log(err || data.Url);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
+// 获取预签名下载链接
+function getPresignDownloadUrlExpiration() {
+  //.cssg-snippet-body-start:[get-presign-download-url-expiration]
+  cos.getObjectUrl({
+      Bucket: 'examplebucket-1250000000',
+      Region: 'ap-beijing',
+      Key: 'picture.jpg',
+      Sign: true,
+      Expires: 3600, // 单位秒
+  }, function (err, data) {
+      console.log(err || data.Url);
+  });
+  
+  //.cssg-snippet-body-end
+}
+
+// 获取预签名下载链接
+function getPresignDownloadUrlThenFetch() {
+  //.cssg-snippet-body-start:[get-presign-download-url-then-fetch]
+  cos.getObjectUrl({
+      Bucket: 'examplebucket-1250000000',
+      Region: 'ap-beijing',
+      Key: 'picture.jpg',
+      Sign: true
+  }, function (err, data) {
+      if (!err) return console.log(err);
+      wx.downloadFile({
+          url: data.Url, // 需要加 url 的域名作为下载白名单
+          success (res) {
+              console.log(res.statusCode, res.tempFilePath);
+          },
+          fail: function (err) {
+              console.log(err);
+          },
+      });
+  });
+  
+  //.cssg-snippet-body-end
+}
+
 //.cssg-methods-pragma
 
 function callObjectPresignUrl() {
   // 获取预签名下载链接
   getPresignDownloadUrl()
+
+  // 获取预签名下载链接
+  getPresignDownloadUrlNosign()
+
+  // 获取预签名下载链接
+  getPresignDownloadUrlCallback()
+
+  // 获取预签名下载链接
+  getPresignDownloadUrlExpiration()
+
+  // 获取预签名下载链接
+  getPresignDownloadUrlThenFetch()
 
   //.cssg-methods-pragma
 }
