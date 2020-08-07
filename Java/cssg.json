@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".java",
+  "caseRelativePath": "src/test/java/com/qcloud/cssg/",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "upper-camel",
+  "methodNamingConvention": "lower-camel",
+  "classNamingConvention": "upper-camel"
+}
