@@ -16,7 +16,7 @@ function getAuthorization(assert) {
 
 //.cssg-methods-pragma
 
-test("GetService", async function(assert) {
+test("GetAuthorization", async function(assert) {
   // 计算签名
   await getAuthorization(assert)
 

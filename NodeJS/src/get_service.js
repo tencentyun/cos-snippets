@@ -26,23 +26,6 @@ function getRegionalService() {
   //.cssg-snippet-body-end
 }
 
-// 计算签名
-function getAuthorization() {
-  //.cssg-snippet-body-start:[get-authorization]
-  var COS = require('cos-nodejs-sdk-v5');
-  var Authorization = COS.getAuthorization({
-      SecretId: 'COS_SECRETID',
-      SecretKey: 'COS_SECRETKEY',
-      Method: 'get',
-      Key: 'a.jpg',
-      Expires: 60,
-      Query: {},
-      Headers: {}
-  });
-  
-  //.cssg-snippet-body-end
-}
-
 //.cssg-methods-pragma
 
 describe("GetService", function() {
@@ -54,11 +37,6 @@ describe("GetService", function() {
   // 获取地域的存储桶列表
   it("getRegionalService", function() {
     return getRegionalService()
-  })
-
-  // 计算签名
-  it("getAuthorization", function() {
-    return getAuthorization()
   })
 
   //.cssg-methods-pragma
