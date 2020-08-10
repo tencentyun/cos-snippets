@@ -92,7 +92,13 @@
 - (void)getRegionalService {
     
     //.cssg-snippet-body-start:[objc-get-regional-service]
+    QCloudGetServiceRequest* request = [[QCloudGetServiceRequest alloc] init];
     
+    [request setFinishBlock:^(QCloudListAllMyBucketsResult* result, NSError* error) {
+
+        //从result.buckets获取所有的存储桶
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] GetService:request];
     //.cssg-snippet-body-end
 }
 
@@ -101,6 +107,7 @@
  */
 - (void)getAuthorization {
     //.cssg-snippet-body-start:[objc-get-authorization]
+
     
     //.cssg-snippet-body-end
 }

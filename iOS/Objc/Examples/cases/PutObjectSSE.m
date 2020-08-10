@@ -66,8 +66,10 @@
  * 使用 COS 托管加密密钥的服务端加密（SSE-COS）保护数据
  */
 - (void)putObjectSse {
-    //.cssg-snippet-body-start:[objc-put-object-sse]
     
+    //.cssg-snippet-body-start:[objc-put-object-sse]
+    QCloudCOSXMLUploadObjectRequest *request = [QCloudCOSXMLUploadObjectRequest new];
+    [request setCOSServerSideEncyption];
     //.cssg-snippet-body-end
 }
 
@@ -75,8 +77,11 @@
  * 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
  */
 - (void)putObjectSseC {
+   
     //.cssg-snippet-body-start:[objc-put-object-sse-c]
-    
+    QCloudCOSXMLUploadObjectRequest *request = [QCloudCOSXMLUploadObjectRequest new];
+    NSString *customKey = @"123456qwertyuioplkjhgfdsazxcvbnm";
+    [request setCOSServerSideEncyptionWithCustomerKey:customKey];
     //.cssg-snippet-body-end
 }
 
