@@ -129,6 +129,15 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 列出所有存储桶清单任务
+      public void ListBucketInventory()
+      {
+        //.cssg-snippet-body-start:[list-bucket-inventory]
+        
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -141,6 +150,9 @@ namespace COSSnippet
         m.GetBucketInventory();
         /// 删除存储桶清单任务
         m.DeleteBucketInventory();
+
+        /// 列出所有存储桶清单任务
+        m.ListBucketInventory();
         // .cssg-methods-pragma
       }
     }

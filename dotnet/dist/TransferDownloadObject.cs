@@ -149,6 +149,15 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 下载时对单链接限速
+      public void DownloadObjectTrafficLimit()
+      {
+        //.cssg-snippet-body-start:[download-object-traffic-limit]
+        
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -161,6 +170,9 @@ namespace COSSnippet
         m.TransferDownloadObjectInteract();
         /// 批量下载
         m.TransferBatchDownloadObjects();
+
+        /// 下载时对单链接限速
+        m.DownloadObjectTrafficLimit();
         // .cssg-methods-pragma
       }
     }

@@ -77,6 +77,39 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 对云上数据进行图片处理
+      public void ProcessWithPicOperation()
+      {
+        //.cssg-snippet-body-start:[process-with-pic-operation]
+        
+        //.cssg-snippet-body-end
+      }
+
+      /// 上传时添加盲水印
+      public void PutObjectWithWatermark()
+      {
+        //.cssg-snippet-body-start:[put-object-with-watermark]
+        
+        //.cssg-snippet-body-end
+      }
+
+      /// 下载时添加盲水印
+      public void DownloadObjectWithWatermark()
+      {
+        //.cssg-snippet-body-start:[download-object-with-watermark]
+        
+        //.cssg-snippet-body-end
+      }
+
+      /// 图片审核
+      public void SensitiveContentRecognition()
+      {
+        //.cssg-snippet-body-start:[sensitive-content-recognition]
+        
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -85,6 +118,15 @@ namespace COSSnippet
 
         /// 上传时图片处理
         m.UploadWithPicOperation();
+
+        /// 对云上数据进行图片处理
+        m.ProcessWithPicOperation();
+        /// 上传时添加盲水印
+        m.PutObjectWithWatermark();
+        /// 下载时添加盲水印
+        m.DownloadObjectWithWatermark();
+        /// 图片审核
+        m.SensitiveContentRecognition();
         // .cssg-methods-pragma
       }
     }

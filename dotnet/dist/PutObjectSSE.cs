@@ -66,6 +66,15 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
+      public void PutObjectSseKms()
+      {
+        //.cssg-snippet-body-start:[put-object-sse-kms]
+        
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -76,6 +85,9 @@ namespace COSSnippet
         m.PutObjectSse();
         /// 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
         m.PutObjectSseC();
+
+        /// 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
+        m.PutObjectSseKms();
         // .cssg-methods-pragma
       }
     }

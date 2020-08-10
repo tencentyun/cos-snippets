@@ -178,6 +178,23 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 上传时对单链接限速
+      public void UploadObjectTrafficLimit()
+      {
+        //.cssg-snippet-body-start:[upload-object-traffic-limit]
+        
+        //.cssg-snippet-body-end
+      }
+
+      /// 创建目录
+      public void CreateDirectory()
+      {
+        //.cssg-snippet-body-start:[create-directory]
+        
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -196,6 +213,11 @@ namespace COSSnippet
         m.TransferUploadInteract();
         /// 批量上传
         m.TransferBatchUploadObjects();
+
+        /// 上传时对单链接限速
+        m.UploadObjectTrafficLimit();
+        /// 创建目录
+        m.CreateDirectory();
         // .cssg-methods-pragma
       }
     }
