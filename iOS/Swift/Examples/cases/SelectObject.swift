@@ -1,7 +1,7 @@
 import XCTest
 import QCloudCOSXML
 
-class PutObjectSSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class SelectObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -46,40 +46,18 @@ class PutObjectSSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
     }
 
 
-    // 使用 COS 托管加密密钥的服务端加密（SSE-COS）保护数据
-    func putObjectSse() {
-        //.cssg-snippet-body-start:[swift-put-object-sse]
+    // 检索对象内容
+    func selectObject() {
+        //.cssg-snippet-body-start:[swift-select-object]
         
         //.cssg-snippet-body-end
     }
-
-
-    // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
-    func putObjectSseC() {
-        //.cssg-snippet-body-start:[swift-put-object-sse-c]
-        
-        //.cssg-snippet-body-end
-    }
-
-
-    // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
-    func putObjectSseKms() {
-        //.cssg-snippet-body-start:[swift-put-object-sse-kms]
-        
-        //.cssg-snippet-body-end
-    }
-
 
     // .cssg-methods-pragma
 
-    func testPutObjectSSE() {
-        // 使用 COS 托管加密密钥的服务端加密（SSE-COS）保护数据
-        self.putObjectSse();
-        // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
-        self.putObjectSseC();
-
-        // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
-        self.putObjectSseKms();
+    func testSelectObject() {
+        // 检索对象内容
+        self.selectObject();
         // .cssg-methods-pragma
     }
 }

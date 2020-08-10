@@ -7,13 +7,13 @@
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
 
 
-@interface TransferDownloadObject : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface SelectObject : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation TransferDownloadObject
+@implementation SelectObject
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -63,98 +63,19 @@
 }
 
 /**
- * 高级接口下载对象
+ * 检索对象内容
  */
-- (void)transferDownloadObject {
-    //.cssg-snippet-body-start:[objc-transfer-download-object]
-    QCloudCOSXMLDownloadObjectRequest * request = [QCloudCOSXMLDownloadObjectRequest new];
-    
-    // 存储桶名称，格式为 BucketName-APPID
-    request.bucket = @"examplebucket-1250000000";
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    request.object = @"exampleobject";
-    
-    // 设置下载的路径 URL，如果设置了，文件将会被下载到指定路径中
-    request.downloadingURL = [NSURL fileURLWithPath:@"Local File Path"];
-    
-    // 本地已下载的文件大小，如果是从头开始下载，请不要设置
-    request.localCacheDownloadOffset = 100;
-    
-    // 监听下载结果
-    [request setFinishBlock:^(id outputObject, NSError *error) {
-        // outputObject 包含所有的响应 http 头部
-        NSDictionary* info = (NSDictionary *) outputObject;
-    }];
-    
-    // 监听下载进度
-    [request setDownProcessBlock:^(int64_t bytesDownload,
-                                   int64_t totalBytesDownload,
-                                   int64_t totalBytesExpectedToDownload) {
-        
-        // bytesDownload                   新增字节数
-        // totalBytesDownload              本次下载接收的总字节数
-        // totalBytesExpectedToDownload    本次下载的目标字节数
-    }];
-    
-    [[QCloudCOSTransferMangerService defaultCOSTransferManager] DownloadObject:request];
+- (void)selectObject {
+    //.cssg-snippet-body-start:[objc-select-object]
     
     //.cssg-snippet-body-end
 }
-
-/**
- * 下载暂停、续传与取消
- */
-- (void)transferDownloadObjectInteract {
-    //.cssg-snippet-body-start:[objc-transfer-download-object-pause]
-    
-    //.cssg-snippet-body-end
-    
-    //.cssg-snippet-body-start:[objc-transfer-download-object-resume]
-    
-    //.cssg-snippet-body-end
-    
-    //.cssg-snippet-body-start:[objc-transfer-download-object-cancel]
-    
-    //.cssg-snippet-body-end
-}
-
-/**
- * 批量下载
- */
-- (void)transferBatchDownloadObjects {
-    //.cssg-snippet-body-start:[objc-transfer-batch-download-objects]
-    
-    //.cssg-snippet-body-end
-}
-
-/**
- * 下载时对单链接限速
- */
-- (void)downloadObjectTrafficLimit {
-    //.cssg-snippet-body-start:[objc-download-object-traffic-limit]
-    
-    //.cssg-snippet-body-end
-}
-
-
 
 // .cssg-methods-pragma
 
-- (void)testTransferDownloadObject {
-    // 高级接口下载对象
-    [self transferDownloadObject];
-        
-    // 下载暂停、续传与取消
-    [self transferDownloadObjectInteract];
-        
-    // 批量下载
-    [self transferBatchDownloadObjects];
-
-    // 下载时对单链接限速
-    [self downloadObjectTrafficLimit];
-        
-        
+- (void)testSelectObject {
+    // 检索对象内容
+    [self selectObject];
         
     // .cssg-methods-pragma
 }

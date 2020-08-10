@@ -71,11 +71,61 @@
     //.cssg-snippet-body-end
 }
 
+/**
+ * 对云上数据进行图片处理
+ */
+- (void)processWithPicOperation {
+    //.cssg-snippet-body-start:[objc-process-with-pic-operation]
+    
+    //.cssg-snippet-body-end
+}
+
+/**
+ * 上传时添加盲水印
+ */
+- (void)putObjectWithWatermark {
+    //.cssg-snippet-body-start:[objc-put-object-with-watermark]
+    
+    //.cssg-snippet-body-end
+}
+
+/**
+ * 下载时添加盲水印
+ */
+- (void)downloadObjectWithWatermark {
+    //.cssg-snippet-body-start:[objc-download-object-with-watermark]
+    
+    //.cssg-snippet-body-end
+}
+
+/**
+ * 图片审核
+ */
+- (void)sensitiveContentRecognition {
+    //.cssg-snippet-body-start:[objc-sensitive-content-recognition]
+    
+    //.cssg-snippet-body-end
+}
+
+
 // .cssg-methods-pragma
 
 - (void)testPictureOperation {
     // 上传时图片处理
     [self uploadWithPicOperation];
+
+    // 对云上数据进行图片处理
+    [self processWithPicOperation];
+        
+    // 上传时添加盲水印
+    [self putObjectWithWatermark];
+        
+    // 下载时添加盲水印
+    [self downloadObjectWithWatermark];
+        
+    // 图片审核
+    [self sensitiveContentRecognition];
+        
         
     // .cssg-methods-pragma
 }

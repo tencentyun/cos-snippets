@@ -197,6 +197,16 @@
     //.cssg-snippet-body-end
 
 }
+
+/**
+ * 列出所有存储桶清单任务
+ */
+- (void)listBucketInventory {
+    //.cssg-snippet-body-start:[objc-list-bucket-inventory]
+    
+    //.cssg-snippet-body-end
+}
+
 // .cssg-methods-pragma
 
 - (void)testBucketInventory {
@@ -208,6 +218,10 @@
         
     // 删除存储桶清单任务
     [self deleteBucketInventory];
+
+    // 列出所有存储桶清单任务
+    [self listBucketInventory];
+        
     // .cssg-methods-pragma
         
 }

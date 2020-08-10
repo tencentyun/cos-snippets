@@ -1,7 +1,7 @@
 import XCTest
 import QCloudCOSXML
 
-class PutObjectSSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class PutObjectCSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -46,40 +46,28 @@ class PutObjectSSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
     }
 
 
-    // 使用 COS 托管加密密钥的服务端加密（SSE-COS）保护数据
-    func putObjectSse() {
-        //.cssg-snippet-body-start:[swift-put-object-sse]
+    // 使用 AES256 进行客户端加密
+    func putObjectCseCAes() {
+        //.cssg-snippet-body-start:[swift-put-object-cse-c-aes]
         
         //.cssg-snippet-body-end
     }
 
 
-    // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
-    func putObjectSseC() {
-        //.cssg-snippet-body-start:[swift-put-object-sse-c]
+    // 使用 RSA 进行客户端加密
+    func putObjectCseCRsa() {
+        //.cssg-snippet-body-start:[swift-put-object-cse-c-rsa]
         
         //.cssg-snippet-body-end
     }
-
-
-    // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
-    func putObjectSseKms() {
-        //.cssg-snippet-body-start:[swift-put-object-sse-kms]
-        
-        //.cssg-snippet-body-end
-    }
-
 
     // .cssg-methods-pragma
 
-    func testPutObjectSSE() {
-        // 使用 COS 托管加密密钥的服务端加密（SSE-COS）保护数据
-        self.putObjectSse();
-        // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
-        self.putObjectSseC();
-
-        // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
-        self.putObjectSseKms();
+    func testPutObjectCSE() {
+        // 使用 AES256 进行客户端加密
+        self.putObjectCseCAes();
+        // 使用 RSA 进行客户端加密
+        self.putObjectCseCRsa();
         // .cssg-methods-pragma
     }
 }

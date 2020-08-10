@@ -174,6 +174,23 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
     }
 
 
+    // 上传时对单链接限速
+    func uploadObjectTrafficLimit() {
+        //.cssg-snippet-body-start:[swift-upload-object-traffic-limit]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+    // 创建目录
+    func createDirectory() {
+        //.cssg-snippet-body-start:[swift-create-directory]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+
 
     // .cssg-methods-pragma
 
@@ -191,6 +208,11 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
 
         // 高级接口 URI 上传
         self.transferUploadUri();
+
+        // 上传时对单链接限速
+        self.uploadObjectTrafficLimit();
+        // 创建目录
+        self.createDirectory();
         
         // .cssg-methods-pragma
     }

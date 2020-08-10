@@ -185,6 +185,25 @@
     //.cssg-snippet-body-end
 }
 
+/**
+ * 上传时对单链接限速
+ */
+- (void)uploadObjectTrafficLimit {
+    //.cssg-snippet-body-start:[objc-upload-object-traffic-limit]
+    
+    //.cssg-snippet-body-end
+}
+
+/**
+ * 创建目录
+ */
+- (void)createDirectory {
+    //.cssg-snippet-body-start:[objc-create-directory]
+    
+    //.cssg-snippet-body-end
+}
+
+
 
 // .cssg-methods-pragma
 
@@ -206,6 +225,13 @@
 
     // 高级接口 URI 上传
     [self transferUploadUri];
+
+    // 上传时对单链接限速
+    [self uploadObjectTrafficLimit];
+        
+    // 创建目录
+    [self createDirectory];
+        
         
     // .cssg-methods-pragma
 }

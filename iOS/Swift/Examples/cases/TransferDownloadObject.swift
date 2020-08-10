@@ -111,6 +111,15 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
     }
 
 
+    // 下载时对单链接限速
+    func downloadObjectTrafficLimit() {
+        //.cssg-snippet-body-start:[swift-download-object-traffic-limit]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+
     // .cssg-methods-pragma
 
     func testTransferDownloadObject() {
@@ -120,6 +129,9 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
         self.transferDownloadObjectInteract();
         // 批量下载
         self.transferBatchDownloadObjects();
+
+        // 下载时对单链接限速
+        self.downloadObjectTrafficLimit();
         
         // .cssg-methods-pragma
     }

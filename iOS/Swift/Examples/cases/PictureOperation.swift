@@ -53,11 +53,53 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         //.cssg-snippet-body-end
     }
 
+
+    // 对云上数据进行图片处理
+    func processWithPicOperation() {
+        //.cssg-snippet-body-start:[swift-process-with-pic-operation]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+    // 上传时添加盲水印
+    func putObjectWithWatermark() {
+        //.cssg-snippet-body-start:[swift-put-object-with-watermark]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+    // 下载时添加盲水印
+    func downloadObjectWithWatermark() {
+        //.cssg-snippet-body-start:[swift-download-object-with-watermark]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+    // 图片审核
+    func sensitiveContentRecognition() {
+        //.cssg-snippet-body-start:[swift-sensitive-content-recognition]
+        
+        //.cssg-snippet-body-end
+    }
+
+
     // .cssg-methods-pragma
 
     func testPictureOperation() {
         // 上传时图片处理
         self.uploadWithPicOperation();
+
+        // 对云上数据进行图片处理
+        self.processWithPicOperation();
+        // 上传时添加盲水印
+        self.putObjectWithWatermark();
+        // 下载时添加盲水印
+        self.downloadObjectWithWatermark();
+        // 图片审核
+        self.sensitiveContentRecognition();
         // .cssg-methods-pragma
     }
 }

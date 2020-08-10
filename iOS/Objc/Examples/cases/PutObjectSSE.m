@@ -80,6 +80,16 @@
     //.cssg-snippet-body-end
 }
 
+/**
+ * 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
+ */
+- (void)putObjectSseKms {
+    //.cssg-snippet-body-start:[objc-put-object-sse-kms]
+    
+    //.cssg-snippet-body-end
+}
+
+
 // .cssg-methods-pragma
 
 - (void)testPutObjectSSE {
@@ -88,6 +98,10 @@
         
     // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
     [self putObjectSseC];
+
+    // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
+    [self putObjectSseKms];
+        
         
     // .cssg-methods-pragma
 }

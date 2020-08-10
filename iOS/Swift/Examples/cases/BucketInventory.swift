@@ -180,6 +180,15 @@ class BucketInventory: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
         QCloudCOSXMLService.defaultCOSXML().deleteBucketInventory(delReq);
         //.cssg-snippet-body-end
     }
+
+
+    // 列出所有存储桶清单任务
+    func listBucketInventory() {
+        //.cssg-snippet-body-start:[swift-list-bucket-inventory]
+        
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
 
 
@@ -190,6 +199,9 @@ class BucketInventory: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
         self.getBucketInventory();
         // 删除存储桶清单任务
         self.deleteBucketInventory();
+
+        // 列出所有存储桶清单任务
+        self.listBucketInventory();
         // .cssg-methods-pragma
     }
 }
