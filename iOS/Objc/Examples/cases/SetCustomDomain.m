@@ -67,6 +67,7 @@
  */
 - (void)setCdnDomain {
     //.cssg-snippet-body-start:[objc-set-cdn-domain]
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] initWithLiteralURL:[NSURL URLWithString:@"cdnDomain"]];
     
     //.cssg-snippet-body-end
 }
@@ -76,7 +77,8 @@
  */
 - (void)setCdnCustomDomain {
     //.cssg-snippet-body-start:[objc-set-cdn-custom-domain]
-    
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] init];
+    endpoint.suffix = @"file.myqcloud.com";
     //.cssg-snippet-body-end
 }
 
@@ -85,7 +87,8 @@
  */
 - (void)setCustomDomain {
     //.cssg-snippet-body-start:[objc-set-custom-domain]
-    
+    NSString *customDomain = @"exampledomain.com"; // 自定义加速域名
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] initWithLiteralURL:[NSURL URLWithString:customDomain]];
     //.cssg-snippet-body-end
 }
 
@@ -94,7 +97,8 @@
  */
 - (void)setAccelerateDomain {
     //.cssg-snippet-body-start:[objc-set-accelerate-domain]
-    
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc]init];
+    endpoint.suffix = @"cos.accelerate.myqcloud.com";
     //.cssg-snippet-body-end
 }
 
@@ -103,7 +107,8 @@
  */
 - (void)setEndpointSuffix {
     //.cssg-snippet-body-start:[objc-set-endpoint-suffix]
-    
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc]init];
+    endpoint.suffix = @"exampledomain.com";
     //.cssg-snippet-body-end
 }
 
