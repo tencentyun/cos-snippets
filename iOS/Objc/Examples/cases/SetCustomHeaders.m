@@ -67,7 +67,8 @@
  */
 - (void)setCustomHeaders {
     //.cssg-snippet-body-start:[objc-set-custom-headers]
-    
+    QCloudBizHTTPRequest *request = [QCloudBizHTTPRequest new];
+    request.customHeaders[@"custom-key"] = @"custom-value";
     //.cssg-snippet-body-end
 }
 
