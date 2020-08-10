@@ -146,7 +146,7 @@
  */
 - (void)transferUploadStream {
     //.cssg-snippet-body-start:[objc-transfer-upload-stream]
-    
+    //不支持
     //.cssg-snippet-body-end
 }
 
@@ -154,16 +154,52 @@
  * 上传暂停、续传与取消
  */
 - (void)transferUploadInteract {
+    QCloudCOSXMLUploadObjectRequest* put = [QCloudCOSXMLUploadObjectRequest new];
+    
+    // 存储桶名称，格式为 BucketName-APPID
+    put.bucket = @"examplebucket-1250000000";
+    
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    put.object = @"exampleobject";
+    
+    // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
+    put.body = [@"My Example Content" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // 监听上传进度
+    [put setSendProcessBlock:^(int64_t bytesSent,
+                               int64_t totalBytesSent,
+                               int64_t totalBytesExpectedToSend) {
+        // bytesSent                   新增字节数
+        // totalBytesSent              本次上传的总字节数
+        // totalBytesExpectedToSend    本地上传的目标字节数
+    }];
+    
+    // 监听上传结果
+    [put setFinishBlock:^(id outputObject, NSError *error) {
+        // outputObject 包含所有的响应 http 头部
+        NSDictionary* info = (NSDictionary *) outputObject;
+    }];
+    [[QCloudCOSTransferMangerService defaultCOSTransferManager] UploadObject:put];
+    
     //.cssg-snippet-body-start:[objc-transfer-upload-pause]
+    
+    NSError *error;
+    NSData *resmeData = [put cancelByProductingResumeData:&error];
     
     //.cssg-snippet-body-end
     
     //.cssg-snippet-body-start:[objc-transfer-upload-resume]
     
+    QCloudCOSXMLUploadObjectRequest *resumeRequest = [QCloudCOSXMLUploadObjectRequest requestWithRequestData:resmeData];
+    [[QCloudCOSTransferMangerService defaultCOSTransferManager] UploadObject:resumeRequest];
+    
     //.cssg-snippet-body-end
     
     //.cssg-snippet-body-start:[objc-transfer-upload-cancel]
-    
+    //丢弃该上传
+    [put abort:^(id outputObject, NSError *error) {
+        
+    }];
     //.cssg-snippet-body-end
 }
 
@@ -172,7 +208,34 @@
  */
 - (void)transferBatchUploadObjects {
     //.cssg-snippet-body-start:[objc-transfer-batch-upload-objects]
-    
+    for (int i = 0; i<20; i++) {
+        QCloudCOSXMLUploadObjectRequest* put = [QCloudCOSXMLUploadObjectRequest new];
+        
+        // 存储桶名称，格式为 BucketName-APPID
+        put.bucket = @"examplebucket-1250000000";
+        
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+        put.object = [NSString stringWithFormat:@"exampleobject-%d",i];
+        
+        // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
+        put.body = [@"My Example Content" dataUsingEncoding:NSUTF8StringEncoding];
+        
+        // 监听上传进度
+        [put setSendProcessBlock:^(int64_t bytesSent,
+                                   int64_t totalBytesSent,
+                                   int64_t totalBytesExpectedToSend) {
+            // bytesSent                   新增字节数
+            // totalBytesSent              本次上传的总字节数
+            // totalBytesExpectedToSend    本地上传的目标字节数
+        }];
+        
+        // 监听上传结果
+        [put setFinishBlock:^(id outputObject, NSError *error) {
+            // outputObject 包含所有的响应 http 头部
+            NSDictionary* info = (NSDictionary *) outputObject;
+        }];
+        [[QCloudCOSTransferMangerService defaultCOSTransferManager] UploadObject:put];
+    }
     //.cssg-snippet-body-end
 }
 
@@ -181,7 +244,7 @@
  */
 - (void)transferUploadUri {
     //.cssg-snippet-body-start:[objc-transfer-upload-uri]
-    
+    //不支持
     //.cssg-snippet-body-end
 }
 
