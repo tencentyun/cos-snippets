@@ -319,6 +319,25 @@ public class TransferUploadObject {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 上传时对单链接限速
+     */
+    private void uploadObjectTrafficLimit() {
+        //.cssg-snippet-body-start:[upload-object-traffic-limit]
+        
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 创建目录
+     */
+    private void createDirectory() {
+        //.cssg-snippet-body-start:[create-directory]
+        
+        //.cssg-snippet-body-end
+    }
+
+
 
     // .cssg-methods-pragma
 
@@ -355,6 +374,13 @@ public class TransferUploadObject {
         
         // 批量上传
         transferBatchUploadObjects();
+
+        // 上传时对单链接限速
+        uploadObjectTrafficLimit();
+        
+        // 创建目录
+        createDirectory();
+        
         
         
         // .cssg-methods-pragma

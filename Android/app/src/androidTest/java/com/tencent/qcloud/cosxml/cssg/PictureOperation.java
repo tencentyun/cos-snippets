@@ -89,6 +89,43 @@ public class PictureOperation {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 对云上数据进行图片处理
+     */
+    private void processWithPicOperation() {
+        //.cssg-snippet-body-start:[process-with-pic-operation]
+        
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 上传时添加盲水印
+     */
+    private void putObjectWithWatermark() {
+        //.cssg-snippet-body-start:[put-object-with-watermark]
+        
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 下载时添加盲水印
+     */
+    private void downloadObjectWithWatermark() {
+        //.cssg-snippet-body-start:[download-object-with-watermark]
+        
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 图片审核
+     */
+    private void sensitiveContentRecognition() {
+        //.cssg-snippet-body-start:[sensitive-content-recognition]
+        
+        //.cssg-snippet-body-end
+    }
+
+
     // .cssg-methods-pragma
 
     private void initService() {
@@ -109,6 +146,19 @@ public class PictureOperation {
 
         // 上传时图片处理
         uploadWithPicOperation();
+
+        // 对云上数据进行图片处理
+        processWithPicOperation();
+        
+        // 上传时添加盲水印
+        putObjectWithWatermark();
+        
+        // 下载时添加盲水印
+        downloadObjectWithWatermark();
+        
+        // 图片审核
+        sensitiveContentRecognition();
+        
         
         // .cssg-methods-pragma
     }

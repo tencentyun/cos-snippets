@@ -159,6 +159,16 @@ public class BucketInventory {
 
         //.cssg-snippet-body-end
     }
+
+    /**
+     * 列出所有存储桶清单任务
+     */
+    private void listBucketInventory() {
+        //.cssg-snippet-body-start:[list-bucket-inventory]
+        
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
 
     private void initService() {
@@ -186,6 +196,10 @@ public class BucketInventory {
 
         // 删除存储桶清单任务
         deleteBucketInventory();
+
+        // 列出所有存储桶清单任务
+        listBucketInventory();
+        
         // .cssg-methods-pragma
 
     }

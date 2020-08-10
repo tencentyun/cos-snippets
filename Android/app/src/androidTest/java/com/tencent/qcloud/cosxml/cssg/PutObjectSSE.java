@@ -115,6 +115,16 @@ public class PutObjectSSE {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
+     */
+    private void putObjectSseKms() {
+        //.cssg-snippet-body-start:[put-object-sse-kms]
+        
+        //.cssg-snippet-body-end
+    }
+
+
     // .cssg-methods-pragma
 
     private void initService() {
@@ -138,6 +148,10 @@ public class PutObjectSSE {
         
         // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
         putObjectSseC();
+
+        // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
+        putObjectSseKms();
+        
         
         // .cssg-methods-pragma
     }

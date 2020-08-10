@@ -211,6 +211,16 @@ public class TransferDownloadObject {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 下载时对单链接限速
+     */
+    private void downloadObjectTrafficLimit() {
+        //.cssg-snippet-body-start:[download-object-traffic-limit]
+        
+        //.cssg-snippet-body-end
+    }
+
+
 
     // .cssg-methods-pragma
 
@@ -238,6 +248,10 @@ public class TransferDownloadObject {
         
         // 批量下载
         transferBatchDownloadObjects();
+
+        // 下载时对单链接限速
+        downloadObjectTrafficLimit();
+        
         
         
         // .cssg-methods-pragma
