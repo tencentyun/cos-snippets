@@ -68,7 +68,7 @@
 - (void)putBucketPolicy {
 
     //.cssg-snippet-body-start:[objc-put-bucket-policy]
-    
+    //不支持
     //.cssg-snippet-body-end
 
 }
@@ -80,7 +80,7 @@
     
 
     //.cssg-snippet-body-start:[objc-get-bucket-policy]
-    
+    //不支持
     //.cssg-snippet-body-end
 
     
@@ -93,7 +93,7 @@
     
 
     //.cssg-snippet-body-start:[objc-delete-bucket-policy]
-    
+    //不支持
     //.cssg-snippet-body-end
 
     

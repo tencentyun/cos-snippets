@@ -67,7 +67,9 @@
  */
 - (void)setCdnDomain {
     //.cssg-snippet-body-start:[objc-set-cdn-domain]
-    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] initWithLiteralURL:[NSURL URLWithString:@"cdnDomain"]];
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] init];
+    endpoint.suffix = @"file.myqcloud.com";
+
     
     //.cssg-snippet-body-end
 }
@@ -77,8 +79,7 @@
  */
 - (void)setCdnCustomDomain {
     //.cssg-snippet-body-start:[objc-set-cdn-custom-domain]
-    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] init];
-    endpoint.suffix = @"file.myqcloud.com";
+    QCloudCOSXMLEndPoint *endpoint = [[QCloudCOSXMLEndPoint alloc] initWithLiteralURL:[NSURL URLWithString:@"exampledomain.com"]];
     //.cssg-snippet-body-end
 }
 

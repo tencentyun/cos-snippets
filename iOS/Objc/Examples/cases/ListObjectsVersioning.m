@@ -71,7 +71,7 @@ requestCreatorWithContinue:(QCloudCredentailFenceQueueContinue)continueBlock
  */
 - (void)listObjectsVersioning {
     
-    //#hide.cssg-snippet-body-start:[objc-list-objects-versioning]
+    //.cssg-snippet-body-start:[objc-list-objects-versioning]
     
     QCloudListObjectVersionsRequest* listObjectVersionsRequest =
         [[QCloudListObjectVersionsRequest alloc] init];
@@ -105,7 +105,7 @@ requestCreatorWithContinue:(QCloudCredentailFenceQueueContinue)continueBlock
  */
 - (void)listObjectsVersioningNextPage {
 
-    //#hide.cssg-snippet-body-start:[objc-list-objects-versioning]
+    //.cssg-snippet-body-start:[objc-list-objects-versioning]
     
     QCloudListObjectVersionsRequest* listObjectVersionsRequest = [[QCloudListObjectVersionsRequest alloc] init];
     
@@ -115,9 +115,10 @@ requestCreatorWithContinue:(QCloudCredentailFenceQueueContinue)continueBlock
     // 一页请求数据条目数，默认 1000
     listObjectVersionsRequest.maxKeys = 100;
     
-    // 已经请求的总条目数
-    listObjectVersionsRequest.marker = prevPageResult.versionIDMarkder;
-    
+    //从当前key列出剩余的条目
+    listObjectVersionsRequest.keyMarker = prevPageResult.nextKeyMarker;
+    //从当前key的某个版本列出剩余的条目
+    listObjectVersionsRequest.versionIdMarker = prevPageResult.nextVersionIDMarkder;
     [listObjectVersionsRequest setFinishBlock:^(QCloudListVersionsResult * _Nonnull result,
                                                 NSError * _Nonnull error) {
         

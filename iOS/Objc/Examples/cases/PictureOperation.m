@@ -5,7 +5,7 @@
 #import <QCloudCOSXML/QCloudAbortMultipfartUploadRequest.h>
 #import <QCloudCOSXML/QCloudMultipartInfo.h>
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
-
+#import <QCloudCOSXML/QCloudPutObjectWatermarkRequest.h>
 
 @interface PictureOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -67,7 +67,34 @@
  */
 - (void)uploadWithPicOperation {
     //.cssg-snippet-body-start:[objc-upload-with-pic-operation]
+    QCloudPutObjectWatermarkRequest* put = [QCloudPutObjectWatermarkRequest new];
     
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    put.object = @"exampleobject";
+    // 存储桶名称，格式为 BucketName-APPID
+    put.bucket = @"examplebucket-1250000000";
+    
+    put.body =  [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
+    QCloudPicOperations * op = [[QCloudPicOperations alloc]init];
+    
+    // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
+    op.is_pic_info = NO;
+    QCloudPicOperationRule * rule = [[QCloudPicOperationRule alloc]init];
+    
+    // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
+    rule.fileid = @"test";
+    
+    // 盲水印文字，需要经过 URL 安全的 Base64 编码。当 type 为3时必填，type
+    rule.text = @"123"; // 水印文字只能是 [a-zA-Z0-9]
+    
+    // 盲水印类型，有效值：1 半盲；2 全盲；3 文字
+    rule.type = QCloudPicOperationRuleText;
+    op.rule = @[rule];
+    put.picOperations = op;
+    [put setFinishBlock:^(id outputObject, NSError *error) {
+       
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] PutWatermarkObject:put];
     //.cssg-snippet-body-end
 }
 
@@ -76,7 +103,7 @@
  */
 - (void)processWithPicOperation {
     //.cssg-snippet-body-start:[objc-process-with-pic-operation]
-    
+    //不支持
     //.cssg-snippet-body-end
 }
 
@@ -85,7 +112,7 @@
  */
 - (void)putObjectWithWatermark {
     //.cssg-snippet-body-start:[objc-put-object-with-watermark]
-    
+    //不支持
     //.cssg-snippet-body-end
 }
 
@@ -94,7 +121,7 @@
  */
 - (void)downloadObjectWithWatermark {
     //.cssg-snippet-body-start:[objc-download-object-with-watermark]
-    
+    //不支持
     //.cssg-snippet-body-end
 }
 
@@ -103,7 +130,7 @@
  */
 - (void)sensitiveContentRecognition {
     //.cssg-snippet-body-start:[objc-sensitive-content-recognition]
-    
+    //不支持
     //.cssg-snippet-body-end
 }
 
