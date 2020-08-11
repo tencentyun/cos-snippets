@@ -49,7 +49,8 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     // 设置默认加速域名
     func setCdnDomain() {
         //.cssg-snippet-body-start:[swift-set-cdn-domain]
-        
+        let endpoint = QCloudCOSXMLEndPoint();
+        endpoint.suffix = "file.myqcloud.com";
         //.cssg-snippet-body-end
     }
 
@@ -57,7 +58,7 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     // 设置自定义加速域名
     func setCdnCustomDomain() {
         //.cssg-snippet-body-start:[swift-set-cdn-custom-domain]
-        
+        let endpoint = QCloudCOSXMLEndPoint.init(literalURL: NSURL.init(string: "exampledomain.com") as URL?);
         //.cssg-snippet-body-end
     }
 
@@ -65,7 +66,7 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     // 设置自定义域名
     func setCustomDomain() {
         //.cssg-snippet-body-start:[swift-set-custom-domain]
-        
+        let endpoint = QCloudCOSXMLEndPoint.init(literalURL: NSURL.init(string: "exampledomain.com") as URL?);
         //.cssg-snippet-body-end
     }
 
@@ -73,7 +74,8 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     // 设置全球加速域名
     func setAccelerateDomain() {
         //.cssg-snippet-body-start:[swift-set-accelerate-domain]
-        
+        let endpoint = QCloudCOSXMLEndPoint();
+        endpoint.suffix = "cos.accelerate.myqcloud.com";
         //.cssg-snippet-body-end
     }
 
@@ -81,7 +83,8 @@ class SetCustomDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     // 设置请求域名后缀
     func setEndpointSuffix() {
         //.cssg-snippet-body-start:[swift-set-endpoint-suffix]
-        
+        let endpoint = QCloudCOSXMLEndPoint();
+        endpoint.suffix = "exampledomain.com";
         //.cssg-snippet-body-end
     }
 

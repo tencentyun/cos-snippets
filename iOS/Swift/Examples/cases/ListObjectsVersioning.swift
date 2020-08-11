@@ -4,6 +4,7 @@ import QCloudCOSXML
 class ListObjectsVersioning: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
     
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
+    var prevPageResult:QCloudListVersionsResult?;
     
     override func setUp() {
         let config = QCloudServiceConfiguration.init();
@@ -63,6 +64,7 @@ class ListObjectsVersioning: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         
         listObjectVersionsRequest.setFinish { (result, error) in
             
+            self.prevPageResult = result;
             // result.deleteMarker; // 已删除的文件
             // result.versionContent;  对象版本条目
         }
@@ -83,8 +85,10 @@ class ListObjectsVersioning: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         // 一页请求数据条目数
         listObjectVersionsRequest.maxKeys = 100;
         
-        // 已经请求的总条目数
-        listObjectVersionsRequest.marker = "100";
+        //从当前key列出剩余的条目
+        listObjectVersionsRequest.keyMarker = prevPageResult!.nextKeyMarker;
+        //从当前key的某个版本列出剩余的条目
+        listObjectVersionsRequest.versionIdMarker = prevPageResult!.nextVersionIDMarkder;
         listObjectVersionsRequest.setFinish { (result, error) in
 
             // result.deleteMarker;

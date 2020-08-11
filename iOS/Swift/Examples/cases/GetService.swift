@@ -74,7 +74,7 @@ class GetService: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     func getRegionalService() {
       
         //.cssg-snippet-body-start:[swift-get-regional-service]
-        
+        //不支持
         //.cssg-snippet-body-end     
     }
     // 计算签名

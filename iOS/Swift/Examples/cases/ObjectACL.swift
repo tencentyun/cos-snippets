@@ -66,8 +66,7 @@ class ObjectACL: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDe
         putObjectACl.grantFullControl = grantString;
         // 赋予被授权者读权限。
         putObjectACl.grantRead = grantString;
-        // 赋予被授权者写权限。
-        putObjectACl.grantWrite = grantString;
+
         
         putObjectACl.finishBlock = {(result,error)in
             if let result = result {

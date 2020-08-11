@@ -48,8 +48,11 @@ class SetCustomHeaders: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
 
     // 设置自定义头部
     func setCustomHeaders() {
-        //.cssg-snippet-body-start:[swift-set-custom-headers]
         
+        let request = QCloudBizHTTPRequest.init();
+
+        //.cssg-snippet-body-start:[swift-set-custom-headers]
+        request.customHeaders["custom-key"] = "custom-value";
         //.cssg-snippet-body-end
     }
 

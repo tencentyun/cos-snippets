@@ -55,7 +55,7 @@ class PostObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     func postObject() {
       
         //.cssg-snippet-body-start:[swift-post-object]
-        
+        //不支持
         //.cssg-snippet-body-end          
     }
     // .cssg-methods-pragma

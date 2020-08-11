@@ -48,16 +48,20 @@ class PutObjectSSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
 
     // 使用 COS 托管加密密钥的服务端加密（SSE-COS）保护数据
     func putObjectSse() {
-        //.cssg-snippet-body-start:[swift-put-object-sse]
+        let request = QCloudCOSXMLUploadObjectRequest<AnyObject>.init();
         
+        //.cssg-snippet-body-start:[swift-put-object-sse]
+        request.setCOSServerSideEncyption();
         //.cssg-snippet-body-end
     }
 
 
     // 使用客户提供的加密密钥的服务端加密 （SSE-C）保护数据
     func putObjectSseC() {
+        let request = QCloudCOSXMLUploadObjectRequest<AnyObject>.init();
         //.cssg-snippet-body-start:[swift-put-object-sse-c]
-        
+        let customKey = "123456qwertyuioplkjhgfdsazxcvbnm";
+        request.setCOSServerSideEncyptionWithCustomerKey(customKey);
         //.cssg-snippet-body-end
     }
 
