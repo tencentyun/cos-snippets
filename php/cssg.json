@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".php",
+  "caseRelativePath": "examples/",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "upper-camel",
+  "methodNamingConvention": "lower-camel",
+  "classNamingConvention": "upper-camel"
+}

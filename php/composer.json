@@ -1,0 +1,13 @@
+{
+  "autoload": {
+      "classmap": [
+          "./"
+      ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5"
+  },
+  "require": {
+    "qcloud/cos-sdk-v5": "^2.0"
+  }
+}
