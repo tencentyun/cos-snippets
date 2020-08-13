@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".py",
+  "caseRelativePath": "examples/",
+  "commentDelimiter": ["#", ""],
+  "sourceFileNamingConvention": "under-score",
+  "methodNamingConvention": "under-score",
+  "classNamingConvention": "upper-camel"
+}
