@@ -22,9 +22,9 @@ def get_bucket():
     
     #.cssg-snippet-body-end
 
-# 获取对象列表
-def get_bucket_comp():
-    #.cssg-snippet-body-start:[get-bucket-comp]
+# 获取对象列表与子目录
+def get_bucket_with_delimiter():
+    #.cssg-snippet-body-start:[get-bucket-with-delimiter]
     response = client.list_objects(
         Bucket='examplebucket-1250000000',
         Prefix='string',
@@ -59,8 +59,8 @@ def get_bucket_recursive():
 # 获取对象列表
 get_bucket()
 
-# 获取对象列表
-get_bucket_comp()
+# 获取对象列表与子目录
+get_bucket_with_delimiter()
 
 # 获取对象列表
 get_bucket_recursive()
