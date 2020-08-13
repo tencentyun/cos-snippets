@@ -1,0 +1,8 @@
+{
+  "sourceExtension": ".go",
+  "caseRelativePath": "examples",
+  "commentDelimiter": ["//", ""],
+  "sourceFileNamingConvention": "under-score",
+  "methodNamingConvention": "lower-camel",
+  "classNamingConvention": "upper-camel"
+}
