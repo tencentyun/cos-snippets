@@ -76,7 +76,8 @@ public class BucketPolicy {
      */
     private void deleteBucketPolicy() {
         //.cssg-snippet-body-start:[delete-bucket-policy]
-        
+
+
         //.cssg-snippet-body-end
     }
 

@@ -8,11 +8,19 @@ import com.tencent.cos.xml.model.*;
 import com.tencent.cos.xml.model.object.*;
 import com.tencent.cos.xml.model.bucket.*;
 import com.tencent.cos.xml.model.tag.*;
+import com.tencent.cos.xml.model.tag.eventstreaming.CompressionType;
+import com.tencent.cos.xml.model.tag.eventstreaming.InputSerialization;
+import com.tencent.cos.xml.model.tag.eventstreaming.JSONInput;
+import com.tencent.cos.xml.model.tag.eventstreaming.JSONOutput;
+import com.tencent.cos.xml.model.tag.eventstreaming.JSONType;
+import com.tencent.cos.xml.model.tag.eventstreaming.OutputSerialization;
+import com.tencent.cos.xml.model.tag.eventstreaming.SelectObjectContentEvent;
 import com.tencent.cos.xml.transfer.*;
 import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
 import com.tencent.qcloud.core.http.*;
 import com.tencent.cos.xml.model.service.*;
+import com.tencent.qcloud.core.logger.QCloudLogger;
 import com.tencent.qcloud.cosxml.cssg.BuildConfig;
 
 import android.content.Context;
@@ -25,6 +33,7 @@ import java.net.*;
 import java.util.*;
 import java.nio.charset.Charset;
 import java.io.*;
+import java.util.concurrent.CountDownLatch;
 
 public class SelectObject {
 
@@ -58,7 +67,43 @@ public class SelectObject {
      */
     private void selectObject() {
         //.cssg-snippet-body-start:[select-object]
-        
+        String bucket = "examplebucket-1250000000";
+        // 对象必须为 JSON 或者 csv 格式的文件
+        String cosPath = "exampleobject";
+        final String expression = "Select * from COSObject";
+
+        SelectObjectContentRequest selectObjectContentRequest = new SelectObjectContentRequest(
+                bucket, cosPath, expression, true,
+                new InputSerialization(CompressionType.NONE, new JSONInput(JSONType.DOCUMENT)),
+                new OutputSerialization(new JSONOutput(","))
+        );
+
+        // 设置查询结果回调，可能会回调多次
+        selectObjectContentRequest.setSelectObjectContentProgressListener(new SelectObjectContentListener() {
+            @Override
+            public void onProcess(SelectObjectContentEvent event) {
+
+            }
+        });
+        cosXmlService.selectObjectContentAsync(selectObjectContentRequest,
+                new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                SelectObjectContentResult selectObjectContentResult =
+                        (SelectObjectContentResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 

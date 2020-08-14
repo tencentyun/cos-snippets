@@ -119,8 +119,34 @@ public class PutObjectSSE {
      * 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
      */
     private void putObjectSseKms() {
+
+        // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        String srcPath = new File(context.getCacheDir(), "exampleobject")
+                .toString(); //本地文件的绝对路径
+        //若存在初始化分块上传的 UploadId，则赋值对应的 uploadId 值用于续传；否则，赋值 null
+        String uploadId = null;
+
         //.cssg-snippet-body-start:[put-object-sse-kms]
-        
+        // 服务端加密密钥
+        String customKey = "用户主密钥 CMK";
+        String encryptContext = "加密上下文";
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, srcPath);
+
+        // 设置使用客户提供的用户主密钥的服务端加密 （SSE-KMS）保护数据
+        try {
+            putObjectRequest.setCOSServerSideEncryptionWithKMS(customKey, encryptContext);
+        } catch (CosXmlClientException e) {
+            e.printStackTrace();
+        }
+        // 上传文件
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(putObjectRequest, uploadId);
         //.cssg-snippet-body-end
     }
 

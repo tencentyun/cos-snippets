@@ -102,8 +102,34 @@ public class PictureOperation {
      * 上传时添加盲水印
      */
     private void putObjectWithWatermark() {
+
+        // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; // 对象在存储桶中的位置标识符，即称对象键
+        String srcPath = new File(context.getCacheDir(), "exampleobject.jpg")
+                .toString(); //本地文件的绝对路径
+        //若存在初始化分块上传的 UploadId，则赋值对应的 uploadId 值用于续传；否则，赋值 null
+        String uploadId = null;
+
         //.cssg-snippet-body-start:[put-object-with-watermark]
-        
+        List<PicOperationRule> rules = new LinkedList<>();
+        // 添加一条将盲水印 rule，处理后的图片在存储桶中的位置标识符为
+        // examplewatermarkobject
+        rules.add(new PicOperationRule("examplewatermarkobject",
+                "watermark/3/type/1/image/aHR0cDovL2V4YW1wbGVzLTEyNTEwMDAw"));
+        PicOperations picOperations = new PicOperations(true, rules);
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, srcPath);
+        putObjectRequest.setPicOperations(picOperations);
+
+        // 上传成功后，您将会得到 2 张图片，分别是原始图片和处理后图片
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(bucket, cosPath,
+                srcPath, uploadId);
         //.cssg-snippet-body-end
     }
 
@@ -111,8 +137,36 @@ public class PictureOperation {
      * 下载时添加盲水印
      */
     private void downloadObjectWithWatermark() {
+
+        // 高级下载接口支持断点续传，所以会在下载前先发起 HEAD 请求获取文件信息。
+        // 如果您使用的是临时密钥或者使用子账号访问，请确保权限列表中包含 HeadObject 的权限。
+
+        // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        //初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        //本地目录路径
+        String savePathDir = context.getExternalCacheDir().toString();
+        //本地保存的文件名，若不填（null），则与 COS 上的文件名一样
+        String savedFileName = "exampleobject";
+
+        // application context
+        Context applicationContext = context.getApplicationContext();
+
         //.cssg-snippet-body-start:[download-object-with-watermark]
-        
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath, savePathDir, savedFileName);
+        Map<String, String> params = new HashMap<>();
+        // 添加文字盲水印
+        params.put("watermark/3/type/3/text/dGVuY2VudCBjbG91ZA==", null);
+        getObjectRequest.setQueryParameters(params);
+
+        COSXMLDownloadTask cosxmlDownloadTask =
+                transferManager.download(applicationContext, getObjectRequest);
+
         //.cssg-snippet-body-end
     }
 
@@ -121,7 +175,7 @@ public class PictureOperation {
      */
     private void sensitiveContentRecognition() {
         //.cssg-snippet-body-start:[sensitive-content-recognition]
-        
+        // TODO: 2020/8/14
         //.cssg-snippet-body-end
     }
 
@@ -149,7 +203,7 @@ public class PictureOperation {
 
         // 对云上数据进行图片处理
         processWithPicOperation();
-        
+
         // 上传时添加盲水印
         putObjectWithWatermark();
         

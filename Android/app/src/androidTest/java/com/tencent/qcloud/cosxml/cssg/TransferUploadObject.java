@@ -11,19 +11,11 @@ import com.tencent.cos.xml.model.tag.*;
 import com.tencent.cos.xml.transfer.*;
 import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
-
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.Test;
-
-import java.net.*;
-import java.util.*;
 import java.nio.charset.Charset;
 import java.io.*;
 
@@ -253,12 +245,12 @@ public class TransferUploadObject {
                 srcPath, uploadId);
 
         //.cssg-snippet-body-start:[transfer-upload-pause]
-        // 如果上传过程中，已经发起了最后的 Complete Multipart Upload 请求，那么取消会失败
+        // 如果上传过程中，已经发起了最后的 Complete Multipart Upload 请求，那么暂停会失败
         boolean pauseSuccess = cosxmlUploadTask.pauseSafely();
         //.cssg-snippet-body-end
 
         //.cssg-snippet-body-start:[transfer-upload-resume]
-        // 如果取消成功，可以恢复上传
+        // 如果暂停成功，可以恢复上传
         if (pauseSuccess) {
             cosxmlUploadTask.resume();
         }
@@ -323,8 +315,60 @@ public class TransferUploadObject {
      * 上传时对单链接限速
      */
     private void uploadObjectTrafficLimit() {
+
         //.cssg-snippet-body-start:[upload-object-traffic-limit]
-        
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        String srcPath = new File(context.getCacheDir(), "exampleobject")
+                .toString(); //本地文件的绝对路径
+        //若存在初始化分块上传的 UploadId，则赋值对应的 uploadId 值用于续传；否则，赋值 null
+        String uploadId = null;
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, srcPath);
+        // 设置单链接限速，单位为 bit/s，示例设置为 1M/s
+        putObjectRequest.setTrafficLimit(1024 * 1024 * 8);
+
+        // 上传文件
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(putObjectRequest, uploadId);
+
+        //设置上传进度回调
+        cosxmlUploadTask.setCosXmlProgressListener(new CosXmlProgressListener() {
+            @Override
+            public void onProgress(long complete, long target) {
+                // todo Do something to update progress...
+            }
+        });
+        //设置返回结果回调
+        cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                        (COSXMLUploadTask.COSXMLUploadTaskResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //设置任务状态回调, 可以查看任务过程
+        cosxmlUploadTask.setTransferStateListener(new TransferStateListener() {
+            @Override
+            public void onStateChanged(TransferState state) {
+                // todo notify transfer state
+            }
+        });
         //.cssg-snippet-body-end
     }
 
@@ -333,7 +377,28 @@ public class TransferUploadObject {
      */
     private void createDirectory() {
         //.cssg-snippet-body-start:[create-directory]
-        
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 文件夹在存储桶中的位置标识符，即称对象键，必须以 '/' 结尾
+        String cosPath = "exampleobject/";
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, new byte[0]);
+        cosXmlService.putObjectAsync(putObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                PutObjectResult putObjectResult =
+                        (PutObjectResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 
