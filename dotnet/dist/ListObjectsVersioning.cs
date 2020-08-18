@@ -23,13 +23,11 @@ namespace COSSnippet
     public class ListObjectsVersioningModel {
 
       private CosXml cosXml;
+      private string keyMarker;
+      private string versionIdMarker;
 
       ListObjectsVersioningModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -46,7 +44,34 @@ namespace COSSnippet
       public void ListObjectsVersioning()
       {
         //.cssg-snippet-body-start:[list-objects-versioning]
-        
+        try
+        {
+          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          ListBucketVersionsRequest request = new ListBucketVersionsRequest(bucket);
+          //执行请求
+          ListBucketVersionsResult result = cosXml.ListBucketVersions(request);
+          //bucket的相关信息
+          ListBucketVersions info = result.listBucketVersions;
+
+          List<ListBucketVersions.ObjectVersion> objects = info.objectVersionList;
+          List<ListBucketVersions.CommonPrefixes> prefixes = info.commonPrefixesList;
+
+          if (info.isTruncated) {
+            // 数据被截断，记录下数据下标
+            this.keyMarker = info.nextKeyMarker;
+            this.versionIdMarker = info.nextVersionIdMarker;
+          }
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 
@@ -54,7 +79,35 @@ namespace COSSnippet
       public void ListObjectsVersioningNextPage()
       {
         //.cssg-snippet-body-start:[list-objects-versioning-next-page]
-        
+        try
+        {
+          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          ListBucketVersionsRequest request = new ListBucketVersionsRequest(bucket);
+
+          // 上一页的数据结束下标
+          request.SetKeyMarker(this.keyMarker);
+          request.SetVersionIdMarker(this.versionIdMarker);
+
+          //执行请求
+          ListBucketVersionsResult result = cosXml.ListBucketVersions(request);
+          ListBucketVersions info = result.listBucketVersions;
+
+          if (info.isTruncated) {
+            // 数据被截断，记录下数据下标
+            this.keyMarker = info.nextKeyMarker;
+            this.versionIdMarker = info.nextVersionIdMarker;
+          }
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 

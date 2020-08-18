@@ -26,10 +26,6 @@ namespace COSSnippet
 
       GetObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -53,8 +49,6 @@ namespace COSSnippet
           string localDir = System.IO.Path.GetTempPath();//本地文件夹
           string localFileName = "my-local-temp-file"; //指定本地保存的文件名
           GetObjectRequest request = new GetObjectRequest(bucket, key, localDir, localFileName);
-          //设置签名有效时长
-          request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
           //设置进度回调
           request.SetCosProgressCallback(delegate (long completed, long total)
           {
@@ -87,8 +81,6 @@ namespace COSSnippet
           string key = "exampleobject"; //对象键
         
           GetObjectBytesRequest request = new GetObjectBytesRequest(bucket, key);
-          //设置签名有效时长
-          request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
           //设置进度回调
           request.SetCosProgressCallback(delegate (long completed, long total)
           {

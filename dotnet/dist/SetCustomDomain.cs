@@ -26,10 +26,6 @@ namespace COSSnippet
 
       SetCustomDomainModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -61,8 +57,6 @@ namespace COSSnippet
       {
         //.cssg-snippet-body-start:[set-custom-domain]
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           //请求域名为 your.domain.com
           .setHost("your.domain.com") //自定义域名
@@ -75,9 +69,6 @@ namespace COSSnippet
       {
         //.cssg-snippet-body-start:[set-accelerate-domain]
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .setEndpointSuffix("cos.accelerate.myqcloud.com")
           .Build();
         //.cssg-snippet-body-end
@@ -88,9 +79,6 @@ namespace COSSnippet
       {
         //.cssg-snippet-body-start:[set-endpoint-suffix]
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           //请求域名为 [bucketName-APPID].your.domain.com
           .setEndpointSuffix("your.domain.com")
           .Build();

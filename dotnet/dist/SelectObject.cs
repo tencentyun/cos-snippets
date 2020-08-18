@@ -26,10 +26,6 @@ namespace COSSnippet
 
       SelectObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -46,7 +42,40 @@ namespace COSSnippet
       public void SelectObject()
       {
         //.cssg-snippet-body-start:[select-object]
-        
+        try
+        {
+            string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+            string key = "exampleobject"; //对象键
+
+            SelectObjectRequest request = new SelectObjectRequest(bucket, key);
+
+            ObjectSelectionFormat.JSONFormat jSONFormat = new ObjectSelectionFormat.JSONFormat();
+            jSONFormat.Type = "DOCUMENT";
+            jSONFormat.RecordDelimiter = "\n";
+            
+            string outputFile = "select_local_file.json";
+
+            request.setExpression("Select * from COSObject")
+                    .setInputFormat(new ObjectSelectionFormat(null, jSONFormat))
+                    .setOutputFormat(new ObjectSelectionFormat(null, jSONFormat))
+                    .SetCosProgressCallback(delegate (long progress, long total) {
+                        Console.WriteLine("OnProgress : " + progress + "," + total);
+                    })
+                    .outputToFile(outputFile)
+                    ;
+
+            SelectObjectResult selectObjectResult =  cosXml.selectObject(request);
+            Console.WriteLine(selectObjectResult.stat);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+            Console.WriteLine("CosClientException: " + clientEx.StackTrace);
+            Console.WriteLine("CosClientException: " + clientEx.Message);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+            Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 

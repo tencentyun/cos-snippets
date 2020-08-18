@@ -26,10 +26,6 @@ namespace COSSnippet
 
       PutObjectSSEModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -70,7 +66,12 @@ namespace COSSnippet
       public void PutObjectSseKms()
       {
         //.cssg-snippet-body-start:[put-object-sse-kms]
-        
+        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        string key = "exampleobject"; //对象键
+        string srcPath = @"temp-source-file";//本地文件绝对路径
+        //.cssg-snippet-body-start:[put-object-sse-c]   
+        PutObjectRequest request = new PutObjectRequest(bucket, key, srcPath);
+        request.SetCosServerSideEncryptionWithKMS("KMS Custem Key ID", "Context Json");
         //.cssg-snippet-body-end
       }
 

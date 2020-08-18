@@ -26,10 +26,6 @@ namespace COSSnippet
 
       DeleteObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -51,8 +47,6 @@ namespace COSSnippet
           string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
           string key = "exampleobject"; //对象键
           DeleteObjectRequest request = new DeleteObjectRequest(bucket, key);
-          //设置签名有效时长
-          request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
           //执行请求
           DeleteObjectResult result = cosXml.DeleteObject(request);
           //请求成功
@@ -80,8 +74,6 @@ namespace COSSnippet
         {
           string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
           DeleteMultiObjectRequest request = new DeleteMultiObjectRequest(bucket);
-          //设置签名有效时长
-          request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
           //设置返回结果形式
           request.SetDeleteQuiet(false);
           //对象key

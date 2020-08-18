@@ -26,10 +26,6 @@ namespace COSSnippet
 
       TransferCopyObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -59,14 +55,10 @@ namespace COSSnippet
         CopySourceStruct copySource = new CopySourceStruct(sourceAppid, sourceBucket, 
             sourceRegion, sourceKey);
 
-
         string bucket = "examplebucket-1250000000"; //目标存储桶，格式：BucketName-APPID
         string key = "exampleobject"; //目标对象的对象键
 
-        COSXMLCopyTask copytask = new COSXMLCopyTask(bucket, "COS_REGION", key, copySource);
-
-        // 同步调用
-        var autoEvent = new AutoResetEvent(false);
+        COSXMLCopyTask copytask = new COSXMLCopyTask(bucket, key, copySource);
 
         copytask.successCallback = delegate (CosResult cosResult) 
         {
@@ -74,7 +66,6 @@ namespace COSSnippet
               as COSXML.Transfer.COSXMLCopyTask.CopyTaskResult;
             Console.WriteLine(result.GetResultInfo());
             string eTag = result.eTag;
-            autoEvent.Set();
         };
         copytask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
         {
@@ -86,11 +77,9 @@ namespace COSSnippet
             {
                 Console.WriteLine("CosServerException: " + serverEx.GetInfo());
             }
-            autoEvent.Set();
         };
         transferManager.Copy(copytask);
-        // 等待任务结束
-        autoEvent.WaitOne();
+        
         //.cssg-snippet-body-end
       }
 

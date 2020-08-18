@@ -28,10 +28,6 @@ namespace COSSnippet
 
       PictureOperationModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -52,8 +48,6 @@ namespace COSSnippet
         string srcPath = @"temp-source-file";//本地文件绝对路径
         //.cssg-snippet-body-start:[upload-with-pic-operation]
         PutObjectRequest request = new PutObjectRequest(bucket, key, srcPath);
-        //设置签名有效时长
-        request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
 
         JObject o = new JObject();
         // 不返回原图
@@ -71,9 +65,6 @@ namespace COSSnippet
         request.SetRequestHeader("Pic-Operation", o.ToString());
         //执行请求
         PutObjectResult result = cosXml.PutObject(request);
-        Dictionary<string, List<string>> headers = result.responseHeaders;
-        // 可以从 picProcessInfo 获取图片处理结果
-        object ProcessResults = headers["ProcessResults"];
         //.cssg-snippet-body-end
       }
 
@@ -88,8 +79,27 @@ namespace COSSnippet
       /// 上传时添加盲水印
       public void PutObjectWithWatermark()
       {
+        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        string key = "exampleobject"; //对象键
+        string srcPath = @"temp-source-file";//本地文件绝对路径
         //.cssg-snippet-body-start:[put-object-with-watermark]
-        
+        PutObjectRequest request = new PutObjectRequest(bucket, key, srcPath);
+
+        JObject o = new JObject();
+        // 不返回原图
+        o["is_pic_info"] = 0;
+        JArray rules = new JArray();
+        JObject rule = new JObject();
+        rule["bucket"] = bucket;
+        rule["fileid"] = key;
+        //处理参数，规则参见：https://cloud.tencent.com/document/product/460/19017
+        rule["rule"] = "watermark/3/type/<type>/image/<imageUrl>/text/<text>/level/<level>";
+        rules.Add(rule);
+        o["rules"] = rules;
+
+        request.SetRequestHeader("Pic-Operation", o.ToString());
+        //执行请求
+        PutObjectResult result = cosXml.PutObject(request);
         //.cssg-snippet-body-end
       }
 

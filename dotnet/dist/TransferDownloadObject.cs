@@ -26,10 +26,6 @@ namespace COSSnippet
 
       TransferDownloadObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -58,12 +54,8 @@ namespace COSSnippet
         string localFileName = "my-local-temp-file"; //指定本地保存的文件名
         
         // 下载对象
-         // COS_REGION 为存储桶所在地域
-        COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(bucket, "COS_REGION", cosPath, 
+        COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(bucket, cosPath, 
           localDir, localFileName);
-        
-        // 同步调用
-        var autoEvent = new AutoResetEvent(false);
         
         downloadTask.progressCallback = delegate (long completed, long total)
         {
@@ -75,7 +67,6 @@ namespace COSSnippet
               as COSXML.Transfer.COSXMLDownloadTask.DownloadTaskResult;
             Console.WriteLine(result.GetResultInfo());
             string eTag = result.eTag;
-            autoEvent.Set();
         };
         downloadTask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
         {
@@ -87,41 +78,22 @@ namespace COSSnippet
             {
                 Console.WriteLine("CosServerException: " + serverEx.GetInfo());
             }
-            autoEvent.Set();
         };
         transferManager.Download(downloadTask);
-        // 等待任务结束
-        autoEvent.WaitOne();
         //.cssg-snippet-body-end
       }
 
       /// 下载暂停
       public void TransferDownloadObjectInteract()
       {
-        TransferConfig transferConfig = new TransferConfig();
-        
-        // 初始化 TransferManager
-        TransferManager transferManager = new TransferManager(cosXml, transferConfig);
-        
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
-        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
-        string localDir = System.IO.Path.GetTempPath();//本地文件夹
-        string localFileName = "my-local-temp-file"; //指定本地保存的文件名
-        
-        COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(bucket, "COS_REGION", cosPath, 
-          localDir, localFileName);
-        transferManager.Download(downloadTask);
 
         //.cssg-snippet-body-start:[transfer-download-object-pause]
-        downloadTask.Pause();
         //.cssg-snippet-body-end
 
         //.cssg-snippet-body-start:[transfer-download-object-resume]
-        downloadTask.Resume();
         //.cssg-snippet-body-end
 
         //.cssg-snippet-body-start:[transfer-download-object-cancel]
-        downloadTask.Cancel();
         //.cssg-snippet-body-end
       }
 
@@ -141,8 +113,7 @@ namespace COSSnippet
           // 下载对象
           string cosPath = "exampleobject" + i; //对象在存储桶中的位置标识符，即称对象键
           string localFileName = "my-local-temp-file"; //指定本地保存的文件名
-          // COS_REGION 为存储桶所在地域
-          COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(bucket, "COS_REGION", cosPath, 
+          COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(bucket, cosPath, 
             localDir, localFileName);
           transferManager.Download(downloadTask);
         }
@@ -153,7 +124,22 @@ namespace COSSnippet
       public void DownloadObjectTrafficLimit()
       {
         //.cssg-snippet-body-start:[download-object-traffic-limit]
+        TransferConfig transferConfig = new TransferConfig();
         
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXml, transferConfig);
+        
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        string localDir = System.IO.Path.GetTempPath();//本地文件夹
+        string localFileName = "my-local-temp-file"; //指定本地保存的文件名
+        
+        GetObjectRequest request = new GetObjectRequest(bucket, 
+                cosPath, localDir, localFileName);
+        request.LimitTraffic(8 * 1000 * 1024); // 限制为1MB/s
+
+        COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(request);
+        transferManager.Download(downloadTask);
         //.cssg-snippet-body-end
       }
 

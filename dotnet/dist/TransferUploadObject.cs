@@ -26,10 +26,6 @@ namespace COSSnippet
 
       TransferUploadObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -55,17 +51,10 @@ namespace COSSnippet
         String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
         String srcPath = @"temp-source-file";//本地文件绝对路径
-        if (!File.Exists(srcPath)) {
-          // 如果不存在目标文件，创建一个临时的测试文件
-          File.WriteAllBytes(srcPath, new byte[1024]);
-        }
         
         // 上传对象
-        COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, "COS_REGION", cosPath); // COS_REGION 为存储桶所在地域
+        COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, cosPath);
         uploadTask.SetSrcPath(srcPath);
-        
-        // 同步调用
-        var autoEvent = new AutoResetEvent(false);
         
         uploadTask.progressCallback = delegate (long completed, long total)
         {
@@ -77,7 +66,6 @@ namespace COSSnippet
               as COSXML.Transfer.COSXMLUploadTask.UploadTaskResult;
             Console.WriteLine(result.GetResultInfo());
             string eTag = result.eTag;
-            autoEvent.Set();
         };
         uploadTask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
         {
@@ -89,11 +77,8 @@ namespace COSSnippet
             {
                 Console.WriteLine("CosServerException: " + serverEx.GetInfo());
             }
-            autoEvent.Set();
         };
         transferManager.Upload(uploadTask);
-        // 等待任务结束
-        autoEvent.WaitOne();
         
         //.cssg-snippet-body-end
       }
@@ -101,9 +86,26 @@ namespace COSSnippet
       /// 高级接口上传二进制数据
       public void TransferUploadBytes()
       {
-        /// 暂不支持
         //.cssg-snippet-body-start:[transfer-upload-bytes]
-        
+        try
+        {
+          string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+          string cosPath = "exampleObject"; // 对象键
+          byte[] data = new byte[1024]; // 二进制数据
+          PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, data);
+          
+          cosXml.PutObject(putObjectRequest);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 
@@ -137,7 +139,7 @@ namespace COSSnippet
         string srcPath = @"temp-source-file";//本地文件绝对路径
         
         // 上传对象
-        COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, "COS_REGION", cosPath);
+        COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, cosPath);
         uploadTask.SetSrcPath(srcPath);
 
         transferManager.Upload(uploadTask);
@@ -170,8 +172,7 @@ namespace COSSnippet
           // 上传对象
           string cosPath = "exampleobject" + i; //对象在存储桶中的位置标识符，即称对象键
           string srcPath = @"temp-source-file";//本地文件绝对路径
-          // COS_REGION 为存储桶所在地域
-          COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, "COS_REGION", cosPath); 
+          COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, cosPath); 
           uploadTask.SetSrcPath(srcPath);
           transferManager.Upload(uploadTask);
         }
@@ -182,7 +183,23 @@ namespace COSSnippet
       public void UploadObjectTrafficLimit()
       {
         //.cssg-snippet-body-start:[upload-object-traffic-limit]
+        TransferConfig transferConfig = new TransferConfig();
         
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXml, transferConfig);
+
+        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        string cosPath = "dir/exampleObject"; // 对象键
+        string srcPath = @"temp-source-file";//本地文件绝对路径
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, srcPath);
+        putObjectRequest.LimitTraffic(8 * 1000 * 1000); // 限制为1MB/s
+
+        COSXMLUploadTask uploadTask = new COSXMLUploadTask(putObjectRequest);
+
+        uploadTask.SetSrcPath(srcPath);
+
+        transferManager.Upload(uploadTask);
         //.cssg-snippet-body-end
       }
 
@@ -190,7 +207,24 @@ namespace COSSnippet
       public void CreateDirectory()
       {
         //.cssg-snippet-body-start:[create-directory]
-        
+        try
+        {
+          string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+          string cosPath = "dir/"; // 对象键
+          PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, new byte[0]);
+          
+          cosXml.PutObject(putObjectRequest);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 

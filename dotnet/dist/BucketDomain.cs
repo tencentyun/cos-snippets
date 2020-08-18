@@ -26,10 +26,6 @@ namespace COSSnippet
 
       BucketDomainModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetConnectionTimeoutMs(60000)  //设置连接超时时间，单位毫秒，默认45000ms
-          .SetReadWriteTimeoutMs(40000)  //设置读写超时时间，单位毫秒，默认45000ms
-          .IsHttps(true)  //设置默认 HTTPS 请求
-          .SetAppid("1250000000") //设置腾讯云账户的账户标识 APPID
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
@@ -103,6 +99,15 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 删除存储桶自定义域名
+      public void DeleteBucketDomain()
+      {
+        //.cssg-snippet-body-start:[delete-bucket-domain]
+        
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -113,6 +118,9 @@ namespace COSSnippet
         m.PutBucketDomain();
         /// 获取存储桶自定义域名
         m.GetBucketDomain();
+
+        /// 删除存储桶自定义域名
+        m.DeleteBucketDomain();
         // .cssg-methods-pragma
       }
     }

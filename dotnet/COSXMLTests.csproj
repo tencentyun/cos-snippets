@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.*" />
+    <ProjectReference Include="..\..\cos-sdk-repos\qcloud-sdk-dotnet\QCloudCSharpSDK\COSXML\COSXML.csproj">
+      <Name>COSXML</Name>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.*" /> -->
     <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
