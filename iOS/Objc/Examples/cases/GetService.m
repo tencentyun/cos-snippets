@@ -91,8 +91,8 @@
  */
 - (void)getRegionalService {
     
-    //.cssg-snippet-body-start:[objc-get-regional-service]
     //不支持
+    //.cssg-snippet-body-start:[objc-get-regional-service]
     //.cssg-snippet-body-end
 }
 

@@ -73,8 +73,8 @@ class GetService: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     // 获取地域的存储桶列表
     func getRegionalService() {
       
-        //.cssg-snippet-body-start:[swift-get-regional-service]
         //不支持
+        //.cssg-snippet-body-start:[swift-get-regional-service]
         //.cssg-snippet-body-end     
     }
     // 计算签名

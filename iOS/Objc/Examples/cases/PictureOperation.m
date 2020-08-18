@@ -102,8 +102,8 @@
  * 对云上数据进行图片处理
  */
 - (void)processWithPicOperation {
-    //.cssg-snippet-body-start:[objc-process-with-pic-operation]
     //不支持
+    //.cssg-snippet-body-start:[objc-process-with-pic-operation]
     //.cssg-snippet-body-end
 }
 
@@ -111,8 +111,8 @@
  * 上传时添加盲水印
  */
 - (void)putObjectWithWatermark {
-    //.cssg-snippet-body-start:[objc-put-object-with-watermark]
     //不支持
+    //.cssg-snippet-body-start:[objc-put-object-with-watermark]
     //.cssg-snippet-body-end
 }
 
@@ -120,8 +120,8 @@
  * 下载时添加盲水印
  */
 - (void)downloadObjectWithWatermark {
-    //.cssg-snippet-body-start:[objc-download-object-with-watermark]
     //不支持
+    //.cssg-snippet-body-start:[objc-download-object-with-watermark]
     //.cssg-snippet-body-end
 }
 
@@ -129,8 +129,8 @@
  * 图片审核
  */
 - (void)sensitiveContentRecognition {
-    //.cssg-snippet-body-start:[objc-sensitive-content-recognition]
     //不支持
+    //.cssg-snippet-body-start:[objc-sensitive-content-recognition]
     //.cssg-snippet-body-end
 }
 

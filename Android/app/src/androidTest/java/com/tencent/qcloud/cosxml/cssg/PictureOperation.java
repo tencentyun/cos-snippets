@@ -174,8 +174,8 @@ public class PictureOperation {
      * 图片审核
      */
     private void sensitiveContentRecognition() {
-        //.cssg-snippet-body-start:[sensitive-content-recognition]
         // TODO: 2020/8/14
+        //.cssg-snippet-body-start:[sensitive-content-recognition]
         //.cssg-snippet-body-end
     }
 

@@ -106,8 +106,16 @@ namespace COSSnippet
       /// 下载时添加盲水印
       public void DownloadObjectWithWatermark()
       {
+        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        string key = "exampleobject"; //对象键
+        string localDir = System.IO.Path.GetTempPath();//本地文件夹
+        string localFileName = "my-local-temp-file"; //指定本地保存的文件名
         //.cssg-snippet-body-start:[download-object-with-watermark]
-        
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, key, localDir, localFileName);
+        //处理参数，规则参见：https://cloud.tencent.com/document/product/460/19017
+        getObjectRequest.SetQueryParameter("watermark/3/type/<type>/image/<imageUrl>/text/<text>", null);
+
+        GetObjectResult result = cosXml.GetObject(getObjectRequest);
         //.cssg-snippet-body-end
       }
 

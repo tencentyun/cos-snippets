@@ -54,8 +54,8 @@ class PostObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     // POST 方式上传对象
     func postObject() {
       
-        //.cssg-snippet-body-start:[swift-post-object]
         //不支持
+        //.cssg-snippet-body-start:[swift-post-object]
         //.cssg-snippet-body-end          
     }
     // .cssg-methods-pragma

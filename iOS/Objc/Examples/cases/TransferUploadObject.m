@@ -145,8 +145,8 @@
  * 高级接口流式上传
  */
 - (void)transferUploadStream {
-    //.cssg-snippet-body-start:[objc-transfer-upload-stream]
     //不支持
+    //.cssg-snippet-body-start:[objc-transfer-upload-stream]
     //.cssg-snippet-body-end
 }
 
@@ -243,8 +243,8 @@
  * 高级接口 URI 上传
  */
 - (void)transferUploadUri {
-    //.cssg-snippet-body-start:[objc-transfer-upload-uri]
     //不支持
+    //.cssg-snippet-body-start:[objc-transfer-upload-uri]
     //.cssg-snippet-body-end
 }
 

@@ -67,8 +67,8 @@
  */
 - (void)postObject {
 
-    //.cssg-snippet-body-start:[objc-post-object]
     //不支持
+    //.cssg-snippet-body-start:[objc-post-object]
     //.cssg-snippet-body-end
 }
 // .cssg-methods-pragma

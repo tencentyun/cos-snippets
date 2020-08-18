@@ -136,8 +136,8 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
 
     // 高级接口流式上传
     func transferUploadStream() {
-        //.cssg-snippet-body-start:[swift-transfer-upload-stream]
         //不支持
+        //.cssg-snippet-body-start:[swift-transfer-upload-stream]
         //.cssg-snippet-body-end
     }
 
@@ -248,8 +248,8 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
 
     // 高级接口 URI 上传
     func transferUploadUri() {
-        //.cssg-snippet-body-start:[swift-transfer-upload-uri]
         //不支持
+        //.cssg-snippet-body-start:[swift-transfer-upload-uri]
         //.cssg-snippet-body-end
     }
 

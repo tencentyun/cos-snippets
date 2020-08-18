@@ -67,8 +67,8 @@
  */
 - (void)putBucketPolicy {
 
-    //.cssg-snippet-body-start:[objc-put-bucket-policy]
     //不支持
+    //.cssg-snippet-body-start:[objc-put-bucket-policy]
     //.cssg-snippet-body-end
 
 }
@@ -77,10 +77,9 @@
  * 获取存储桶 Policy
  */
 - (void)getBucketPolicy {
-    
 
-    //.cssg-snippet-body-start:[objc-get-bucket-policy]
     //不支持
+    //.cssg-snippet-body-start:[objc-get-bucket-policy]
     //.cssg-snippet-body-end
 
     
@@ -91,9 +90,8 @@
  */
 - (void)deleteBucketPolicy {
     
-
-    //.cssg-snippet-body-start:[objc-delete-bucket-policy]
     //不支持
+    //.cssg-snippet-body-start:[objc-delete-bucket-policy]
     //.cssg-snippet-body-end
 
     
