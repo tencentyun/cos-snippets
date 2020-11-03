@@ -39,7 +39,7 @@ namespace COSSnippet
       }
 
       /// 高级接口拷贝对象
-      public void TransferCopyObject()
+      public async void TransferCopyObject()
       {
         TransferConfig transferConfig = new TransferConfig();
         
@@ -59,26 +59,15 @@ namespace COSSnippet
         string key = "exampleobject"; //目标对象的对象键
 
         COSXMLCopyTask copytask = new COSXMLCopyTask(bucket, key, copySource);
-
-        copytask.successCallback = delegate (CosResult cosResult) 
-        {
-            COSXML.Transfer.COSXMLCopyTask.CopyTaskResult result = cosResult 
-              as COSXML.Transfer.COSXMLCopyTask.CopyTaskResult;
-            Console.WriteLine(result.GetResultInfo());
-            string eTag = result.eTag;
-        };
-        copytask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
-        {
-            if (clientEx != null)
-            {
-                Console.WriteLine("CosClientException: " + clientEx);
-            }
-            if (serverEx != null)
-            {
-                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
-            }
-        };
-        transferManager.Copy(copytask);
+        
+        try {
+          COSXML.Transfer.COSXMLCopyTask.CopyTaskResult result = await 
+            transferManager.CopyAsync(copytask);
+          Console.WriteLine(result.GetResultInfo());
+          string eTag = result.eTag;
+        } catch (Exception e) {
+            Console.WriteLine("CosException: " + e);
+        }
         
         //.cssg-snippet-body-end
       }

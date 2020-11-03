@@ -39,7 +39,7 @@ namespace COSSnippet
       }
 
       /// 高级接口下载对象
-      public void TransferDownloadObject()
+      public async void TransferDownloadObject()
       {
         //.cssg-snippet-body-start:[transfer-download-object]
         // 初始化 TransferConfig
@@ -61,25 +61,15 @@ namespace COSSnippet
         {
             Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
         };
-        downloadTask.successCallback = delegate (CosResult cosResult) 
-        {
-            COSXML.Transfer.COSXMLDownloadTask.DownloadTaskResult result = cosResult 
-              as COSXML.Transfer.COSXMLDownloadTask.DownloadTaskResult;
-            Console.WriteLine(result.GetResultInfo());
-            string eTag = result.eTag;
-        };
-        downloadTask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
-        {
-            if (clientEx != null)
-            {
-                Console.WriteLine("CosClientException: " + clientEx);
-            }
-            if (serverEx != null)
-            {
-                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
-            }
-        };
-        transferManager.Download(downloadTask);
+
+        try {
+          COSXML.Transfer.COSXMLDownloadTask.DownloadTaskResult result = await 
+            transferManager.DownloadAsync(downloadTask);
+          Console.WriteLine(result.GetResultInfo());
+          string eTag = result.eTag;
+        } catch (Exception e) {
+            Console.WriteLine("CosException: " + e);
+        }
         //.cssg-snippet-body-end
       }
 
@@ -98,7 +88,7 @@ namespace COSSnippet
       }
 
       /// 批量下载
-      public void TransferBatchDownloadObjects()
+      public async void TransferBatchDownloadObjects()
       {
         //.cssg-snippet-body-start:[transfer-batch-download-objects]
         TransferConfig transferConfig = new TransferConfig();
@@ -115,13 +105,13 @@ namespace COSSnippet
           string localFileName = "my-local-temp-file"; //指定本地保存的文件名
           COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(bucket, cosPath, 
             localDir, localFileName);
-          transferManager.Download(downloadTask);
+          await transferManager.DownloadAsync(downloadTask);
         }
         //.cssg-snippet-body-end
       }
 
       /// 下载时对单链接限速
-      public void DownloadObjectTrafficLimit()
+      public async void DownloadObjectTrafficLimit()
       {
         //.cssg-snippet-body-start:[download-object-traffic-limit]
         TransferConfig transferConfig = new TransferConfig();
@@ -139,7 +129,7 @@ namespace COSSnippet
         request.LimitTraffic(8 * 1000 * 1024); // 限制为1MB/s
 
         COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(request);
-        transferManager.Download(downloadTask);
+        await transferManager.DownloadAsync(downloadTask);
         //.cssg-snippet-body-end
       }
 

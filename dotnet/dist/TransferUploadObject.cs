@@ -39,7 +39,7 @@ namespace COSSnippet
       }
 
       /// 高级接口上传对象
-      public void TransferUploadFile()
+      public async void TransferUploadFile()
       {
         //.cssg-snippet-body-start:[transfer-upload-file]
         // 初始化 TransferConfig
@@ -60,26 +60,16 @@ namespace COSSnippet
         {
             Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
         };
-        uploadTask.successCallback = delegate (CosResult cosResult) 
-        {
-            COSXML.Transfer.COSXMLUploadTask.UploadTaskResult result = cosResult 
-              as COSXML.Transfer.COSXMLUploadTask.UploadTaskResult;
-            Console.WriteLine(result.GetResultInfo());
-            string eTag = result.eTag;
-        };
-        uploadTask.failCallback = delegate (CosClientException clientEx, CosServerException serverEx) 
-        {
-            if (clientEx != null)
-            {
-                Console.WriteLine("CosClientException: " + clientEx);
-            }
-            if (serverEx != null)
-            {
-                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
-            }
-        };
-        transferManager.Upload(uploadTask);
-        
+
+        try {
+          COSXML.Transfer.COSXMLUploadTask.UploadTaskResult result = await 
+            transferManager.UploadAsync(uploadTask);
+          Console.WriteLine(result.GetResultInfo());
+          string eTag = result.eTag;
+        } catch (Exception e) {
+            Console.WriteLine("CosException: " + e);
+        }
+
         //.cssg-snippet-body-end
       }
 
@@ -128,7 +118,7 @@ namespace COSSnippet
       }
 
       /// 上传暂停、续传、取消
-      public void TransferUploadInteract()
+      public async void TransferUploadInteract()
       {
         TransferConfig transferConfig = new TransferConfig();
         
@@ -142,7 +132,7 @@ namespace COSSnippet
         COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, cosPath);
         uploadTask.SetSrcPath(srcPath);
 
-        transferManager.Upload(uploadTask);
+        await transferManager.UploadAsync(uploadTask);
 
         //.cssg-snippet-body-start:[transfer-upload-pause]
         uploadTask.Pause();
@@ -158,7 +148,7 @@ namespace COSSnippet
       }
 
       /// 批量上传
-      public void TransferBatchUploadObjects()
+      public async void TransferBatchUploadObjects()
       {
         //.cssg-snippet-body-start:[transfer-batch-upload-objects]
         TransferConfig transferConfig = new TransferConfig();
@@ -174,13 +164,13 @@ namespace COSSnippet
           string srcPath = @"temp-source-file";//本地文件绝对路径
           COSXMLUploadTask uploadTask = new COSXMLUploadTask(bucket, cosPath); 
           uploadTask.SetSrcPath(srcPath);
-          transferManager.Upload(uploadTask);
+          await transferManager.UploadAsync(uploadTask);
         }
         //.cssg-snippet-body-end
       }
 
       /// 上传时对单链接限速
-      public void UploadObjectTrafficLimit()
+      public async void UploadObjectTrafficLimit()
       {
         //.cssg-snippet-body-start:[upload-object-traffic-limit]
         TransferConfig transferConfig = new TransferConfig();
@@ -199,7 +189,7 @@ namespace COSSnippet
 
         uploadTask.SetSrcPath(srcPath);
 
-        transferManager.Upload(uploadTask);
+        await transferManager.UploadAsync(uploadTask);
         //.cssg-snippet-body-end
       }
 

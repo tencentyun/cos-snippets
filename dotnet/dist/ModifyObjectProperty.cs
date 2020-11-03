@@ -98,7 +98,7 @@ namespace COSSnippet
           //设置是否拷贝还是更新,此处是拷贝
           request.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.REPLACED);
           // 修改为归档存储
-          request.SetCosStorageClass(CosStorageClass.ARCHIVE);
+          request.SetCosStorageClass("ARCHIVE");
           //执行请求
           CopyObjectResult result = cosXml.CopyObject(request);
           //请求成功
