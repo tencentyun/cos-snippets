@@ -108,7 +108,7 @@ namespace COSSnippet
           int partNumber = 1; //分块编号，必须从1开始递增
           string srcPath = @"temp-source-file";//本地文件绝对路径
           UploadPartRequest request = new UploadPartRequest(bucket, key, partNumber, 
-            uploadId, srcPath);
+            uploadId, srcPath, 0, -1);
           //设置进度回调
           request.SetCosProgressCallback(delegate (long completed, long total)
           {

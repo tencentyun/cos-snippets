@@ -59,7 +59,7 @@ namespace COSSnippet
         CosXmlConfig config = new CosXmlConfig.Builder()
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           //请求域名为 your.domain.com
-          .setHost("your.domain.com") //自定义域名
+          .SetHost("your.domain.com") //自定义域名
           .Build();
         //.cssg-snippet-body-end
       }
@@ -69,7 +69,7 @@ namespace COSSnippet
       {
         //.cssg-snippet-body-start:[set-accelerate-domain]
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .setEndpointSuffix("cos.accelerate.myqcloud.com")
+          .SetEndpointSuffix("cos.accelerate.myqcloud.com")
           .Build();
         //.cssg-snippet-body-end
       }
@@ -80,7 +80,7 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[set-endpoint-suffix]
         CosXmlConfig config = new CosXmlConfig.Builder()
           //请求域名为 [bucketName-APPID].your.domain.com
-          .setEndpointSuffix("your.domain.com")
+          .SetEndpointSuffix("your.domain.com")
           .Build();
         //.cssg-snippet-body-end
       }

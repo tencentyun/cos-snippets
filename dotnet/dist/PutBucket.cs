@@ -74,7 +74,7 @@ namespace COSSnippet
           string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
           PutBucketRequest request = new PutBucketRequest(bucket);
           // 设置为共有读
-          request.SetCosACL(CosACL.PUBLIC_READ);
+          request.SetCosACL(CosACL.PublicRead);
           //授予1131975903账号写权限
           COSXML.Model.Tag.GrantAccount readAccount = new COSXML.Model.Tag.GrantAccount();
           readAccount.AddGrantAccount("1131975903", "1131975903");

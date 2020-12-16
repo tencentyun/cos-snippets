@@ -90,7 +90,7 @@ namespace COSSnippet
         string ruleString = o.ToString(Formatting.None);
 
         ImageProcessRequest request = new ImageProcessRequest(bucket, key, ruleString);
-        ImageProcessResult result = cosXml.imageProcess(request);
+        ImageProcessResult result = cosXml.ImageProcess(request);
         //.cssg-snippet-body-end
       }
 
@@ -146,7 +146,7 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[sensitive-content-recognition]
         SensitiveContentRecognitionRequest request = 
           new SensitiveContentRecognitionRequest(bucket, key, "politics");
-        SensitiveContentRecognitionResult result = cosXml.sensitiveContentRecognition(request);
+        SensitiveContentRecognitionResult result = cosXml.SensitiveContentRecognition(request);
         //.cssg-snippet-body-end
       }
 

@@ -53,7 +53,7 @@ namespace COSSnippet
           //bucket的相关信息
           ListBucketVersions info = result.listBucketVersions;
 
-          List<ListBucketVersions.ObjectVersion> objects = info.objectVersionList;
+          List<ListBucketVersions.Version> objects = info.objectVersionList;
           List<ListBucketVersions.CommonPrefixes> prefixes = info.commonPrefixesList;
 
           if (info.isTruncated) {

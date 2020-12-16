@@ -58,7 +58,7 @@ namespace COSSnippet
           //设置拷贝源
           request.SetCopySource(copySource);
           //设置是否拷贝还是更新,此处是拷贝
-          request.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.COPY);
+          request.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.Copy);
           //执行请求
           CopyObjectResult result = cosXml.CopyObject(request);
           //请求成功
@@ -98,7 +98,7 @@ namespace COSSnippet
           //设置拷贝源
           request.SetCopySource(copySource);
           //设置是否拷贝还是更新,此处是拷贝
-          request.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.REPLACED);
+          request.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.Replaced);
           // 替换元数据
           request.SetRequestHeader("Content-Disposition", "attachment; filename=example.jpg");
           //执行请求

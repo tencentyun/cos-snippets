@@ -49,7 +49,7 @@ namespace COSSnippet
           putRequest.SetIndexDocument("index.html");
           putRequest.SetErrorDocument("eroror.html");
           putRequest.SetRedirectAllRequestTo("index.html");
-          PutBucketWebsiteResult putResult = cosXml.putBucketWebsite(putRequest);
+          PutBucketWebsiteResult putResult = cosXml.PutBucketWebsite(putRequest);
           
           //请求成功
           Console.WriteLine(putResult.GetResultInfo());
@@ -76,7 +76,7 @@ namespace COSSnippet
           string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
           DeleteBucketTaggingRequest request = new DeleteBucketTaggingRequest(bucket);   
           //执行请求
-          DeleteBucketTaggingResult result = cosXml.deleteBucketTagging(request);
+          DeleteBucketTaggingResult result = cosXml.DeleteBucketTagging(request);
           
           //请求成功
           Console.WriteLine(result.GetResultInfo());
@@ -103,7 +103,7 @@ namespace COSSnippet
           string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
           DeleteBucketTaggingRequest request = new DeleteBucketTaggingRequest(bucket);   
           //执行请求
-          DeleteBucketTaggingResult result = cosXml.deleteBucketTagging(request);
+          DeleteBucketTaggingResult result = cosXml.DeleteBucketTagging(request);
           
           //请求成功
           Console.WriteLine(result.GetResultInfo());

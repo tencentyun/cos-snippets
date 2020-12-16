@@ -54,7 +54,7 @@ namespace COSSnippet
           
           PutBucketDomainRequest request = new PutBucketDomainRequest(bucket, domain);   
           //执行请求
-          PutBucketDomainResult result = cosXml.putBucketDomain(request);
+          PutBucketDomainResult result = cosXml.PutBucketDomain(request);
           
           //请求成功
           Console.WriteLine(result.GetResultInfo());
@@ -81,7 +81,7 @@ namespace COSSnippet
           string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
           GetBucketDomainRequest request = new GetBucketDomainRequest(bucket);   
           //执行请求
-          GetBucketDomainResult result = cosXml.getBucketDomain(request);
+          GetBucketDomainResult result = cosXml.GetBucketDomain(request);
           
           //请求成功
           Console.WriteLine(result.domainConfiguration);

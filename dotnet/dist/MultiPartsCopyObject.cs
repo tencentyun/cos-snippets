@@ -97,7 +97,7 @@ namespace COSSnippet
           UploadPartCopyResult result = cosXml.PartCopy(request);
           //请求成功
           //获取返回分块的eTag,用于后续CompleteMultiUploads
-          this.eTag = result.copyObject.eTag;
+          this.eTag = result.copyPart.eTag;
           Console.WriteLine(result.GetResultInfo());
         }
         catch (COSXML.CosException.CosClientException clientEx)
