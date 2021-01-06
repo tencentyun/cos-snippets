@@ -12,13 +12,25 @@ token = None               # 使用临时密钥需要传入Token，默认为空,
 config = CosConfig(Region=region, SecretId=secret_id, SecretKey=secret_key, Token=token)  # 获取配置对象
 client = CosS3Client(config)
 
-# 高级接口上传对象
-def transfer_upload_file():
-    #.cssg-snippet-body-start:[transfer-upload-file]
-    response = client.download_file(
+# 检索对象内容
+def select_object_content():
+    #.cssg-snippet-body-start:[select-object-content]
+    response = client.select_object_content(
         Bucket='examplebucket-1250000000',
         Key='exampleobject',
-        DestFilePath='local.txt'
+        Expression='Select * from COSObject',
+        ExpressionType='SQL',
+        InputSerialization={
+            'CompressionType': 'NONE',
+            'JSON': {
+                'Type': 'LINES'
+            }
+        },
+        OutputSerialization={
+            'CSV': {
+                'RecordDelimiter': '\n'
+            }
+        }
     )
     
     #.cssg-snippet-body-end
@@ -26,7 +38,7 @@ def transfer_upload_file():
 #.cssg-methods-pragma
 
 
-# 高级接口上传对象
-transfer_upload_file()
+# 检索对象内容
+select_object_content()
 
 #.cssg-methods-pragma

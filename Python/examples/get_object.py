@@ -29,7 +29,8 @@ def get_object():
         ResponseContentLanguage='string',
         ResponseContentType='string',
         ResponseExpires='string',
-        VersionId='string'
+        VersionId='string',
+        TrafficLimit='819200'
     )
     
     #.cssg-snippet-body-end
