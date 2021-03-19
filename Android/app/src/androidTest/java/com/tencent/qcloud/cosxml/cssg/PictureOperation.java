@@ -84,8 +84,7 @@ public class PictureOperation {
         putObjectRequest.setPicOperations(picOperations);
 
         // 上传成功后，您将会得到 2 张图片，分别是原始图片和处理后图片
-        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(bucket, cosPath,
-                srcPath, uploadId);
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(putObjectRequest, uploadId);
         //.cssg-snippet-body-end
     }
 
@@ -128,8 +127,7 @@ public class PictureOperation {
         putObjectRequest.setPicOperations(picOperations);
 
         // 上传成功后，您将会得到 2 张图片，分别是原始图片和处理后图片
-        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(bucket, cosPath,
-                srcPath, uploadId);
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(putObjectRequest, uploadId);
         //.cssg-snippet-body-end
     }
 
