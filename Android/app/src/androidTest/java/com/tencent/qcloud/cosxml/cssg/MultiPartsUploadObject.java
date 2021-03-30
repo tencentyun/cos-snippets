@@ -280,7 +280,7 @@ public class MultiPartsUploadObject {
         int partCount = (int) Math.ceil(srcFile.length() / (double) PART_SIZE);
         // 上传分片，下标从1开始
         for (int i = 1; i < partCount + 1; i++) {
-            uploadPart(partCount, (partCount - 1) * PART_SIZE);
+            uploadPart(i, (partCount - 1) * PART_SIZE);
         }
 
         // 列出已上传的分片
