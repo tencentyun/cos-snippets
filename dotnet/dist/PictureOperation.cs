@@ -150,6 +150,20 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 下载时进行图片处理
+      public void DownloadWithPicOperation()
+      {
+        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        string key = "exampleobject"; //对象键
+        string localDir = System.IO.Path.GetTempPath();//本地文件夹
+        string localFileName = "my-local-temp-file"; //指定本地保存的文件名
+        //.cssg-snippet-body-start:[download-with-pic-operation]
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, key, localDir, localFileName);
+        //处理参数，这里的实例是格式转换为 TPG 图片，规则参见：https://cloud.tencent.com/document/product/460/19017
+        getObjectRequest.SetQueryParameter("imageMogr2/format/tpg", null);
+        
+        //.cssg-snippet-body-end
+      }
 
       // .cssg-methods-pragma
 
@@ -168,6 +182,9 @@ namespace COSSnippet
         m.DownloadObjectWithWatermark();
         /// 图片审核
         m.SensitiveContentRecognition();
+
+        /// 下载时进行图片处理
+        m.DownloadWithPicOperation();
         // .cssg-methods-pragma
       }
     }

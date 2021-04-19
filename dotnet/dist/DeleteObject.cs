@@ -100,6 +100,61 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 指定前缀批量删除对象
+      public void DeletePrefix()
+      {
+        //.cssg-snippet-body-start:[delete-prefix]
+        try
+        {
+          String nextMarker = null;
+
+          do
+          {
+            string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+            string prefix = "folder1/"; //对象键
+            GetBucketRequest listRequest = new GetBucketRequest(bucket);
+            //获取 a/ 下的对象以及子目录
+            listRequest.SetPrefix(prefix);
+            listRequest.SetMarker(nextMarker);
+            //执行请求
+            GetBucketResult listResult = cosXml.GetBucket(listRequest);
+            //bucket的相关信息
+            ListBucket info = listResult.listBucket;
+            // 对象列表
+            List<ListBucket.Contents> objects = info.contentsList;
+            // 下一页的下标
+            nextMarker = info.nextMarker;
+            
+            DeleteMultiObjectRequest deleteRequest = new DeleteMultiObjectRequest(bucket);
+            //设置返回结果形式
+            deleteRequest.SetDeleteQuiet(false);
+            //对象key
+            List<string> deleteObjects = new List<string>();
+            foreach (var content in objects)
+            {
+              deleteObjects.Add(content.key);
+            }
+            deleteRequest.SetObjectKeys(deleteObjects);
+            //执行请求
+            DeleteMultiObjectResult deleteResult = cosXml.DeleteMultiObjects(deleteRequest);
+            //请求成功
+            Console.WriteLine(deleteResult.GetResultInfo());
+          } while (nextMarker != null);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
+        //.cssg-snippet-body-end
+      }
+
+
       // .cssg-methods-pragma
 
       static void Main(string[] args)
@@ -110,6 +165,9 @@ namespace COSSnippet
         m.DeleteObject();
         /// 删除多个对象
         m.DeleteMultiObject();
+
+        /// 指定前缀批量删除对象
+        m.DeletePrefix();
         // .cssg-methods-pragma
       }
     }
