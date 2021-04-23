@@ -118,6 +118,15 @@ class DeleteObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
         
         //.cssg-snippet-body-end
     }
+
+
+    // 指定前缀批量删除对象
+    func deletePrefix() {
+        //.cssg-snippet-body-start:[swift-delete-prefix]
+        
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
     
     func testDeleteObject() {
@@ -125,6 +134,9 @@ class DeleteObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
         self.deleteObject();
         // 删除多个对象
         self.deleteMultiObject();
+
+        // 指定前缀批量删除对象
+        self.deletePrefix();
         // .cssg-methods-pragma
     }
 }

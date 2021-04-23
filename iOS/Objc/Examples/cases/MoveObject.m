@@ -7,21 +7,22 @@
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
 
 
-@interface DeleteObject : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface MoveObject : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation DeleteObject
+@implementation MoveObject
 
 - (void)setUp {
     // 注册默认的 COS 服务
     QCloudServiceConfiguration* configuration = [QCloudServiceConfiguration new];
-    configuration.appID = @"1250000000";
+    configuration.appID = @"1253653367";
     configuration.signatureProvider = self;
     QCloudCOSXMLEndPoint* endpoint = [[QCloudCOSXMLEndPoint alloc] init];
     endpoint.regionName = @"ap-guangzhou";//服务地域名称，可用的地域请参考注释
+    endpoint.useHTTPS = true;
     configuration.endpoint = endpoint;
     [QCloudCOSXMLService registerDefaultCOSXMLWithConfiguration:configuration];
     [QCloudCOSTransferMangerService registerDefaultCOSTransferMangerWithConfiguration:configuration];
@@ -62,96 +63,21 @@
 }
 
 /**
- * 删除对象
+ * 移动对象
  */
-- (void)deleteObject {
-
-    //.cssg-snippet-body-start:[objc-delete-object]
-    QCloudDeleteObjectRequest* deleteObjectRequest = [QCloudDeleteObjectRequest new];
-    
-    // 存储桶名称，格式为 BucketName-APPID
-    deleteObjectRequest.bucket = @"examplebucket-1250000000";
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    deleteObjectRequest.object = @"exampleobject";
-    
-    [deleteObjectRequest setFinishBlock:^(id outputObject, NSError *error) {
-        // outputObject 包含所有的响应 http 头部
-        NSDictionary* info = (NSDictionary *) outputObject;
-    }];
-    
-    [[QCloudCOSXMLService defaultCOSXML] DeleteObject:deleteObjectRequest];
-    
-    //.cssg-snippet-body-end
-
-    
-}
-
-/**
- * 删除多个对象
- */
-- (void)deleteMultiObject {
-
-    //.cssg-snippet-body-start:[objc-delete-multi-object]
-    QCloudDeleteMultipleObjectRequest* delteRequest = [QCloudDeleteMultipleObjectRequest new];
-    delteRequest.bucket = @"examplebucket-1250000000";
-    
-    // 要删除的单个文件
-    QCloudDeleteObjectInfo* deletedObject0 = [QCloudDeleteObjectInfo new];
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    deletedObject0.key = @"exampleobject";
-    
-    // 要删除的文件集合
-    QCloudDeleteInfo* deleteInfo = [QCloudDeleteInfo new];
-    
-    // 布尔值，这个值决定了是否启动 Quiet 模式：
-    // true：启动 Quiet 模式
-    // false：启动 Verbose 模式
-    // 默认值为 False
-    deleteInfo.quiet = NO;
-    
-    // 存放需要删除对象信息的数组
-    deleteInfo.objects = @[deletedObject0];
-    
-    // 封装了需要批量删除的多个对象的信息
-    delteRequest.deleteObjects = deleteInfo;
-    
-    [delteRequest setFinishBlock:^(QCloudDeleteResult* outputObject,
-                                   NSError *error) {
-        // 可以从 outputObject 中获取 response 中 etag 或者自定义头部等信息
-        
-    }];
-    
-    [[QCloudCOSXMLService defaultCOSXML] DeleteMultipleObject:delteRequest];
-    
-    //.cssg-snippet-body-end
-
-}
-
-/**
- * 指定前缀批量删除对象
- */
-- (void)deletePrefix {
-    //.cssg-snippet-body-start:[objc-delete-prefix]
+- (void)moveObject {
+    //.cssg-snippet-body-start:[objc-move-object]
     
     //.cssg-snippet-body-end
 }
 
 // .cssg-methods-pragma
 
-- (void)testDeleteObject {
-    // 删除对象
-    [self deleteObject];
-        
-    // 删除多个对象
-    [self deleteMultiObject];
-
-    // 指定前缀批量删除对象
-    [self deletePrefix];
+- (void)testMoveObject {
+    // 移动对象
+    [self moveObject];
         
     // .cssg-methods-pragma
-        
 }
 
 @end

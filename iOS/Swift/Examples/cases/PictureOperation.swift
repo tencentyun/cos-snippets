@@ -117,6 +117,15 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
     }
 
 
+    // 下载时进行图片处理
+    func downloadWithPicOperation() {
+        //.cssg-snippet-body-start:[swift-download-with-pic-operation]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+
     // .cssg-methods-pragma
 
     func testPictureOperation() {
@@ -131,6 +140,9 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         self.downloadObjectWithWatermark();
         // 图片审核
         self.sensitiveContentRecognition();
+
+        // 下载时进行图片处理
+        self.downloadWithPicOperation();
         // .cssg-methods-pragma
     }
 }

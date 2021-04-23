@@ -134,6 +134,16 @@
     //.cssg-snippet-body-end
 }
 
+/**
+ * 下载时进行图片处理
+ */
+- (void)downloadWithPicOperation {
+    //.cssg-snippet-body-start:[objc-download-with-pic-operation]
+    
+    //.cssg-snippet-body-end
+}
+
+
 
 // .cssg-methods-pragma
 
@@ -152,6 +162,10 @@
         
     // 图片审核
     [self sensitiveContentRecognition];
+
+    // 下载时进行图片处理
+    [self downloadWithPicOperation];
+        
         
         
     // .cssg-methods-pragma

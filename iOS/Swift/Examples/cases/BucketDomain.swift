@@ -108,6 +108,15 @@ class BucketDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
         //.cssg-snippet-body-end
           
     }
+
+
+    // 删除存储桶自定义域名
+    func deleteBucketDomain() {
+        //.cssg-snippet-body-start:[swift-delete-bucket-domain]
+        
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
 
     func testBucketDomain() {
@@ -115,6 +124,9 @@ class BucketDomain: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
         self.putBucketDomain();
         // 获取存储桶源站
         self.getBucketDomain();
+
+        // 删除存储桶自定义域名
+        self.deleteBucketDomain();
         // .cssg-methods-pragma
     }
 }

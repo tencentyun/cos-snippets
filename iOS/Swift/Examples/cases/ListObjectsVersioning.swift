@@ -53,7 +53,7 @@ class ListObjectsVersioning: XCTestCase,QCloudSignatureProvider,QCloudCredentail
     
     // 获取对象多版本列表第一页数据
     func listObjectsVersioning() {
-        //#hide.cssg-snippet-body-start:[swift-list-objects-versioning]
+        //.cssg-snippet-body-start:[swift-list-objects-versioning]
         let listObjectVersionsRequest :QCloudListObjectVersionsRequest = QCloudListObjectVersionsRequest();
         
         // 存储桶名称，格式为 BucketName-APPID
@@ -76,7 +76,7 @@ class ListObjectsVersioning: XCTestCase,QCloudSignatureProvider,QCloudCredentail
     
     // 获取对象多版本列表下一页数据
     func listObjectsVersioningNextPage() {
-        //#hide.cssg-snippet-body-start:[swift-list-objects-versioning-next-page]
+        //.cssg-snippet-body-start:[swift-list-objects-versioning-next-page]
         let listObjectVersionsRequest :QCloudListObjectVersionsRequest = QCloudListObjectVersionsRequest();
         
         // 存储桶名称，格式为 BucketName-APPID

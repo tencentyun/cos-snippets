@@ -202,6 +202,16 @@
     //.cssg-snippet-body-end
 }
 
+/**
+ * 下载取消
+ */
+- (void)transferDownloadObjectCancel {
+    //.cssg-snippet-body-start:[objc-transfer-download-object-cancel]
+    
+    //.cssg-snippet-body-end
+}
+
+
 
 
 // .cssg-methods-pragma
@@ -218,6 +228,10 @@
 
     // 下载时对单链接限速
     [self downloadObjectTrafficLimit];
+
+    // 下载取消
+    [self transferDownloadObjectCancel];
+        
         
         
         
