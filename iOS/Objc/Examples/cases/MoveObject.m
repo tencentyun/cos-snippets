@@ -67,7 +67,48 @@
  */
 - (void)moveObject {
     //.cssg-snippet-body-start:[objc-move-object]
+    QCloudCOSXMLCopyObjectRequest* request = [[QCloudCOSXMLCopyObjectRequest alloc] init];
     
+    // 存储桶名称，格式为 BucketName-APPID
+    request.bucket = @"examplebucket-1250000000";
+    
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    request.object = @"exampleobject";
+    
+    // 文件来源存储桶，需要是公有读或者在当前账号有权限
+    request.sourceBucket = @"sourcebucket-1250000000";
+    
+    // 源文件名称
+    request.sourceObject = @"sourceObject";
+    
+    // 源文件的 APPID
+    request.sourceAPPID = @"1250000000";
+    
+    // 来源的地域
+    request.sourceRegion= @"COS_REGION";
+    
+    [request setFinishBlock:^(QCloudCopyObjectResult* result, NSError* error) {
+        // 可以从 outputObject 中获取 response 中 etag 或者自定义头部等信息
+        if(!error){
+            QCloudDeleteObjectRequest* deleteObjectRequest = [QCloudDeleteObjectRequest new];
+            
+            // 文件来源存储桶，需要是公有读或者在当前账号有权限
+            deleteObjectRequest.bucket = @"sourcebucket-1250000000";
+            
+            // 源文件名称，是源对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+            deleteObjectRequest.object = @"sourceObject";
+            
+            [deleteObjectRequest setFinishBlock:^(id outputObject, NSError *error) {
+                // outputObject 包含所有的响应 http 头部
+                NSDictionary* info = (NSDictionary *) outputObject;
+            }];
+            
+            [[QCloudCOSXMLService defaultCOSXML] DeleteObject:deleteObjectRequest];
+        }
+    }];
+    
+    // 注意如果是跨地域复制，这里使用的 transferManager 所在的 region 必须为目标桶所在的 region
+    [[QCloudCOSTransferMangerService defaultCOSTransferManager] CopyObject:request];
     //.cssg-snippet-body-end
 }
 

@@ -49,7 +49,53 @@ class MoveObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     // 移动对象
     func moveObject() {
         //.cssg-snippet-body-start:[swift-move-object]
+        let copyRequest =  QCloudCOSXMLCopyObjectRequest.init();
         
+        // 存储桶名称，格式为 BucketName-APPID
+        copyRequest.bucket = "examplebucket-1250000000";
+        
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+        copyRequest.object = "exampleobject";
+        
+        // 文件来源存储桶，需要是公有读或者在当前账号有权限
+        // 存储桶名称，格式为 BucketName-APPID
+        copyRequest.sourceBucket = "sourcebucket-1250000000";
+        
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+        copyRequest.sourceObject = "sourceObject";
+        
+        // 源文件的 APPID
+        copyRequest.sourceAPPID = "1250000000";
+        
+        // 来源的地域
+        copyRequest.sourceRegion = "COS_REGION";
+        
+        copyRequest.setFinish { (copyResult, error) in
+            if let copyResult = copyResult {
+                // 文件的 etag
+                let deleteObject = QCloudDeleteObjectRequest.init();
+                
+                // 存储桶名称，格式为 BucketName-APPID
+                deleteObject.bucket = "sourcebucket-1250000000";
+                
+                // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+                deleteObject.object = "sourceObject";
+                
+                deleteObject.finishBlock = {(result,error)in
+                    if let result = result {
+                        // result 包含响应的 header 信息
+                    } else {
+                        print(error!);
+                    }
+                }
+                QCloudCOSXMLService.defaultCOSXML().deleteObject(deleteObject);
+            } else {
+                print(error!);
+            }
+            
+        }
+        // 注意如果是跨地域复制，这里使用的 transferManager 所在的 region 必须为目标桶所在的 region
+        QCloudCOSTransferMangerService.defaultCOSTransferManager().copyObject(copyRequest);
         //.cssg-snippet-body-end
     }
 
