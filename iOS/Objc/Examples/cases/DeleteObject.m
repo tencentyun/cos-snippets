@@ -134,7 +134,50 @@
  */
 - (void)deletePrefix {
     //.cssg-snippet-body-start:[objc-delete-prefix]
-    
+    QCloudGetBucketRequest* request = [QCloudGetBucketRequest new];
+
+    // 存储桶名称，格式为 BucketName-APPID
+    request.bucket = @"examplebucket-1250000000";
+    // 单次返回的最大条目数量，默认1000
+    request.maxKeys = 100;
+
+    /**
+     前缀匹配：
+     1. 如果要删除指定前缀的文件:prefix为文件名前缀
+     2.如果要删除指定前缀的文件:prefix为dir/
+     */
+
+    request.prefix = @"prefix";
+
+
+    [request setFinishBlock:^(QCloudListBucketResult * result, NSError* error) {
+        if(!error){
+            NSMutableArray *deleteInfosArr = [NSMutableArray array];
+            for (QCloudBucketContents *content in result.contents) {
+                QCloudDeleteMultipleObjectRequest *delteRequest = [QCloudDeleteMultipleObjectRequest new];
+                delteRequest.bucket = request.bucket;
+
+                QCloudDeleteObjectInfo *object = [QCloudDeleteObjectInfo new];
+                object.key = content.key;
+                [deleteInfosArr addObject:object];
+            }
+            
+            QCloudDeleteInfo *deleteInfos = [QCloudDeleteInfo new];
+            deleteInfos.objects = [deleteInfosArr copy];
+          
+            QCloudDeleteMultipleObjectRequest *delteRequest = [QCloudDeleteMultipleObjectRequest new];
+            delteRequest.bucket = @"examplebucket-1250000000";
+            delteRequest.deleteObjects = deleteInfos;
+            [delteRequest setFinishBlock:^(QCloudDeleteResult *outputObject, NSError *error) {
+                NSLog(@"outputObject = %@",outputObject);
+            }];
+
+            [[QCloudCOSXMLService defaultCOSXML] DeleteMultipleObject:delteRequest];
+            
+        }
+    }];
+
+    [[QCloudCOSXMLService defaultCOSXML] GetBucket:request];
     //.cssg-snippet-body-end
 }
 

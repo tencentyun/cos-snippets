@@ -123,7 +123,61 @@ class DeleteObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
     // 指定前缀批量删除对象
     func deletePrefix() {
         //.cssg-snippet-body-start:[swift-delete-prefix]
+        let getBucketReq = QCloudGetBucketRequest.init();
         
+        // 存储桶名称，格式为 BucketName-APPID
+        getBucketReq.bucket = "examplebucket-1250000000";
+        
+        // 单次返回的最大条目数量，默认1000
+        getBucketReq.maxKeys = 100;
+        
+        /**
+         前缀匹配：
+         1. 如果要删除指定前缀的文件:prefix为文件名前缀
+         2.如果要删除指定前缀的文件:prefix为dir/
+         */
+        getBucketReq.prefix = "prefix";
+        
+        getBucketReq.setFinish { (result, error) in
+            if let result = result {
+                let contents = result.contents;
+                let infos = NSMutableArray.init();
+                for content in contents {
+                    let info = QCloudDeleteObjectInfo.init();
+                    info.key = content.key;
+                    infos.add(info);
+                }
+                let mutipleDel = QCloudDeleteMultipleObjectRequest.init();
+                // 要删除的文件集合
+                let deleteInfos = QCloudDeleteInfo.init();
+                // 存储桶名称，格式为 BucketName-APPID
+                mutipleDel.bucket = "examplebucket-1250000000";
+                
+                deleteInfos.objects = infos as! [QCloudDeleteObjectInfo];
+                
+                // 布尔值，这个值决定了是否启动 Quiet 模式：
+                // true：启动 Quiet 模式
+                // false：启动 Verbose 模式
+                // 默认值为 False
+                deleteInfos.quiet = false;
+                
+                // 封装了需要批量删除的多个对象的信息
+                mutipleDel.deleteObjects = deleteInfos;
+                
+                mutipleDel.setFinish { (result, error) in
+                    if let result = result {
+                        let deleted = result.deletedObjects
+                        let failed = result.deletedFailedObjects
+                    } else {
+                        print(error!);
+                    }
+                }
+                QCloudCOSXMLService.defaultCOSXML().deleteMultipleObject(mutipleDel);
+            } else {
+                print(error!);
+            }
+        }
+        QCloudCOSXMLService.defaultCOSXML().getBucket(getBucketReq);
         //.cssg-snippet-body-end
     }
 
