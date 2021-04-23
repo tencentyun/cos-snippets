@@ -103,7 +103,7 @@
  */
 - (void)processWithPicOperation {
     //.cssg-snippet-body-start:[objc-process-with-pic-operation]
-    QCloudCloudDataOperationsRequest* put = [QCloudCloudDataOperationsRequest new];
+    QCloudCICloudDataOperationsRequest* put = [QCloudCICloudDataOperationsRequest new];
     
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
     put.object = @"exampleobject";
@@ -126,7 +126,7 @@
     rule.type = QCloudPicOperationRuleText;
     op.rule = @[rule];
     put.picOperations = op;
-    [put setFinishBlock:^(QCloudPutObjectWatermarkResult *result, NSError *error) {
+    [put setFinishBlock:^(id outputObject, NSError *error) {
        
     }];
     [[QCloudCOSXMLService defaultCOSXML] CloudDataOperations:put];
