@@ -150,13 +150,42 @@
     //.cssg-snippet-body-start:[objc-download-object-with-watermark]
     //.cssg-snippet-body-end
 }
-
 /**
  * 图片审核
  */
-- (void)sensitiveContentRecognition {
+- (void)sensitiveContentRecognition{
     //不支持
     //.cssg-snippet-body-start:[objc-sensitive-content-recognition]
+    //.cssg-snippet-body-end
+}
+/**
+ * 二维码识别-下载时识别
+ */
+- (void)qrcodeRecognition {
+    //不支持
+    //.cssg-snippet-body-start:[objc-qrcode-content-recognition]
+    QCloudQRCodeRecognitionRequest *req = [QCloudQRCodeRecognitionRequest new];
+    // 存储桶名称，格式为 BucketName-APPID
+    put.bucket = @"examplebucket-1250000000";
+    
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    put.object = @"dir1/exampleobject";
+
+    QCloudPicOperations *op = [[QCloudPicOperations alloc] init];
+    // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
+    op.is_pic_info = NO;
+    QCloudPicOperationRule * rule = [[QCloudPicOperationRule alloc]init];
+    rule.fileid = @"test";
+    //二维码识别的rule
+    rule.rule = @"QRcode/cover/1";
+    // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
+    rule.fileid = @"test";
+    op.rule = @[ rule ];
+    req.picOperations = op;
+    [req setFinishBlock:^(QCloudCIObject * _Nonnull result, NSError * _Nonnull error) {
+        NSLog(@"result = %@",result);
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] CIQRCodeRecognition:req];
     //.cssg-snippet-body-end
 }
 
@@ -168,6 +197,7 @@
     
     //.cssg-snippet-body-end
 }
+
 
 
 

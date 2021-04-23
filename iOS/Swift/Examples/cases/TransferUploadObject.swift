@@ -265,7 +265,27 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
     // 创建目录
     func createDirectory() {
         //.cssg-snippet-body-start:[swift-create-directory]
+        let put:QCloudCOSXMLUploadObjectRequest = QCloudCOSXMLUploadObjectRequest<AnyObject>();
         
+        // 存储桶名称，格式为 BucketName-APPID
+        put.bucket = "examplebucket-1250000000";
+        
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+        put.object = "dir/";
+        
+        // 需要上传的对象内容
+        let dataBody:NSData = "".data(using: .utf8)! as NSData;
+        put.body = dataBody;
+        
+        // 监听上传结果
+        put.setFinish { (result, error) in
+            // 获取上传结果
+            if let result = result {
+            } else {
+                print(error!);
+            }
+        }
+        QCloudCOSTransferMangerService.defaultCOSTransferManager().uploadObject(put);
         //.cssg-snippet-body-end
     }
 

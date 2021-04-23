@@ -258,6 +258,40 @@
 }
 
 /**
+ * 上传到指定目录
+ */
+- (void)uploadObjectToDir{
+    //.cssg-snippet-body-start:[objc-upload-object-dir]
+    QCloudCOSXMLUploadObjectRequest* put = [QCloudCOSXMLUploadObjectRequest new];
+    
+    // 存储桶名称，格式为 BucketName-APPID
+    put.bucket = @"examplebucket-1250000000";
+    
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    put.object = @"dir1/exampleobject";
+    
+    // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
+    put.body = [@"My Example Content" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // 监听上传进度
+    [put setSendProcessBlock:^(int64_t bytesSent,
+                               int64_t totalBytesSent,
+                               int64_t totalBytesExpectedToSend) {
+        // bytesSent                   新增字节数
+        // totalBytesSent              本次上传的总字节数
+        // totalBytesExpectedToSend    本地上传的目标字节数
+    }];
+    
+    // 监听上传结果
+    [put setFinishBlock:^(id outputObject, NSError *error) {
+        // outputObject 包含所有的响应 http 头部
+        NSDictionary* info = (NSDictionary *) outputObject;
+    }];
+    [[QCloudCOSTransferMangerService defaultCOSTransferManager] UploadObject:put];
+    //.cssg-snippet-body-end
+}
+
+/**
  * 创建目录
  */
 - (void)createDirectory {
@@ -310,6 +344,9 @@
         
     // 批量上传
     [self transferBatchUploadObjects];
+    
+    // 上传到指定目录/文件夹
+    [self uploadObjectToDir]
 
     // 高级接口 URI 上传
     [self transferUploadUri];
