@@ -133,6 +133,29 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 设置支持断点下载
+      public void TransferDownloadResumable()
+      {
+        TransferConfig transferConfig = new TransferConfig();
+        
+        // 初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXml, transferConfig);
+        
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        string localDir = System.IO.Path.GetTempPath();//本地文件夹
+        string localFileName = "my-local-temp-file"; //指定本地保存的文件名
+        
+        GetObjectRequest request = new GetObjectRequest(bucket, 
+                cosPath, localDir, localFileName);
+        //.cssg-snippet-body-start:[transfer-download-resumable]
+        COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(request);
+        downloadTask.SetResumableDownload(true);
+        
+        //.cssg-snippet-body-end
+      }
+
+
 
       // .cssg-methods-pragma
 
@@ -149,6 +172,9 @@ namespace COSSnippet
 
         /// 下载时对单链接限速
         m.DownloadObjectTrafficLimit();
+
+        /// 设置支持断点下载
+        m.TransferDownloadResumable();
         // .cssg-methods-pragma
       }
     }
