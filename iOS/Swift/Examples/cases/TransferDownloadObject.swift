@@ -196,6 +196,15 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
     }
 
 
+    // 设置支持断点下载
+    func transferDownloadResumable() {
+        //.cssg-snippet-body-start:[swift-transfer-download-resumable]
+        
+        //.cssg-snippet-body-end
+    }
+
+
+
 
 
     // .cssg-methods-pragma
@@ -213,6 +222,9 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
 
         // 下载取消
         self.transferDownloadObjectCancel();
+
+        // 设置支持断点下载
+        self.transferDownloadResumable();
         
         // .cssg-methods-pragma
     }

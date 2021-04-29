@@ -177,6 +177,16 @@ public class PictureOperation {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 下载时进行图片处理
+     */
+    private void downloadWithPicOperation() {
+        //.cssg-snippet-body-start:[download-with-pic-operation]
+        
+        //.cssg-snippet-body-end
+    }
+
+
 
     // .cssg-methods-pragma
 
@@ -210,6 +220,10 @@ public class PictureOperation {
         
         // 图片审核
         sensitiveContentRecognition();
+
+        // 下载时进行图片处理
+        downloadWithPicOperation();
+        
         
         
         // .cssg-methods-pragma

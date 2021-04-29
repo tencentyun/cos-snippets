@@ -211,6 +211,16 @@
     //.cssg-snippet-body-end
 }
 
+/**
+ * 设置支持断点下载
+ */
+- (void)transferDownloadResumable {
+    //.cssg-snippet-body-start:[objc-transfer-download-resumable]
+    
+    //.cssg-snippet-body-end
+}
+
+
 
 
 
@@ -231,6 +241,10 @@
 
     // 下载取消
     [self transferDownloadObjectCancel];
+
+    // 设置支持断点下载
+    [self transferDownloadResumable];
+        
         
         
         

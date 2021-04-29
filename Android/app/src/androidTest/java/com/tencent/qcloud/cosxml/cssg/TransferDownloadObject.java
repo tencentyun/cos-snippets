@@ -279,6 +279,16 @@ public class TransferDownloadObject {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 设置支持断点下载
+     */
+    private void transferDownloadResumable() {
+        //.cssg-snippet-body-start:[transfer-download-resumable]
+        
+        //.cssg-snippet-body-end
+    }
+
+
 
 
     // .cssg-methods-pragma
@@ -310,6 +320,10 @@ public class TransferDownloadObject {
 
         // 下载时对单链接限速
         downloadObjectTrafficLimit();
+
+        // 设置支持断点下载
+        transferDownloadResumable();
+        
         
         
         

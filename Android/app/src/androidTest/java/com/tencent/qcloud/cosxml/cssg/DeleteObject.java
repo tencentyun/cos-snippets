@@ -122,6 +122,16 @@ public class DeleteObject {
 
         //.cssg-snippet-body-end
     }
+
+    /**
+     * 指定前缀批量删除对象
+     */
+    private void deletePrefix() {
+        //.cssg-snippet-body-start:[delete-prefix]
+        
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
 
     private void initService() {
@@ -146,6 +156,10 @@ public class DeleteObject {
 
         // 删除多个对象
         deleteMultiObject();
+
+        // 指定前缀批量删除对象
+        deletePrefix();
+        
         // .cssg-methods-pragma
 
     }

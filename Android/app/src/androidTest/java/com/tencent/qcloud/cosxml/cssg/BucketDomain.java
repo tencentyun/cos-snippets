@@ -123,6 +123,16 @@ public class BucketDomain {
 
         //.cssg-snippet-body-end
     }
+
+    /**
+     * 删除存储桶自定义域名
+     */
+    private void deleteBucketDomain() {
+        //.cssg-snippet-body-start:[delete-bucket-domain]
+        
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
 
     private void initService() {
@@ -147,6 +157,10 @@ public class BucketDomain {
 
         // 获取存储桶源站
         getBucketDomain();
+
+        // 删除存储桶自定义域名
+        deleteBucketDomain();
+        
         // .cssg-methods-pragma
 
     }
