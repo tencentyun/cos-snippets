@@ -5,6 +5,10 @@ import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
+import com.tencent.cos.xml.model.ci.GetSnapshotRequest;
+import com.tencent.cos.xml.model.ci.GetSnapshotResult;
+import com.tencent.cos.xml.model.ci.PreviewDocumentRequest;
+import com.tencent.cos.xml.model.ci.PreviewDocumentResult;
 import com.tencent.cos.xml.model.object.*;
 import com.tencent.cos.xml.model.bucket.*;
 import com.tencent.cos.xml.model.tag.*;
@@ -58,7 +62,29 @@ public class GetSnapshot {
      */
     private void getSnapshot() {
         //.cssg-snippet-body-start:[get-snapshot]
-        
+        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        String cosPath = "exampleobject.pdf"; //文档位于存储桶中的位置标识符，即对象键
+        String localPath = "localdownloadpath"; // 保存在本地文件夹的路径
+        String fileName = "snapshot.jpg"; // 截图的文件名
+        float time = 1; // 截图时间，单位 s
+        GetSnapshotRequest getSnapshotRequest = new GetSnapshotRequest(bucket, cosPath, localPath,
+                fileName, time);
+
+        cosXmlService.getSnapshotAsync(getSnapshotRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                GetSnapshotResult getSnapshotResult = (GetSnapshotResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 

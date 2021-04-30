@@ -5,6 +5,8 @@ import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
+import com.tencent.cos.xml.model.ci.PreviewDocumentRequest;
+import com.tencent.cos.xml.model.ci.PreviewDocumentResult;
 import com.tencent.cos.xml.model.object.*;
 import com.tencent.cos.xml.model.bucket.*;
 import com.tencent.cos.xml.model.tag.*;
@@ -16,6 +18,7 @@ import com.tencent.cos.xml.model.service.*;
 import com.tencent.qcloud.cosxml.cssg.BuildConfig;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
@@ -58,7 +61,28 @@ public class DocumentPreview {
      */
     private void documentPreview() {
         //.cssg-snippet-body-start:[document-preview]
-        
+        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        String cosPath = "exampleobject.pdf"; //文档位于存储桶中的位置标识符，即对象键
+        String localPath = "localdownloadpath"; // 保存在本地文件夹的路径
+        int page = 1; // 需转换的文档页码，从 1 开始
+        PreviewDocumentRequest previewDocumentRequest = new PreviewDocumentRequest(bucket,
+                cosPath, localPath, page);
+
+        cosXmlService.previewDocumentAsync(previewDocumentRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                PreviewDocumentResult previewDocumentResult = (PreviewDocumentResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 

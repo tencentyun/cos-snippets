@@ -5,9 +5,13 @@ import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
+import com.tencent.cos.xml.model.ci.GetSnapshotResult;
 import com.tencent.cos.xml.model.object.*;
 import com.tencent.cos.xml.model.bucket.*;
 import com.tencent.cos.xml.model.tag.*;
+import com.tencent.cos.xml.model.tag.pic.PicOperationRule;
+import com.tencent.cos.xml.model.tag.pic.PicOperations;
+import com.tencent.cos.xml.model.tag.pic.PicUploadResult;
 import com.tencent.cos.xml.transfer.*;
 import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
@@ -16,15 +20,19 @@ import com.tencent.cos.xml.model.service.*;
 import com.tencent.qcloud.cosxml.cssg.BuildConfig;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.*;
 import java.util.*;
 import java.nio.charset.Charset;
 import java.io.*;
+
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class QrcodeRecognition {
 
@@ -57,8 +65,34 @@ public class QrcodeRecognition {
      * 上传时进行二维码识别
      */
     private void uploadWithQRcodeRecognition() {
+
         //.cssg-snippet-body-start:[upload-with-QRcode-recognition]
-        
+        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        String cosPath = "exampleobject.pdf"; //文档位于存储桶中的位置标识符，即对象键
+        String localPath = "localdownloadpath"; // 二维码图片本地路径
+        final PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, localPath);
+
+        List<PicOperationRule> rules = new LinkedList<>();
+        rules.add(new PicOperationRule("/test.png", "QRcode/cover/0"));
+        PicOperations picOperations = new PicOperations(false, rules);
+        putObjectRequest.setPicOperations(picOperations);
+
+        cosXmlService.putObjectAsync(putObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                PutObjectResult putObjectResult = (PutObjectResult) result;
+                PicUploadResult picUploadResult = putObjectResult.picUploadResult; // 图片处理结局
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 

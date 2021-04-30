@@ -128,7 +128,37 @@ public class DeleteObject {
      */
     private void deletePrefix() {
         //.cssg-snippet-body-start:[delete-prefix]
-        
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String prefix = "folder1/"; //指定前缀
+
+        GetBucketRequest getBucketRequest = new GetBucketRequest(bucket);
+        getBucketRequest.setPrefix(prefix);
+
+        // prefix表示要删除的文件夹
+        getBucketRequest.setPrefix(prefix);
+        // 设置最大遍历出多少个对象, 一次listobject最大支持1000
+        getBucketRequest.setMaxKeys(1000);
+        GetBucketResult getBucketResult = null;
+
+        do {
+            try {
+                getBucketResult = cosXmlService.getBucket(getBucketRequest);
+                List<ListBucket.Contents> contents = getBucketResult.listBucket.contentsList;
+                DeleteMultiObjectRequest deleteMultiObjectRequest = new DeleteMultiObjectRequest(bucket);
+                for (ListBucket.Contents content : contents) {
+                    deleteMultiObjectRequest.setObjectList(content.key);
+                }
+                cosXmlService.deleteMultiObject(deleteMultiObjectRequest);
+                getBucketRequest.setMarker(getBucketResult.listBucket.nextMarker);
+            } catch (CosXmlClientException e) {
+                e.printStackTrace();
+                return;
+            } catch (CosXmlServiceException e) {
+                e.printStackTrace();
+                return;
+            }
+        } while (getBucketResult.listBucket.isTruncated);
+
         //.cssg-snippet-body-end
     }
 
