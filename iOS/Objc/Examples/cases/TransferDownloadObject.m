@@ -216,7 +216,32 @@
  */
 - (void)transferDownloadResumable {
     //.cssg-snippet-body-start:[objc-transfer-download-resumable]
+   QCloudCOSXMLDownloadObjectRequest *getObjectRequest = [[QCloudCOSXMLDownloadObjectRequest alloc] init];
+    //支持断点下载，默认不支持
+    getObjectRequest.resumableDownload = true;
+    // 存储桶名称，格式为 BucketName-APPID
+    getObjectRequest.bucket = transferTestBucket.name;
+    // 设置下载的路径 URL，如果设置了，文件将会被下载到指定路径中
+    getObjectRequest.downloadingURL = [NSURL URLWithString:QCloudTempFilePathWithExtension(@"downding")];
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    getObjectRequest.object = put.object;
+    // 监听下载结果
+    [getObjectRequest setFinishBlock:^(id outputObject, NSError *error) {
+        // outputObject 包含所有的响应 http 头部
+        NSDictionary* info = (NSDictionary *) outputObject;
+    }];
     
+    // 监听下载进度
+    [getObjectRequest setDownProcessBlock:^(int64_t bytesDownload,
+                                   int64_t totalBytesDownload,
+                                   int64_t totalBytesExpectedToDownload) {
+        
+        // bytesDownload                   新增字节数
+        // totalBytesDownload              本次下载接收的总字节数
+        // totalBytesExpectedToDownload    本次下载的目标字节数
+    }];
+    
+    [[QCloudCOSTransferMangerService costransfermangerServiceForKey:kHTTPServiceKey] DownloadObject:getObjectRequest];
     //.cssg-snippet-body-end
 }
 
