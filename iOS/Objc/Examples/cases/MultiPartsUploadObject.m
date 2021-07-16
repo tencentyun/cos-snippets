@@ -91,10 +91,8 @@
     // 赋予被授权者读的权限。
     initRequest.grantRead = @"grantRead";
     
-    // 赋予被授权者写的权限
-    initRequest.grantWrite = @"grantWrite";
     
-    // 赋予被授权者读写权限。 grantFullControl == grantWrite + grantRead
+    // 赋予被授权者读写权限。 grantFullControl
     initRequest.grantFullControl = @"grantFullControl";
     
     [initRequest setFinishBlock:^(QCloudInitiateMultipartUploadResult* outputObject,
