@@ -32,8 +32,8 @@ namespace COSSnippet
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
-        string secretId = "COS_SECRETID";   //云 API 密钥 SecretId
-        string secretKey = "COS_SECRETKEY"; //云 API 密钥 SecretKey
+        string secretId = "SECRET_ID";   //云 API 密钥 SecretId
+        string secretKey = "SECRET_KEY"; //云 API 密钥 SecretKey
         long durationSecond = 600;          //每次请求签名有效时长，单位为秒
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);

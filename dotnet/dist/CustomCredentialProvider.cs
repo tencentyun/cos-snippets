@@ -17,8 +17,8 @@ namespace Name
       public override void Refresh()
       {
         //... 这里通过腾讯云请求临时密钥
-        string tmpSecretId = "COS_SECRETID"; //"临时密钥 SecretId";
-        string tmpSecretKey = "COS_SECRETKEY"; //"临时密钥 SecretKey";
+        string tmpSecretId = "SECRET_ID"; //"临时密钥 SecretId";
+        string tmpSecretKey = "SECRET_KEY"; //"临时密钥 SecretKey";
         string tmpToken = "COS_TOKEN"; //"临时密钥 token";
         long tmpStartTime = 1546861202;//临时密钥有效开始时间，精确到秒
         long tmpExpiredTime = 1546862502;//临时密钥有效截止时间，精确到秒
