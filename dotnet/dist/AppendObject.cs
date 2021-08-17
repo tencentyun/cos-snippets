@@ -17,16 +17,25 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
+
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using COSXML.Log;
+using System.Net.Cache;
+using System.Collections;
+
 
 namespace COSSnippet
 {
-    public class PostObjectModel {
+    public class AppendObjectModel {
 
-      private CosXml cosXml;
+      private static CosXml cosXml;
+      private static int count = 0;
 
-      PostObjectModel() {
+      AppendObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .SetRegion("") //设置一个默认的存储桶地域
           .Build();
         
         string secretId = "SECRET_ID";   //云 API 密钥 SecretId
@@ -35,27 +44,39 @@ namespace COSSnippet
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);
         
-        this.cosXml = new CosXmlServer(config, qCloudCredentialProvider);
+        cosXml = new CosXmlServer(config, qCloudCredentialProvider);
       }
 
-      /// POST 方式上传对象
-      public void PostObject()
+      /// 简单上传对象
+      public void AppendObject()
       {
-        //.cssg-snippet-body-start:[post-object]
+        //.cssg-snippet-body-start:[Append-object]
         try
         {
           string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
           string key = "exampleobject"; //对象键
-          string srcPath = @"temp-source-file";//本地文件绝对路径
-          PostObjectRequest request = new PostObjectRequest(bucket, key, srcPath);
+	        string srcPath = @"temp-source-file";//本地文件绝对路径
+       
+          //首次append上传,追加位置传0,创建一个appendable对象 
+          long next_append_position = 0;
+          AppendObjectRequest request = new AppendObjectRequest(bucket, key, srcPath, next_append_position);
           //设置进度回调
           request.SetCosProgressCallback(delegate (long completed, long total)
           {
             Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
           });
-          //执行请求
-          PostObjectResult result = cosXml.PostObject(request);
-          //请求成功
+          AppendObjectResult result = cosXml.AppendObject(request);
+          //获取下次追加位置
+          next_append_position = result.nextAppendPosition;
+          Console.WriteLine(result.GetResultInfo());
+          
+          //执行追加,传入上次获取的对象末尾
+          request = new AppendObjectRequest(bucket, key, srcPath, next_append_position);
+          request.SetCosProgressCallback(delegate (long completed, long total)
+          {
+            Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
+          });
+          result = cosXml.AppendObject(request);
           Console.WriteLine(result.GetResultInfo());
         }
         catch (COSXML.CosException.CosClientException clientEx)
@@ -72,15 +93,12 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
-      // .cssg-methods-pragma
+      // .cssg-methods-pragm
 
       static void Main(string[] args)
       {
-        PostObjectModel m = new PostObjectModel();
-
-        /// POST 方式上传对象
-        m.PostObject();
-        // .cssg-methods-pragma
+        AppendObjectModel m = new AppendObjectModel();
+        m.AppendObject();
       }
     }
 }

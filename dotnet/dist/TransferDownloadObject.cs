@@ -29,8 +29,8 @@ namespace COSSnippet
           .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
-        string secretId = "COS_SECRETID";   //云 API 密钥 SecretId
-        string secretKey = "COS_SECRETKEY"; //云 API 密钥 SecretKey
+        string secretId = "SECRET_ID";   //云 API 密钥 SecretId
+        string secretKey = "SECRET_KEY"; //云 API 密钥 SecretKey
         long durationSecond = 600;          //每次请求签名有效时长，单位为秒
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);
@@ -134,7 +134,7 @@ namespace COSSnippet
       }
 
       /// 设置支持断点下载
-      public void TransferDownloadResumable()
+      public async void TransferDownloadResumable()
       {
         TransferConfig transferConfig = new TransferConfig();
         
@@ -150,8 +150,17 @@ namespace COSSnippet
                 cosPath, localDir, localFileName);
         //.cssg-snippet-body-start:[transfer-download-resumable]
         COSXMLDownloadTask downloadTask = new COSXMLDownloadTask(request);
+        //开启断点续传，当本地存在未下载完成文件时，追加下载到文件末尾
+        //本地文件已存在部分内容可能导致下载失败，请删除重试
         downloadTask.SetResumableDownload(true);
-        
+        try {
+          COSXML.Transfer.COSXMLDownloadTask.DownloadTaskResult result = await 
+            transferManager.DownloadAsync(downloadTask);
+          Console.WriteLine(result.GetResultInfo());
+          string eTag = result.eTag;
+        } catch (Exception e) {
+            Console.WriteLine("CosException: " + e);
+        }
         //.cssg-snippet-body-end
       }
 
