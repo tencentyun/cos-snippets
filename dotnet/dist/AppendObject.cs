@@ -35,7 +35,7 @@ namespace COSSnippet
 
       AppendObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("") //设置一个默认的存储桶地域
+          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
           .Build();
         
         string secretId = "SECRET_ID";   //云 API 密钥 SecretId
