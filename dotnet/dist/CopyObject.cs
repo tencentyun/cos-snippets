@@ -104,7 +104,7 @@ namespace COSSnippet
           // 替换元数据
           request.SetRequestHeader("Content-Disposition", "attachment; filename=example.jpg");
           //重新设定存储类型，枚举值：STANDARD(标准),STANDARD_IA(低频),ARCHIVE(归档)
-          request.SetCosStorageClass(COSXML.Common.CosStorageClass.STANDARD_IA);
+          request.SetCosStorageClass(COSXML.Common.CosStorageClass.Standard);
           //执行请求
           CopyObjectResult result = cosXml.CopyObject(request);
           //请求成功
