@@ -59,6 +59,96 @@ namespace COSSnippet
           PutObjectResult result = cosXml.PutObject(request);
           //对象的 eTag
           string eTag = result.eTag;
+          //对象的 crc64ecma 校验值
+          string crc64ecma = result.crc64ecma;
+          //打印请求结果
+          Console.WriteLine(result.GetResultInfo());
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
+        
+        //.cssg-snippet-body-end
+      }
+
+      /// 上传Byte数组
+      public void PutObjectByte()
+      {
+        //.cssg-snippet-body-start:[put-objectbyte]
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          byte[] data = new byte[1024];
+        
+          PutObjectRequest request = new PutObjectRequest(bucket, key, data);
+          //设置进度回调
+          request.SetCosProgressCallback(delegate (long completed, long total)
+          {
+            Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
+          });
+          //执行请求
+          PutObjectResult result = cosXml.PutObject(request);
+          //对象的 eTag
+          string eTag = result.eTag;
+          //对象的 crc64ecma 校验值
+          string crc64ecma = result.crc64ecma;
+          //打印请求结果
+          Console.WriteLine(result.GetResultInfo());
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
+        
+        //.cssg-snippet-body-end
+      }
+      
+      /// 文件流上传, 从 5.4.24 版本开始支持
+      public void PutObjectStream()
+      {
+        //.cssg-snippet-body-start:[put-objectstream]
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          string srcPath = @"temp-source-file";//本地文件绝对路径
+          // 打开只读的文件流对象
+          FileStream fileStream = new FileStream(srcPath, FileMode.Open, FileAccess.Read);
+          // 组装上传请求，其中 offset sendLength 为可选参数
+          long offset = 0L;
+          long sendLength = fileStream.Length;
+          PutObjectRequest request = new PutObjectRequest(bucket, key, fileStream, offset, sendLength);
+          //设置进度回调
+          request.SetCosProgressCallback(delegate (long completed, long total)
+          {
+            Console.WriteLine(String.Format("progress = {0:##.##}%", completed * 100.0 / total));
+          });
+          //执行请求
+          PutObjectResult result = cosXml.PutObject(request);
+          //关闭文件流
+          fileStream.Close();
+          //对象的 eTag
+          string eTag = result.eTag;
+          //对象的 crc64ecma 校验值
+          string crc64ecma = result.crc64ecma;
+          //打印请求结果
+          Console.WriteLine(result.GetResultInfo());
         }
         catch (COSXML.CosException.CosClientException clientEx)
         {
@@ -82,6 +172,10 @@ namespace COSSnippet
 
         /// 简单上传对象
         m.PutObject();
+        /// 从byte数组上传对象
+        m.PutObjectByte();
+        /// 从文件流上传对象
+        m.PutObjectStream();
         // .cssg-methods-pragma
       }
     }
