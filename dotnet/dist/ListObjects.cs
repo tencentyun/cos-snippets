@@ -45,7 +45,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[get-bucket]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketRequest request = new GetBucketRequest(bucket);
           //执行请求
           GetBucketResult result = cosXml.GetBucket(request);
@@ -76,7 +77,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[get-bucket-next-page]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketRequest request = new GetBucketRequest(bucket);
           //上一次拉取数据的下标
           request.SetMarker(this.nextMarker);
@@ -104,7 +106,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[get-bucket-with-delimiter]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketRequest request = new GetBucketRequest(bucket);
           //获取 a/ 下的对象以及子目录
           request.SetPrefix("a/");

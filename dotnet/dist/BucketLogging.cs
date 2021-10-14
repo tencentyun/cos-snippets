@@ -44,7 +44,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[put-bucket-logging]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           PutBucketLoggingRequest request = new PutBucketLoggingRequest(bucket);
           // 设置保存日志的目标路径
           request.SetTarget("targetbucket-1250000000", "logs/");
@@ -72,7 +73,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[get-bucket-logging]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketLoggingRequest request = new GetBucketLoggingRequest(bucket);
           //执行请求
           GetBucketLoggingResult getResult = cosXml.GetBucketLogging(request);

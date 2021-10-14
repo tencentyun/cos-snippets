@@ -42,7 +42,8 @@ namespace COSSnippet
       public void PutBucketReplication()
       {
         //.cssg-snippet-body-start:[put-bucket-replication]
-        string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         string ownerUin = "100000000001"; //发起者身份标示: OwnerUin
         string subUin = "100000000001"; //发起者身份标示: SubUin
         PutBucketReplicationRequest request = new PutBucketReplicationRequest(bucket);
@@ -81,7 +82,8 @@ namespace COSSnippet
       public void GetBucketReplication()
       {
         //.cssg-snippet-body-start:[get-bucket-replication]
-        string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         GetBucketReplicationRequest request = new GetBucketReplicationRequest(bucket);
         try
         {
@@ -105,7 +107,8 @@ namespace COSSnippet
       public void DeleteBucketReplication()
       {
         //.cssg-snippet-body-start:[delete-bucket-replication]
-        string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         DeleteBucketReplicationRequest request = new DeleteBucketReplicationRequest(bucket);
         try
         {

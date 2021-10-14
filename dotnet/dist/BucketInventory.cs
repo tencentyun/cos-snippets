@@ -45,7 +45,8 @@ namespace COSSnippet
         try
         {
           string inventoryId = "aInventoryId";
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           PutBucketInventoryRequest putRequest = new PutBucketInventoryRequest(bucket, inventoryId);
           putRequest.SetDestination("CSV", "100000000001", "examplebucket-1250000000", "ap-guangzhou","list1");
           putRequest.IsEnable(true);
@@ -76,7 +77,8 @@ namespace COSSnippet
         try
         {
           string inventoryId = "aInventoryId";
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketInventoryRequest getRequest = new GetBucketInventoryRequest(bucket);
           getRequest.SetInventoryId(inventoryId);
           
@@ -104,7 +106,8 @@ namespace COSSnippet
         try
         {
           string inventoryId = "aInventoryId";
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           DeleteBucketInventoryRequest deleteRequest = new DeleteBucketInventoryRequest(bucket);
           deleteRequest.SetInventoryId(inventoryId);
           DeleteBucketInventoryResult deleteResult = cosXml.DeleteBucketInventory(deleteRequest);

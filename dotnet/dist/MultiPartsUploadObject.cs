@@ -76,7 +76,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[list-multi-upload]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           ListMultiUploadsRequest request = new ListMultiUploadsRequest(bucket);
           //执行请求
           ListMultiUploadsResult result = cosXml.ListMultiUploads(request);

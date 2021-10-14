@@ -44,7 +44,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[put-bucket-tagging]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           PutBucketTaggingRequest request = new PutBucketTaggingRequest(bucket);
           string akey = "aTagKey";
           string avalue = "aTagValue";
@@ -79,7 +80,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[get-bucket-tagging]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketTaggingRequest request = new GetBucketTaggingRequest(bucket);   
           //执行请求
           GetBucketTaggingResult result = cosXml.GetBucketTagging(request);
@@ -107,7 +109,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[delete-bucket-tagging]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           DeleteBucketTaggingRequest request = new DeleteBucketTaggingRequest(bucket);   
           //执行请求
           DeleteBucketTaggingResult result = cosXml.DeleteBucketTagging(request);

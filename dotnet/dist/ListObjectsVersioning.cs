@@ -46,7 +46,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[list-objects-versioning]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           ListBucketVersionsRequest request = new ListBucketVersionsRequest(bucket);
           //执行请求
           ListBucketVersionsResult result = cosXml.ListBucketVersions(request);
@@ -81,7 +82,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[list-objects-versioning-next-page]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           ListBucketVersionsRequest request = new ListBucketVersionsRequest(bucket);
 
           // 上一页的数据结束下标

@@ -44,7 +44,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[put-bucket-domain]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           
           DomainConfiguration domain = new DomainConfiguration();
           domain.rule = new DomainConfiguration.DomainRule();
@@ -78,7 +79,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[get-bucket-domain]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           GetBucketDomainRequest request = new GetBucketDomainRequest(bucket);   
           //执行请求
           GetBucketDomainResult result = cosXml.GetBucketDomain(request);

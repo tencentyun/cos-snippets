@@ -42,7 +42,8 @@ namespace COSSnippet
       public void PutBucketVersioning()
       {
         //.cssg-snippet-body-start:[put-bucket-versioning]
-        string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         PutBucketVersioningRequest request = new PutBucketVersioningRequest(bucket);
         request.IsEnableVersionConfig(true); //true: 开启版本控制; false:暂停版本控制
         
@@ -67,7 +68,8 @@ namespace COSSnippet
       public void GetBucketVersioning()
       {
         //.cssg-snippet-body-start:[get-bucket-versioning]
-        string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         GetBucketVersioningRequest request = new GetBucketVersioningRequest(bucket);
         
         try

@@ -44,7 +44,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[head-bucket]
         try
         {
-          string bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           HeadBucketRequest request = new HeadBucketRequest(bucket);
           //执行请求
           HeadBucketResult result = cosXml.HeadBucket(request);
