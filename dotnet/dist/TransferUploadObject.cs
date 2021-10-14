@@ -26,11 +26,11 @@ namespace COSSnippet
 
       TransferUploadObjectModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .SetRegion("COS_REGION") // 设置默认的区域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
           .Build();
         
-        string secretId = "SECRET_ID";   //云 API 密钥 SecretId
-        string secretKey = "SECRET_KEY"; //云 API 密钥 SecretKey
+        string secretId = "SECRET_ID";   // 云 API 密钥 SecretId, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
+        string secretKey = "SECRET_KEY"; // 云 API 密钥 SecretKey, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
         long durationSecond = 600;          //每次请求签名有效时长，单位为秒
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);
@@ -79,7 +79,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[transfer-upload-bytes]
         try
         {
-          string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           string cosPath = "exampleObject"; // 对象键
           byte[] data = new byte[1024]; // 二进制数据
           PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, data);
@@ -124,7 +125,8 @@ namespace COSSnippet
         
         TransferManager transferManager = new TransferManager(cosXml, transferConfig);
         
-        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         string cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
         string srcPath = @"temp-source-file";//本地文件绝对路径
         
@@ -156,7 +158,8 @@ namespace COSSnippet
         // 初始化 TransferManager
         TransferManager transferManager = new TransferManager(cosXml, transferConfig);
         
-        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         
         for (int i = 0; i < 5; i++) {
           // 上传对象
@@ -178,7 +181,8 @@ namespace COSSnippet
         // 初始化 TransferManager
         TransferManager transferManager = new TransferManager(cosXml, transferConfig);
 
-        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
         string cosPath = "dir/exampleObject"; // 对象键
         string srcPath = @"temp-source-file";//本地文件绝对路径
 
@@ -199,7 +203,8 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[create-directory]
         try
         {
-          string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
           string cosPath = "dir/"; // 对象键
           PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, new byte[0]);
           

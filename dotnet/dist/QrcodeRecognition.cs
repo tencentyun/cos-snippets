@@ -29,11 +29,11 @@ namespace COSSnippet
 
       QrcodeRecognitionModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .SetRegion("COS_REGION") // 设置默认的区域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224 
           .Build();
         
-        string secretId = "SECRET_ID";   //云 API 密钥 SecretId
-        string secretKey = "SECRET_KEY"; //云 API 密钥 SecretKey
+        string secretId = "SECRET_ID";   // 云 API 密钥 SecretId, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
+        string secretKey = "SECRET_KEY"; // 云 API 密钥 SecretKey, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
         long durationSecond = 600;          //每次请求签名有效时长，单位为秒
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);
@@ -44,7 +44,8 @@ namespace COSSnippet
       /// 上传时进行二维码识别
       public void UploadWithQRcodeRecognition()
       {
-        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+        string bucket = "examplebucket-1250000000";
         string key = "exampleobject"; //对象键
         string srcPath = @"temp-source-file";//本地文件绝对路径
         //.cssg-snippet-body-start:[upload-with-QRcode-recognition]
@@ -72,7 +73,8 @@ namespace COSSnippet
       /// 下载时进行二维码识别
       public void DownloadWithQrcodeRecognition()
       {
-        string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+        string bucket = "examplebucket-1250000000";
         string key = "exampleobject"; //对象键
         //.cssg-snippet-body-start:[download-with-qrcode-recognition]
         //二维码覆盖功能，将对识别出的二维码覆盖上马赛克。取值为0或1。0表示不开启二维码覆盖，1表示开启二维码覆盖，默认值0

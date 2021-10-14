@@ -26,11 +26,11 @@ namespace COSSnippet
 
       BucketLifecycleModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .SetRegion("COS_REGION") // 设置默认的区域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
           .Build();
         
-        string secretId = "SECRET_ID";   //云 API 密钥 SecretId
-        string secretKey = "SECRET_KEY"; //云 API 密钥 SecretKey
+        string secretId = "SECRET_ID";   // 云 API 密钥 SecretId, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
+        string secretKey = "SECRET_KEY"; // 云 API 密钥 SecretKey, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
         long durationSecond = 600;          //每次请求签名有效时长，单位为秒
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);

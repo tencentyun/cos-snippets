@@ -24,13 +24,13 @@ namespace COSSnippet
 
       private CosXml cosXml;
 
-      PutObjectModel() {
+      PutObjectACLModel() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .SetRegion("COS_REGION") // 设置默认的区域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
           .Build();
         
-        string secretId = "SECRET_ID";   //云 API 密钥 SecretId
-        string secretKey = "SECRET_KEY"; //云 API 密钥 SecretKey
+        string secretId = "SECRET_ID";   // 云 API 密钥 SecretId, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
+        string secretKey = "SECRET_KEY"; // 云 API 密钥 SecretKey, 获取 API 密钥请参照 https://console.cloud.tencent.com/cam/capi
         long durationSecond = 600;          //每次请求签名有效时长，单位为秒
         QCloudCredentialProvider qCloudCredentialProvider = new DefaultQCloudCredentialProvider(secretId, 
           secretKey, durationSecond);
@@ -44,13 +44,14 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[put-object]
         try
         {
-          string bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+        string bucket = "examplebucket-1250000000";
           string key = "exampleobject"; //对象键
 
           //创建PutACL请求
           PutObjectACLRequest request = new PutObjectACLRequest(bucket, key);
-          request.SetCosACL("private")//有效值：private，public-read-write，public-read
-          PutObjectACLResult result = PutObjectACL(request);
+          request.SetCosACL("private");//有效值：private，public-read-write，public-read
+          PutObjectACLResult result = cosXml.PutObjectACL(request);
           Console.WriteLine(result.GetResultInfo());
         }
         catch (COSXML.CosException.CosClientException clientEx)

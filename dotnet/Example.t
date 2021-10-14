@@ -26,7 +26,7 @@ namespace COSSnippet
 
       {{name}}Model() {
         CosXmlConfig config = new CosXmlConfig.Builder()
-          .SetRegion("COS_REGION") //设置一个默认的存储桶地域
+          .SetRegion("COS_REGION") // 设置默认的区域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
           .Build();
         
         string secretId = "COS_SECRETID";   //云 API 密钥 SecretId
