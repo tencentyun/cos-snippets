@@ -89,7 +89,7 @@ namespace COSSnippet
           string sourceBucket = "sourcebucket-1250000000"; //"源对象所在的存储桶
           string sourceRegion = "COS_REGION"; //源对象的存储桶所在的地域
           string sourceKey = "sourceObject"; //源对象键
-          //构造源对象属性
+          // 构造源对象属性
           CopySourceStruct copySource = new CopySourceStruct(sourceAppid, sourceBucket, 
             sourceRegion, sourceKey);
         
@@ -97,17 +97,17 @@ namespace COSSnippet
           string bucket = "examplebucket-1250000000";
           string key = "exampleobject"; //对象键
           CopyObjectRequest request = new CopyObjectRequest(bucket, key);
-          //设置拷贝源
+          // 设置拷贝源
           request.SetCopySource(copySource);
-          //设置是否拷贝还是更新,此处是拷贝
+          // 设置是否拷贝还是更新,此处是拷贝
           request.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.Replaced);
           // 替换元数据
           request.SetRequestHeader("Content-Disposition", "attachment; filename=example.jpg");
-          //重新设定存储类型，枚举值：STANDARD(标准),STANDARD_IA(低频),ARCHIVE(归档)
+          // 重新设定存储类型，枚举值：STANDARD(标准),STANDARD_IA(低频),ARCHIVE(归档)
           request.SetCosStorageClass(COSXML.Common.CosStorageClass.Standard);
-          //执行请求
+          // 执行请求
           CopyObjectResult result = cosXml.CopyObject(request);
-          //请求成功
+          // 请求成功
           Console.WriteLine(result.GetResultInfo());
         }
         catch (COSXML.CosException.CosClientException clientEx)

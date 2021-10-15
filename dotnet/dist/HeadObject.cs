@@ -52,6 +52,9 @@ namespace COSSnippet
           HeadObjectResult result = cosXml.HeadObject(request);
           //请求成功
           Console.WriteLine(result.GetResultInfo());
+          // 打印对象crc64 和 etag信息
+          Console.WriteLine(result.crc64ecma);
+          Console.WriteLine(result.eTag);
         }
         catch (COSXML.CosException.CosClientException clientEx)
         {
