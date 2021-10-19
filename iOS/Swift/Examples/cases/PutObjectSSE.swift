@@ -69,6 +69,9 @@ class PutObjectSSE: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueu
     // 使用 KMS 托管加密密钥的服务端加密（SSE-KMS）保护数据
     func putObjectSseKms() {
         //.cssg-snippet-body-start:[swift-put-object-sse-kms]
+        let customKey = "123456qwertyuioplkjhgfdsazxcvbnm";
+     let arrJsonStr = "{\"key\":\"value\"}";
+     self.advancedRequest?.setCOSServerSideEncyptionWithKMSCustomKey(customKey, jsonStr: arrJsonStr);
         
         //.cssg-snippet-body-end
     }
