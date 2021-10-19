@@ -90,7 +90,10 @@
  */
 - (void)putObjectSseKms {
     //.cssg-snippet-body-start:[objc-put-object-sse-kms]
-    
+    QCloudCOSXMLUploadObjectRequest *request = [QCloudCOSXMLUploadObjectRequest new];
+    NSString *customKey = @"123456qwertyuioplkjhgfdsazxcvbnm";
+    NSString *arrJsonStr = @"{\"key\":\"value\"}";
+    [request setCOSServerSideEncyptionWithKMSCustomKey:customKey jsonStr:arrJsonStr];
     //.cssg-snippet-body-end
 }
 
