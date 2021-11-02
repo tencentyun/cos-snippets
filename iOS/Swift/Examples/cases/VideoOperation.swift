@@ -46,7 +46,7 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
 
     // 提交审核任务
     func putVideoRecognition() {
-        //.cssg-snippet-body-start:[swift-upload-with-pic-operation]
+        //.cssg-snippet-body-start:[swift-put-video-recognition]
         
         let request : QCloudPostVideoRecognitionRequest = QCloudPostVideoRecognitionRequest();
 
@@ -89,7 +89,7 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
 
     // 查询视频审核任务
     func getVideoRecognitionResult() {
-        //.cssg-snippet-body-start:[swift-process-with-pic-operation]
+        //.cssg-snippet-body-start:[swift-get-video-recognition]
         let request : QCloudGetVideoRecognitionRequest = QCloudGetVideoRecognitionRequest();
 
         // 存储桶名称，格式为 BucketName-APPID

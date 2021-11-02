@@ -67,7 +67,7 @@
  */
 - (void)putBucketReferer {
     
-    //.cssg-snippet-body-start:[objc-put-bucket]
+    //.cssg-snippet-body-start:[objc-put-bucket-referer]
     
     QCloudPutBucketRefererRequest* request = [QCloudPutBucketRefererRequest new];
 
@@ -105,7 +105,7 @@
  */
 - (void)getBucketReferer {
     
-    //.cssg-snippet-body-start:
+    //.cssg-snippet-body-start:[objc-get-bucket-referer]
     QCloudGetBucketRefererRequest* request = [QCloudGetBucketRefererRequest new];
 
     // 存储桶名称，格式为 BucketName-APPID
@@ -124,10 +124,10 @@
 // .cssg-methods-pragma
 
 - (void)testBuketReferer {
-    // 提交审核任务
+    // 设置存储桶 Referer
     [self putBucketReferer];
 
-    // 查询视频审核任务
+    // 查询存储桶 Referer
     [self getBucketReferer];
   
     // .cssg-methods-pragma

@@ -65,7 +65,7 @@
  * 用于查询已经开通媒体处理功能的存储桶
  */
 -(void)getDescribeMediaBuckets{
-    //.cssg-snippet-body-start:[objc-get-media]
+    //.cssg-snippet-body-start:[objc-media-buckets]
     QCloudGetDescribeMediaBucketsRequest * reqeust = [[QCloudGetDescribeMediaBucketsRequest alloc]init];
 
     // 地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，支持中国大陆地域

@@ -53,7 +53,7 @@ class BucketReferer: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
     
     // 设置存储桶 Referer
     func putBucketReferer() {
-        //.cssg-snippet-body-start:[swift-put-bucket]
+        //.cssg-snippet-body-start:[swift-put-bucket-referer]
         
         let request = QCloudPutBucketRefererRequest.init();
 
@@ -87,7 +87,7 @@ class BucketReferer: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
     
     // 查询存储桶 Referer
     func getBucketReferer() {
-        //.cssg-snippet-body-start:[swift-put-bucket-and-grant-acl]
+        //.cssg-snippet-body-start:[swift-put-bucket-referer]
         let request = QCloudGetBucketRefererRequest.init();
 
         // 存储桶名称，格式为 BucketName-APPID

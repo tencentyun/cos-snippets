@@ -47,8 +47,8 @@ class GetSnapshot: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueue
 
 
     // 用于查询已经开通媒体处理功能的存储桶
-    func getSnapshot() {
-        //.cssg-snippet-body-start:[swift-get-snapshot]
+    func getDescribeMediaBuckets() {
+        //.cssg-snippet-body-start:[swift-media-buckets]
         let request : QCloudGetDescribeMediaBucketsRequest = QCloudGetDescribeMediaBucketsRequest();
         // 地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，支持中国大陆地域
         request.regions = regions;
@@ -113,8 +113,8 @@ class GetSnapshot: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueue
     }
     
     // 用于查询媒体文件的信息
-    func getSnapshot() {
-        //.cssg-snippet-body-start:[swift-get-snapshot]
+    func getMediaInfo() {
+        //.cssg-snippet-body-start:[swift-get-media-info]
         let request : QCloudGetMediaInfoRequest = QCloudGetMediaInfoRequest();
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
         request.object = "exampleobject";

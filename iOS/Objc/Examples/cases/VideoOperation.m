@@ -66,7 +66,7 @@
  * 提交审核任务
  */
 - (void)putVideoRecognition{
-    //.cssg-snippet-body-start:[objc-upload-with-pic-operation]
+    //.cssg-snippet-body-start:[objc-put-video-recognition]
     QCloudPostVideoRecognitionRequest * reqeust = [[QCloudPostVideoRecognitionRequest alloc]init];
 
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
@@ -109,7 +109,7 @@
  * 查询视频审核任务
  */
 - (void)getVideoRecognitionResult {
-    //.cssg-snippet-body-start:[objc-process-with-pic-operation]
+    //.cssg-snippet-body-start:[objc-get-video-recognition]
     QCloudGetVideoRecognitionRequest * reqeust = [[QCloudGetVideoRecognitionRequest alloc]init];
 
     // 存储桶名称，格式为 BucketName-APPID
