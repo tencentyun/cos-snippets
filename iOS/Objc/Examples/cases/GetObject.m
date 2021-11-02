@@ -82,6 +82,9 @@
     [request setFinishBlock:^(id outputObject, NSError *error) {
         // 可以从 outputObject 中获取 response 中 etag 或者自定义头部等信息
         NSDictionary* info = (NSDictionary *) outputObject;
+        
+        // 获取文件crc64
+        NSString * crc64 = [[outputObject __originHTTPURLResponse__].allHeaderFields valueForKey:@"x-cos-hash-crc64ecma"];
     }];
     [request setDownProcessBlock:^(int64_t bytesDownload, int64_t totalBytesDownload,
         int64_t totalBytesExpectedToDownload) {

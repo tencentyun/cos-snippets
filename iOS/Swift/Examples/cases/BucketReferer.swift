@@ -1,7 +1,7 @@
 import XCTest
 import QCloudCOSXML
 
-class PutObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class BucketReferer: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
     
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
     
@@ -36,9 +36,9 @@ class PutObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDe
     }
     
     func signature(with fileds: QCloudSignatureFields!,
-                       request: QCloudBizHTTPRequest!,
-          urlRequest urlRequst: NSMutableURLRequest!,
-       compelete continueBlock: QCloudHTTPAuthentationContinueBlock!) {
+                   request: QCloudBizHTTPRequest!,
+                   urlRequest urlRequst: NSMutableURLRequest!,
+                   compelete continueBlock: QCloudHTTPAuthentationContinueBlock!) {
         
         self.credentialFenceQueue?.performAction({ (creator, error) in
             if error != nil {
@@ -51,39 +51,63 @@ class PutObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDe
     }
     
     
-    // 简单上传对象
-    func putObject() {
-        //.cssg-snippet-body-start:[swift-put-object]
+    // 设置存储桶 Referer
+    func putBucketReferer() {
+        //.cssg-snippet-body-start:[swift-put-bucket]
         
-        let putObject = QCloudPutObjectRequest<AnyObject>.init();
-        
+        let request = QCloudPutBucketRefererRequest.init();
+
+        // 防盗链类型，枚举值：Black-List、White-List
+        reqeust.refererType = QCloudBucketRefererTypeBlackList;
+
+        // 是否开启防盗链，枚举值：Enabled、Disabled
+        reqeust.status = QCloudBucketRefererStatusEnabled;
+
+        // 是否允许空 Referer 访问，枚举值：Allow、Deny，默认值为 Deny
+        reqeust.configuration = QCloudBucketRefererConfigurationDeny;
+
+        // 生效域名列表， 支持多个域名且为前缀匹配， 支持带端口的域名和 IP， 支持通配符*，做二级域名或多级域名的通配
+        reqeust.domainList = ["*.com","*.qq.com"];
+
         // 存储桶名称，格式为 BucketName-APPID
-        putObject.bucket = "examplebucket-1250000000";
-        // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
-        let dataBody:NSData? = "wrwrwrwrwrw".data(using: .utf8) as NSData?;
-        putObject.body =  dataBody!;
-        
-        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        putObject.object = "exampleobject";
-        putObject.finishBlock = {(result,error) in
-            if let result = result {
-                // result 包含响应的 header 信息
-                // 获取文件crc64
-                let crc64 = result?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
-            } else {
-                print(error!);
+        request.bucket = "examplebucket-1250000000";
+
+        request.finishBlock = {(result,error) in
+            if (error){
+                // 添加防盗链失败
+            }else{
+                // 添加防盗链失败
             }
         }
-        QCloudCOSXMLService.defaultCOSXML().putObject(putObject);
+        QCloudCOSXMLService.defaultCOSXML().PutBucketReferer(request);
         
+        //.cssg-snippet-body-end
+    }
+    
+    
+    // 查询存储桶 Referer
+    func getBucketReferer() {
+        //.cssg-snippet-body-start:[swift-put-bucket-and-grant-acl]
+        let request = QCloudGetBucketRefererRequest.init();
+
+        // 存储桶名称，格式为 BucketName-APPID
+        request.bucket = "examplebucket-1250000000";
+
+        request.finishBlock = {(result,error) in
+            // outputObject 请求到的防盗链，详细字段请查看api文档或者SDK源码
+            // QCloudBucketRefererInfo 类；
+        }
+        QCloudCOSXMLService.defaultCOSXML().GetBucketReferer(request);
         //.cssg-snippet-body-end
     }
     // .cssg-methods-pragma
     
     
-    func testPutObject() {
-        // 简单上传对象
-        self.putObject();
+    func testPutBucket() {
+        // 设置存储桶 Referer
+        self.putBucketReferer();
+        // 查询存储桶 Referer
+        self.getBucketReferer();
         // .cssg-methods-pragma
     }
 }

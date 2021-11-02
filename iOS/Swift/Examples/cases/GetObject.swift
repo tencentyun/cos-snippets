@@ -66,6 +66,8 @@ class GetObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDe
         getObject.finishBlock = {(result,error) in
             if let result = result {
                 // result 包含响应的 header 信息
+                // 获取文件crc64
+                let crc64 = result?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
             } else {
                 print(error!);
             }

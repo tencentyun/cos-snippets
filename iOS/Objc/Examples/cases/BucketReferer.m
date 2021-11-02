@@ -7,13 +7,13 @@
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
 
 
-@interface HeadObject : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface BucketReferer : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation HeadObject
+@implementation BucketReferer
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -63,48 +63,73 @@
 }
 
 /**
- * 1:HEAD Object 接口请求可以判断指定对象是否存在和有权限，并在指定对象可访问时获取其元数据。
- * 该 API 的请求者需要对目标对象有读取权限，或者目标对象向所有人开放了读取权限（公有读）。
- *
- * 2:当启用版本控制时，该 HEAD 操作可以使用 versionId 请求参数指定要返回的版本 ID，此时将返回
- * 指定版本的元数据，如指定版本为删除标记则返回 HTTP 响应码404（Not Found），否则将返回最新
- * 版本的元数据。
+ * 设置存储桶 Referer
  */
-- (void)headObject {
+- (void)putBucketReferer {
+    
+    //.cssg-snippet-body-start:[objc-put-bucket]
+    
+    QCloudPutBucketRefererRequest* request = [QCloudPutBucketRefererRequest new];
 
-    //.cssg-snippet-body-start:[objc-head-object]
-    QCloudHeadObjectRequest* headerRequest = [QCloudHeadObjectRequest new];
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    headerRequest.object = @"exampleobject";
-    
-    // versionId 当启用版本控制时，指定要查询的版本 ID，如不指定则查询对象的最新版本
-    headerRequest.versionID = @"versionID";
-    
+    // 防盗链类型，枚举值：Black-List、White-List
+    reqeust.refererType = QCloudBucketRefererTypeBlackList;
+
+    // 是否开启防盗链，枚举值：Enabled、Disabled
+    reqeust.status = QCloudBucketRefererStatusEnabled;
+
+    // 是否允许空 Referer 访问，枚举值：Allow、Deny，默认值为 Deny
+    reqeust.configuration = QCloudBucketRefererConfigurationDeny;
+
+    // 生效域名列表， 支持多个域名且为前缀匹配， 支持带端口的域名和 IP， 支持通配符*，做二级域名或多级域名的通配
+    reqeust.domainList = @[@"*.com",@"*.qq.com"];
+
     // 存储桶名称，格式为 BucketName-APPID
-    headerRequest.bucket = @"examplebucket-1250000000";
-    
-    [headerRequest setFinishBlock:^(NSDictionary* result, NSError *error) {
-        // result 返回具体信息
-        // 获取文件crc64
-        NSString * crc64 = [[result __originHTTPURLResponse__].allHeaderFields
-                            valueForKey:@"x-cos-hash-crc64ecma"];
+    request.bucket = @"examplebucket-1250000000";
+
+    [request setFinishBlock:^(id outputObject, NSError *error) {
+        if (error){
+            // 添加防盗链失败
+        }else{
+            // 添加防盗链失败
+        }
 
     }];
-    
-    [[QCloudCOSXMLService defaultCOSXML] HeadObject:headerRequest];
+    [[QCloudCOSXMLService defaultCOSXML] PutBucketReferer:request];
     
     //.cssg-snippet-body-end
     
 }
-// .cssg-methods-pragma
 
+/**
+ * 查询存储桶 Referer
+ */
+- (void)getBucketReferer {
+    
+    //.cssg-snippet-body-start:
+    QCloudGetBucketRefererRequest* request = [QCloudGetBucketRefererRequest new];
 
-- (void)testHeadObject {
-    // 获取对象信息
-    [self headObject];
-    // .cssg-methods-pragma
+    // 存储桶名称，格式为 BucketName-APPID
+    request.bucket = @"examplebucket-1250000000";
+
+    [request setFinishBlock:^(QCloudBucketRefererInfo * outputObject, NSError *error) {
+        // outputObject 请求到的防盗链，详细字段请查看api文档或者SDK源码
+        // QCloudBucketRefererInfo 类；
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] GetBucketReferer:request];
+    
+    //.cssg-snippet-body-end
     
 }
 
+// .cssg-methods-pragma
+
+- (void)testBuketReferer {
+    // 提交审核任务
+    [self putBucketReferer];
+
+    // 查询视频审核任务
+    [self getBucketReferer];
+  
+    // .cssg-methods-pragma
+}
 @end

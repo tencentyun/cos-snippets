@@ -82,6 +82,8 @@
     [put setFinishBlock:^(id outputObject, NSError *error) {
         // outputObject 包含所有的响应 http 头部
         NSDictionary* info = (NSDictionary *) outputObject;
+        // 获取文件crc64
+        NSString * crc64 = [[outputObject __originHTTPURLResponse__].allHeaderFields valueForKey:@"x-cos-hash-crc64ecma"];
     }];
     
     [[QCloudCOSXMLService defaultCOSXML] PutObject:put];
