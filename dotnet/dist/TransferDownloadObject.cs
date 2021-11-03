@@ -67,8 +67,16 @@ namespace COSSnippet
             transferManager.DownloadAsync(downloadTask);
           Console.WriteLine(result.GetResultInfo());
           string eTag = result.eTag;
-        } catch (Exception e) {
-            Console.WriteLine("CosException: " + e);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
         }
         //.cssg-snippet-body-end
       }
@@ -159,8 +167,16 @@ namespace COSSnippet
             transferManager.DownloadAsync(downloadTask);
           Console.WriteLine(result.GetResultInfo());
           string eTag = result.eTag;
-        } catch (Exception e) {
-            Console.WriteLine("CosException: " + e);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
         }
         //.cssg-snippet-body-end
       }

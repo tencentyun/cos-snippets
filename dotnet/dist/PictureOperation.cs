@@ -76,8 +76,7 @@ namespace COSSnippet
         // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
         string bucket = "examplebucket-1250000000";
         string key = "exampleobject"; //对象键
-        string srcPath = @"temp-source-file";//本地文件绝对路径
-        //.cssg-snippet-body-start:[process-with-pic-operation]
+
         JObject o = new JObject();
         // 不返回原图
         o["is_pic_info"] = 0;
