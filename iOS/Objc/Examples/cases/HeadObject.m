@@ -100,9 +100,26 @@
 // .cssg-methods-pragma
 
 
+- (void)doesObjectExist {
+
+    //.cssg-snippet-body-start:[objc-object-exist]
+    
+    //存储桶名称，格式为 BucketName-APPID
+    NSString *bucket = @"examplebucket-1250000000";
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
+    NSString *object = @"exampleobject";
+    [[QCloudCOSXMLService defaultCOSXML] doesObjectExistWithBucket:bucket object:object];
+    
+    //.cssg-snippet-body-end
+    
+}
+// .cssg-methods-pragma
+
 - (void)testHeadObject {
     // 获取对象信息
     [self headObject];
+    // 判断对象是否窜在
+    [self doesObjectExist];
     // .cssg-methods-pragma
     
 }

@@ -76,10 +76,20 @@ class HeadBucket: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     }
     // .cssg-methods-pragma
 
+    func doesBucketExist() {
+        //.cssg-snippet-body-start:[swift-bucket-exist]
+        // 存储桶名称，格式为 BucketName-APPID
+        QCloudCOSXMLService.defaultCOSXML().doesBucketExist("examplebucket-1250000000");
+        
+        //.cssg-snippet-body-end
+    }
+    // .cssg-methods-pragma
+    
 
     func testHeadBucket() {
         // 获取存储桶信息
         self.headBucket();
+        self.doesBucketExist();
         // .cssg-methods-pragma
     }
 }

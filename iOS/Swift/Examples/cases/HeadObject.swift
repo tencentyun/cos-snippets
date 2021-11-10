@@ -79,9 +79,25 @@ class HeadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     // .cssg-methods-pragma
 
 
+    func doesObjectExist() {
+
+        //.cssg-snippet-body-start:[objc-object-exist]
+        
+        // 存储桶名称，格式为 BucketName-APPID
+        let bucket = "examplebucket-1250000000";
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
+        let object  = "exampleobject";
+
+        QCloudCOSXMLService.defaultCOSXML().doesObjectExist(withBucket: bucket, object: object);
+        
+        //.cssg-snippet-body-end
+        
+    }
+    
     func testHeadObject() {
         // 获取对象信息
         self.headObject();
+        self.doesObjectExist();
         // .cssg-methods-pragma
     }
 }
