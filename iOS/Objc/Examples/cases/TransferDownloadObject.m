@@ -197,7 +197,7 @@
  * 下载文件夹
  */
 - (void)transferDownloadFolder {
-    //.cssg-snippet-body-start:[objc-transfer-batch-download-folder]
+    //.cssg-snippet-body-start:[objc-transfer-download-folder]
     QCloudGetBucketRequest* request = [QCloudGetBucketRequest new];
 
     // 存储桶名称，格式为 BucketName-APPID
