@@ -1,6 +1,6 @@
 import XCTest
 import QCloudCOSXML
-class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class VideoOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -28,7 +28,7 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -58,13 +58,13 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         // 审核类型，拥有 porn（涉黄识别）、terrorist（涉暴恐识别）、politics（涉政识别）、ads（广告识别）四种，
         // 用户可选择多种识别类型，例如 detect-type=porn,ads 表示对图片进行涉黄及广告审核
         // 可以使用或进行组合赋值 如： QCloudRecognitionPorn | QCloudRecognitionTerrorist
-        reqeust.detectType = QCloudRecognitionPorn | QCloudRecognitionAds | QCloudRecognitionPolitics | QCloudRecognitionTerrorist;
+        reqeust.detectType = QCloudRecognitionEnum.porn | QCloudRecognitionEnum.ads | QCloudRecognitionEnum.politics | QCloudRecognitionEnum.terrorist;
 
         // 截帧模式。Interval 表示间隔模式；Average 表示平均模式；Fps 表示固定帧率模式。
         // Interval 模式：TimeInterval，Count 参数生效。当设置 Count，未设置 TimeInterval 时，表示截取所有帧，共 Count 张图片。
         // Average 模式：Count 参数生效。表示整个视频，按平均间隔截取共 Count 张图片。
         // Fps 模式：TimeInterval 表示每秒截取多少帧，Count 表示共截取多少帧。
-        reqeust.mode = QCloudVideoRecognitionModeFps;
+        reqeust.mode = QCloudVideoRecognitionMode.fps;
 
         // 视频截帧频率，范围为(0, 60]，单位为秒，支持 float 格式，执行精度精确到毫秒
         reqeust.timeInterval = 1;
