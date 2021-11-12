@@ -28,7 +28,7 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -173,13 +173,13 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         request.object = "exampleobject";
 
         // 设置下载的路径 URL，如果设置了，文件将会被下载到指定路径中
-        request.downloadingURL = NSURL.fileURL(withPath: "Local File Path") as URL?;
+        request.downloadingURL = NSURL.fileURL(withPath: "Local File Path") as URL!;
 
         // 本地已下载的文件大小，如果是从头开始下载，请不要设置
         request.localCacheDownloadOffset = 100;
 
         //处理参数，规则参见：https://cloud.tencent.com/document/product/460/19017
-        request.watermarkRule = @"watermark/3/type/2/image/aHR0cDovL2NpLTEyNTM2NTMzNjcuY29zLmFwLWd1YW5nemhvdS5teXFjbG91ZC5jb20vcHJvdGVjdGlvbl9ibGluZF93YXRlcm1hcmtfaWNvbi5wbmc=";
+        request.watermarkRule = "watermark/3/type/2/image/aHR0cDovL2NpLTEyNTM2NTMzNjcuY29zLmFwLWd1YW5nemhvdS5teXFjbG91ZC5jb20vcHJvdGVjdGlvbl9ibGluZF93YXRlcm1hcmtfaWNvbi5wbmc=";
 
         // 监听下载进度
         request.sendProcessBlock = { (bytesDownload, totalBytesDownload,

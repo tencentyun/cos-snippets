@@ -29,7 +29,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -127,6 +127,79 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
         }
         //.cssg-snippet-body-end
     }
+    
+    /**
+     * 下载文件夹
+     */
+    func transferDownloadFolder() {
+        //.cssg-snippet-body-start:[swift-transfer-batch-download-folder]
+
+        let getBucketReq = QCloudGetBucketRequest.init();
+        
+        // 存储桶名称，格式为 BucketName-APPID
+        getBucketReq.bucket = "examplebucket-1250000000";
+        
+        // 单次返回的最大条目数量，默认1000
+        getBucketReq.maxKeys = 100;
+        
+        /**
+         前缀匹配：
+         1. 如果要删除指定前缀的文件:prefix为文件名前缀
+         2.如果要删除指定前缀的文件:prefix为dir/
+         */
+        getBucketReq.prefix = "prefix";
+        
+        getBucketReq.setFinish { (result, error) in
+            if let result = result {
+                let contents = result.contents;
+                for content in contents {
+                    let info = QCloudDeleteObjectInfo.init();
+                    let request : QCloudCOSXMLDownloadObjectRequest = QCloudCOSXMLDownloadObjectRequest();
+                    
+                    // 存储桶名称，格式为 BucketName-APPID
+                    request.bucket = "examplebucket-1250000000";
+                    
+                    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+                    request.object = content.key;
+                    
+                    // 设置下载的路径 URL，如果设置了，文件将会被下载到指定路径中
+                    
+                    request.downloadingURL = NSURL.fileURL(withPath: "Local File Path" ) as URL?;
+                    
+                    // 本地已下载的文件大小，如果是从头开始下载，请不要设置
+                    request.localCacheDownloadOffset = 100;
+
+                    // 监听下载进度
+                    request.sendProcessBlock = { (bytesDownload, totalBytesDownload,
+                        totalBytesExpectedToDownload) in
+                        
+                        // bytesDownload                   新增字节数
+                        // totalBytesDownload              本次下载接收的总字节数
+                        // totalBytesExpectedToDownload    本次下载的目标字节数
+                    }
+
+                    // 监听下载结果
+                    request.finishBlock = { (result, error) in
+                        if let result = result {
+                            // result 包含响应的 header 信息
+                        } else {
+                            print(error!);
+                        }
+                    }
+                    
+                    QCloudCOSTransferMangerService.defaultCOSTransferManager().downloadObject(request);
+                }
+            } else {
+                print(error!);
+            }
+        }
+        QCloudCOSXMLService.defaultCOSXML().getBucket(getBucketReq);
+        
+        
+
+        //.cssg-snippet-body-end
+    }
+
 
 
     // 下载暂停、续传、取消

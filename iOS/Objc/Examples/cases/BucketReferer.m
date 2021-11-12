@@ -40,7 +40,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
                                             initWithCredential:credential];
     continueBlock(creator, nil);
@@ -72,16 +72,16 @@
     QCloudPutBucketRefererRequest* request = [QCloudPutBucketRefererRequest new];
 
     // 防盗链类型，枚举值：Black-List、White-List
-    reqeust.refererType = QCloudBucketRefererTypeBlackList;
+    request.refererType = QCloudBucketRefererTypeBlackList;
 
     // 是否开启防盗链，枚举值：Enabled、Disabled
-    reqeust.status = QCloudBucketRefererStatusEnabled;
+    request.status = QCloudBucketRefererStatusEnabled;
 
     // 是否允许空 Referer 访问，枚举值：Allow、Deny，默认值为 Deny
-    reqeust.configuration = QCloudBucketRefererConfigurationDeny;
+    request.configuration = QCloudBucketRefererConfigurationDeny;
 
     // 生效域名列表， 支持多个域名且为前缀匹配， 支持带端口的域名和 IP， 支持通配符*，做二级域名或多级域名的通配
-    reqeust.domainList = @[@"*.com",@"*.qq.com"];
+    request.domainList = @[@"*.com",@"*.qq.com"];
 
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";

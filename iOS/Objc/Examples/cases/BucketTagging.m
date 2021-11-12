@@ -40,7 +40,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
                                             initWithCredential:credential];
     continueBlock(creator, nil);
@@ -74,9 +74,9 @@
     putReq.bucket = @"examplebucket-1250000000";
     
     // 标签集合
-    QCloudBucketTagging *taggings = [QCloudBucketTagging new];
+    QCloudTagging *taggings = [QCloudTagging new];
     
-    QCloudBucketTag *tag1 = [QCloudBucketTag new];
+    QCloudTag *tag1 = [QCloudTag new];
     
     // 标签的 Key，长度不超过128字节, 支持英文字母、数字、空格、加号、减号、下划线、等号、点号、
     // 冒号、斜线
@@ -85,12 +85,12 @@
     // 标签的 Value，长度不超过256字节, 支持英文字母、数字、空格、加号、减号、下划线、等号、点号
     // 、冒号、斜线
     tag1.value = @"20";
-    QCloudBucketTag *tag2 = [QCloudBucketTag new];
+    QCloudTag *tag2 = [QCloudTag new];
     tag2.key = @"name";
     tag2.value = @"karis";
     
     // 标签集合，最多支持10个标签
-    QCloudBucketTagSet *tagSet = [QCloudBucketTagSet new];
+    QCloudTagSet *tagSet = [QCloudTagSet new];
     tagSet.tag = @[tag1,tag2];
     taggings.tagSet = tagSet;
     
@@ -119,9 +119,9 @@
     // 存储桶名称，格式为 BucketName-APPID
     getReq.bucket = @"examplebucket-1250000000";
     
-    [getReq setFinishBlock:^(QCloudBucketTagging * result, NSError * error) {
+    [getReq setFinishBlock:^(QCloudTagging * result, NSError * error) {
         // tag的集合
-        QCloudBucketTagSet * tagSet = result.tagSet;
+        QCloudTagSet * tagSet = result.tagSet;
     }];
     [[QCloudCOSXMLService defaultCOSXML] GetBucketTagging:getReq];
     

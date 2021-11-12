@@ -51,15 +51,15 @@ class GetSnapshot: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueue
         //.cssg-snippet-body-start:[swift-media-buckets]
         let request : QCloudGetDescribeMediaBucketsRequest = QCloudGetDescribeMediaBucketsRequest();
         // 地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，支持中国大陆地域
-        request.regions = "regions";
+        request.regions = ["ap-shanghai"];
         // 存储桶名称，以“,”分隔，支持多个存储桶，精确搜索
-        request.bucketNames = "bucketNames";
+        request.bucketNames = ["bucketNames"];
         // 存储桶名称前缀，前缀搜索
         request.bucketName = "bucketName";
         // 第几页
-        request.pageNumber = "pageNumber";
+        request.pageNumber = 0;
         // 每页个数
-        request.pageSize = "pageSize";
+        request.pageSize = 100;
                 
         request.finishBlock = { (result, error) in
             // result 请求到的媒体信息，详细字段请查看api文档或者SDK源码
@@ -125,7 +125,7 @@ class GetSnapshot: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueue
             // outputObject 请求到的媒体信息，详细字段请查看api文档或者SDK源码
             // QCloudMediaInfo 类；
         }
-        QCloudCOSXMLService.defaultCOSXML().CIGetMediaInfo(request);
+        QCloudCOSXMLService.defaultCOSXML().ciGetMediaInfo(request);
         //.cssg-snippet-body-end
     }
 

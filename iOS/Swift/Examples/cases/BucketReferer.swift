@@ -30,7 +30,7 @@ class BucketReferer: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -58,28 +58,28 @@ class BucketReferer: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
         let request = QCloudPutBucketRefererRequest.init();
 
         // 防盗链类型，枚举值：Black-List、White-List
-        reqeust.refererType = QCloudBucketRefererTypeBlackList;
+        request.refererType = QCloudBucketRefererType.blackList;
 
         // 是否开启防盗链，枚举值：Enabled、Disabled
-        reqeust.status = QCloudBucketRefererStatusEnabled;
+        request.status = QCloudBucketRefererStatus.enabled;
 
         // 是否允许空 Referer 访问，枚举值：Allow、Deny，默认值为 Deny
-        reqeust.configuration = QCloudBucketRefererConfigurationDeny;
+        request.configuration = QCloudBucketRefererConfiguration.allow;
 
         // 生效域名列表， 支持多个域名且为前缀匹配， 支持带端口的域名和 IP， 支持通配符*，做二级域名或多级域名的通配
-        reqeust.domainList = ["*.com","*.qq.com"];
+        request.domainList = ["*.com","*.qq.com"];
 
         // 存储桶名称，格式为 BucketName-APPID
         request.bucket = "examplebucket-1250000000";
 
         request.finishBlock = {(result,error) in
-            if (error){
+            if (error != nil){
                 // 添加防盗链失败
             }else{
                 // 添加防盗链失败
             }
         }
-        QCloudCOSXMLService.defaultCOSXML().PutBucketReferer(request);
+        QCloudCOSXMLService.defaultCOSXML().putBucketReferer(request);
         
         //.cssg-snippet-body-end
     }
@@ -97,7 +97,7 @@ class BucketReferer: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
             // outputObject 请求到的防盗链，详细字段请查看api文档或者SDK源码
             // QCloudBucketRefererInfo 类；
         }
-        QCloudCOSXMLService.defaultCOSXML().GetBucketReferer(request);
+        QCloudCOSXMLService.defaultCOSXML().getBucketReferer(request);
         //.cssg-snippet-body-end
     }
     // .cssg-methods-pragma

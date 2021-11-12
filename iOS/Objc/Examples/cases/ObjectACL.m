@@ -40,7 +40,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
         initWithCredential:credential];
     continueBlock(creator, nil);
@@ -84,7 +84,7 @@
     // 赋予被授权者读权限。
     request.grantRead = grantString;
     // 赋予被授权者写权限。
-    request.grantWrite = grantString;
+    request.grantWriteACP = grantString;
     
     [request setFinishBlock:^(id outputObject, NSError *error) {
         // 可以从 outputObject 中获取 response 中 etag 或者自定义头部等信息

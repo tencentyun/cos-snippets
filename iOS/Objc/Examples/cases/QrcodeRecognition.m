@@ -41,7 +41,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
         initWithCredential:credential];
     continueBlock(creator, nil);
@@ -70,12 +70,12 @@
     QCloudCIPutObjectQRCodeRecognitionRequest *req = [QCloudCIPutObjectQRCodeRecognitionRequest new];
     
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    put.object = "exampleobject";
+    req.object = @"exampleobject";
     // 存储桶名称，格式为 BucketName-APPID
     
-    put.bucket = "examplebucket-1250000000";
+    req.bucket = @"examplebucket-1250000000";
     // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
-    put.body = [@"My Example Content" dataUsingEncoding:NSUTF8StringEncoding];
+    req.body = [@"My Example Content" dataUsingEncoding:NSUTF8StringEncoding];
     
     QCloudPicOperations *op = [[QCloudPicOperations alloc] init];
     // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
@@ -100,10 +100,10 @@
     //.cssg-snippet-body-start:[objc-download-with-qrcode-recognition]
     QCloudQRCodeRecognitionRequest *req = [QCloudQRCodeRecognitionRequest new];
     // 存储桶名称，格式为 BucketName-APPID
-    put.bucket = @"examplebucket-1250000000";
+    req.bucket = @"examplebucket-1250000000";
     
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    put.object = @"exampleobject";
+    req.object = @"exampleobject";
 
     QCloudPicOperations *op = [[QCloudPicOperations alloc] init];
     // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
