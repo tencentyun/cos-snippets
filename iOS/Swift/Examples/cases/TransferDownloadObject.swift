@@ -132,7 +132,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
      * 下载文件夹
      */
     func transferDownloadFolder() {
-        //.cssg-snippet-body-start:[swift-transfer-batch-download-folder]
+        //.cssg-snippet-body-start:[swift-transfer-download-folder]
 
         let getBucketReq = QCloudGetBucketRequest.init();
         
@@ -189,8 +189,6 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
                     
                     QCloudCOSTransferMangerService.defaultCOSTransferManager().downloadObject(request);
                 }
-        
-                QCloudCOSXMLService.defaultCOSXML().deleteMultipleObject(mutipleDel);
             } else {
                 print(error!);
             }
