@@ -284,7 +284,26 @@ public class TransferDownloadObject {
      */
     private void transferDownloadResumable() {
         //.cssg-snippet-body-start:[transfer-download-resumable]
-        
+        // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
+        // TransferManager 支持断点下载，您只需要保证 bucket、cosPath、savePathDir、savedFileName
+        // 参数一致，SDK 便会从上次已经下载的位置继续下载。
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        //初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        //本地目录路径
+        String savePathDir = context.getExternalCacheDir().toString();
+        //本地保存的文件名，若不填（null），则与 COS 上的文件名一样
+        String savedFileName = "exampleobject";
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath, savePathDir, savedFileName);
+
+        Context applicationContext = context.getApplicationContext(); // application
+        // context
+        COSXMLDownloadTask cosxmlDownloadTask =
+                transferManager.download(applicationContext, getObjectRequest);
         //.cssg-snippet-body-end
     }
 
