@@ -5,6 +5,8 @@ import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
+import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionRequest;
+import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionResult;
 import com.tencent.cos.xml.model.object.*;
 import com.tencent.cos.xml.model.bucket.*;
 import com.tencent.cos.xml.model.tag.*;
@@ -32,6 +34,7 @@ public class PictureOperation {
 
     private Context context;
     private CosXmlService cosXmlService;
+    CIService ciService;
 
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
         
@@ -172,8 +175,27 @@ public class PictureOperation {
      * 图片审核
      */
     private void sensitiveContentRecognition() {
-        // TODO: 2020/8/14
         //.cssg-snippet-body-start:[sensitive-content-recognition]
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String key = "exampleobject"; //对象键
+        SensitiveContentRecognitionRequest sensitiveContentRecognitionRequest = new SensitiveContentRecognitionRequest(bucket, key);
+        sensitiveContentRecognitionRequest.addType("politics");
+        // CIService 是 CosXmlService 的子类，初始化方法和 CosXmlService 一致
+        ciService.sensitiveContentRecognitionAsync(sensitiveContentRecognitionRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                SensitiveContentRecognitionResult sensitiveContentRecognitionResult = (SensitiveContentRecognitionResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 
