@@ -51,7 +51,7 @@ public class ObjectTagging {
 
     private void putUploadObjectTagging() {
 
-        //.cssg-snippet-body-start:[put-object-tagging]
+        //.cssg-snippet-body-start:[put-upload-object-tagging]
         // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
         TransferConfig transferConfig = new TransferConfig.Builder().build();
         //初始化 TransferManager
@@ -99,7 +99,7 @@ public class ObjectTagging {
      * 设置对象标签
      */
     private void putObjectTagging() {
-        //.cssg-snippet-body-start:[put-upload-object-tagging]
+        //.cssg-snippet-body-start:[put-object-tagging]
         String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
         PutObjectTaggingRequest putObjectTaggingRequest = new PutObjectTaggingRequest(bucket, cosPath);

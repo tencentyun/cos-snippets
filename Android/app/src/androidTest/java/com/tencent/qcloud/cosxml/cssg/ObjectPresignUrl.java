@@ -67,6 +67,11 @@ public class ObjectPresignUrl {
                     , cosPath);
             presignedUrlRequest.setRequestMethod(method);
 
+            // 设置签名有效期为 60s，注意这里是签名有效期，您需要自行保证密钥有效期
+            presignedUrlRequest.setSignKeyTime(60);
+            // 设置不签名 Host
+            presignedUrlRequest.addNoSignHeader("Host");
+
             String urlWithSign = cosXmlService.getPresignedURL(presignedUrlRequest);
 
         } catch (CosXmlClientException e) {
@@ -96,7 +101,10 @@ public class ObjectPresignUrl {
                 }
             };
             presignedUrlRequest.setRequestMethod(method);
-
+            // 设置签名有效期为 60s，注意这里是签名有效期，您需要自行保证密钥有效期
+            presignedUrlRequest.setSignKeyTime(60);
+            // 设置不签名 Host
+            presignedUrlRequest.addNoSignHeader("Host");
             String urlWithSign = cosXmlService.getPresignedURL(presignedUrlRequest);
         } catch (CosXmlClientException e) {
             e.printStackTrace();
