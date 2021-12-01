@@ -242,7 +242,6 @@ public class TransferDownloadObject {
                 getBucketRequest.setMarker(marker);
                 // 设置不查询子目录
                 getBucketRequest.setDelimiter("/");
-                getBucketRequest.setMaxKeys(2);
                 GetBucketResult getBucketResult = cosXmlService.getBucket(getBucketRequest);
                 // 批量下载
                 for (ListBucket.Contents content : getBucketResult.listBucket.contentsList) {
