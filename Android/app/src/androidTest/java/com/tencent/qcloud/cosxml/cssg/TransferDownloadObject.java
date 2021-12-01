@@ -212,6 +212,55 @@ public class TransferDownloadObject {
     }
 
     /**
+     * 下载文件夹
+     */
+    private void transferDownloadDirectory() {
+
+        // 高级下载接口支持断点续传，所以会在下载前先发起 HEAD 请求获取文件信息。
+        // 如果您使用的是临时密钥或者使用子账号访问，请确保权限列表中包含 HeadObject 的权限。
+
+        // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        //初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+        String region = "COS_REGION";
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String directoryPath = "exampledirectory/"; // 目录路径，必须以 / 结尾
+        //本地目录路径
+        String savePathDir = context.getExternalCacheDir().toString();
+
+        Context applicationContext = context.getApplicationContext(); // application
+
+        //.cssg-snippet-body-start:[transfer-download-directory]
+        boolean isTruncated = true;
+        String marker = null;
+        try {
+            while (isTruncated) {
+                GetBucketRequest getBucketRequest = new GetBucketRequest(region, bucket, directoryPath);
+                // 设置分页信息
+                getBucketRequest.setMarker(marker);
+                // 设置不查询子目录
+                getBucketRequest.setDelimiter("/");
+                getBucketRequest.setMaxKeys(2);
+                GetBucketResult getBucketResult = cosXmlService.getBucket(getBucketRequest);
+                // 批量下载
+                for (ListBucket.Contents content : getBucketResult.listBucket.contentsList) {
+                    GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, content.key, savePathDir);
+                    transferManager.download(context,getObjectRequest);
+                }
+                isTruncated = getBucketResult.listBucket.isTruncated;
+                marker = getBucketResult.listBucket.nextMarker;
+            }
+        } catch (CosXmlServiceException serviceException) {
+            serviceException.printStackTrace();
+        } catch (CosXmlClientException clientException) {
+            clientException.printStackTrace();
+        }
+        //.cssg-snippet-body-end
+    }
+
+    /**
      * 下载时对单链接限速
      */
     private void downloadObjectTrafficLimit() {
