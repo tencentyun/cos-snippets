@@ -49,6 +49,22 @@ public class TransferUploadObject {
     /**
      * 高级接口上传对象
      */
+    private void transferUploadThreshold() {
+        //.cssg-snippet-body-start:[transfer-upload-threshold]
+        // 默认对大于或等于2M的文件自动进行分块上传，可以通过如下代码修改分块阈值
+        TransferConfig transferConfig = new TransferConfig.Builder()
+                .setDivisionForUpload(2 * 1024 * 1024) // 设置大于等于 2M 的文件进行分块上传
+                .build();
+
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+        //.cssg-snippet-body-end
+    }
+
+
+    /**
+     * 高级接口上传对象
+     */
     private void transferUploadFile() {
         //.cssg-snippet-body-start:[transfer-upload-file]
         // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
