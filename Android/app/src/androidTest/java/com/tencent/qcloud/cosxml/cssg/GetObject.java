@@ -1,30 +1,18 @@
 package com.tencent.qcloud.cosxml.cssg;
 
 import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
 import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
-import com.tencent.cos.xml.transfer.*;
 import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
 
 import android.content.Context;
-import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.Test;
 
-import java.net.*;
-import java.util.*;
-import java.nio.charset.Charset;
-import java.io.*;
 
 public class GetObject {
 

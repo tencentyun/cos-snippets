@@ -23,6 +23,7 @@ public class TransferUploadObject {
 
     private Context context;
     private CosXmlService cosXmlService;
+    private TransferManager transferManager;
 
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
         
@@ -414,6 +415,30 @@ public class TransferUploadObject {
                     serviceException.printStackTrace();
                 }
             }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 创建目录
+     */
+    private void uploadPriorityLow() {
+        //.cssg-snippet-body-start:[transfer-upload-priority-low]
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 文件夹在存储桶中的位置标识符，即称对象键，必须以 '/' 结尾
+        String cosPath = "exampleobject/";
+        String srcPath = new File(context.getCacheDir(), "exampleobject")
+                .toString(); //本地文件的绝对路径
+        PutObjectRequest putObjectRequest= new PutObjectRequest(bucket, cosPath, srcPath);
+        putObjectRequest.setPriorityLow(); // 设置为低优先级上传任务
+        final COSXMLUploadTask uploadTask = transferManager.upload(putObjectRequest, null);
+        uploadTask.setCosXmlResultListener(new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {}
+
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {}
         });
         //.cssg-snippet-body-end
     }
