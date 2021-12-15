@@ -13,6 +13,9 @@ import android.support.test.InstrumentationRegistry;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class GetObject {
 
@@ -81,6 +84,42 @@ public class GetObject {
 
         //.cssg-snippet-body-end
     }
+
+    /**
+     * 下载对象
+     */
+    private void getObjectAdvancedCompress() {
+        //.cssg-snippet-body-start:[get-object-with-advanced-compress]
+        String bucket = "examplebucket-1250000000"; //存储桶名称，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象位于存储桶中的位置标识符，即对象键
+        String savePath = context.getExternalCacheDir().toString(); //本地路径
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
+                savePath);
+        getObjectRequest.addQuery("imageMogr2/format/tpg", null);
+
+        cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest cosXmlRequest,
+                                  CosXmlResult cosXmlResult) {
+                GetObjectResult getObjectResult = (GetObjectResult) cosXmlResult;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+
+        //.cssg-snippet-body-end
+    }
+
     // .cssg-methods-pragma
 
     private void initService() {

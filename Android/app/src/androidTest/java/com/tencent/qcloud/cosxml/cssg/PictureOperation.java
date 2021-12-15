@@ -150,10 +150,8 @@ public class PictureOperation {
 
         //.cssg-snippet-body-start:[download-object-with-watermark]
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath, savePathDir, savedFileName);
-        Map<String, String> params = new HashMap<>();
         // 添加文字盲水印
-        params.put("watermark/3/type/3/text/dGVuY2VudCBjbG91ZA==", null);
-        getObjectRequest.setQueryParameters(params);
+        getObjectRequest.addQuery("watermark/3/type/3/text/dGVuY2VudCBjbG91ZA==", null);
 
         COSXMLDownloadTask cosxmlDownloadTask =
                 transferManager.download(applicationContext, getObjectRequest);
@@ -208,9 +206,7 @@ public class PictureOperation {
 
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
                 savePath);
-        Map<String, String> query = new HashMap<>();
-        query.put("imageMogr2/thumbnail/!50p", null);
-        getObjectRequest.setQueryParameters(query);
+        getObjectRequest.addQuery("imageMogr2/thumbnail/!50p", null);
 
         cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
             @Override
@@ -241,9 +237,7 @@ public class PictureOperation {
 
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
                 savePath);
-        Map<String, String> query = new HashMap<>();
-        query.put("imageMogr2/iradius/150", null);
-        getObjectRequest.setQueryParameters(query);
+        getObjectRequest.addQuery("imageMogr2/iradius/150", null);
 
         cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
             @Override
@@ -274,9 +268,7 @@ public class PictureOperation {
 
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
                 savePath);
-        Map<String, String> query = new HashMap<>();
-        query.put("imageMogr2/rotate/90", null);
-        getObjectRequest.setQueryParameters(query);
+        getObjectRequest.addQuery("imageMogr2/rotate/90", null);
 
         cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
             @Override
