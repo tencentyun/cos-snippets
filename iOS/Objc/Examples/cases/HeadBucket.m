@@ -40,7 +40,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
         initWithCredential:credential];
     continueBlock(creator, nil);
@@ -89,9 +89,20 @@
 // .cssg-methods-pragma
 
 
+- (void)doesBucketExist {
+    //.cssg-snippet-body-start:[objc-bucket-exist]
+    // 存储桶名称，格式为 BucketName-APPID
+    [[QCloudCOSXMLService defaultCOSXML] doesBucketExist: @"examplebucket-1250000000"];
+    
+    //.cssg-snippet-body-end
+
+}
+// .cssg-methods-pragma
+
 - (void)testHeadBucket {
     // 获取存储桶信息
     [self headBucket];
+    [self doesBucketExist];
     // .cssg-methods-pragma
         
 }

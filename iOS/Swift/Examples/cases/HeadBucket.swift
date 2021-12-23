@@ -30,7 +30,7 @@ class HeadBucket: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -76,10 +76,20 @@ class HeadBucket: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     }
     // .cssg-methods-pragma
 
+    func doesBucketExist() {
+        //.cssg-snippet-body-start:[swift-bucket-exist]
+        // 存储桶名称，格式为 BucketName-APPID
+        QCloudCOSXMLService.defaultCOSXML().doesBucketExist("examplebucket-1250000000");
+        
+        //.cssg-snippet-body-end
+    }
+    // .cssg-methods-pragma
+    
 
     func testHeadBucket() {
         // 获取存储桶信息
         self.headBucket();
+        self.doesBucketExist();
         // .cssg-methods-pragma
     }
 }

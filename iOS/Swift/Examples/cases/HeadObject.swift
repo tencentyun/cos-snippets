@@ -30,7 +30,7 @@ class HeadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -67,7 +67,7 @@ class HeadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
             if let result = result {
                 // result 包含响应的 header 信息
                 // 获取文件crc64
-                let crc64 = result?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
+                let crc64 = (result as? NSData)?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
             } else {
                 print(error!);
             }
@@ -79,9 +79,25 @@ class HeadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
     // .cssg-methods-pragma
 
 
+    func doesObjectExist() {
+
+        //.cssg-snippet-body-start:[objc-object-exist]
+        
+        // 存储桶名称，格式为 BucketName-APPID
+        let bucket = "examplebucket-1250000000";
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
+        let object  = "exampleobject";
+
+        QCloudCOSXMLService.defaultCOSXML().doesObjectExist(withBucket: bucket, object: object);
+        
+        //.cssg-snippet-body-end
+        
+    }
+    
     func testHeadObject() {
         // 获取对象信息
         self.headObject();
+        self.doesObjectExist();
         // .cssg-methods-pragma
     }
 }

@@ -29,7 +29,7 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -49,7 +49,7 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
     // 上传时进行二维码识别
     func uploadWithQRcodeRecognition() {
         //.cssg-snippet-body-start:[swift-upload-with-QRcode-recognition]
-        let put = QCloudCIPutObjectQRCodeRecognitionRequest();
+        let put = QCloudCIPutObjectQRCodeRecognitionRequest<AnyObject>();
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
         put.object = "exampleobject";
         // 存储桶名称，格式为 BucketName-APPID
@@ -62,7 +62,7 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         
         let op = QCloudPicOperations();
         // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
-        op.is_pic_info = NO;
+        op.is_pic_info = false;
         let rule = QCloudPicOperationRule.init();
         
         // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
@@ -73,11 +73,11 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         rule.rule = "QRcode/cover/1";
 
         op.rule = [rule];
-        req.picOperations = op;
-        [req setFinishBlock:^(QCloudCIQRCodeRecognitionResults * _Nonnull result, NSError * _Nonnull error) {
-            NSLog(@"识别的信息 = %@",result);
-        }];
-        [[QCloudCOSXMLService defaultCOSXML]PutObjectQRCodeRecognition:req];
+        put.picOperations = op;
+        put.setFinish { result, error in
+            NSLog("识别的信息 = %@",result);
+        }
+        QCloudCOSXMLService.defaultCOSXML().putObjectQRCodeRecognition(put);
         //.cssg-snippet-body-end
     }
 

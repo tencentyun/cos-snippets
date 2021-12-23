@@ -6,14 +6,9 @@ import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
 import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
 import com.tencent.cos.xml.transfer.*;
 import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
 
 import android.content.Context;
 import android.util.Log;
@@ -54,12 +49,68 @@ public class ObjectTagging {
         }
     }
 
+    private void putUploadObjectTagging() {
+
+        //.cssg-snippet-body-start:[put-upload-object-tagging]
+        // 初始化 TransferConfig，这里使用默认配置，如果需要定制，请参考 SDK 接口文档
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        //初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService,
+                transferConfig);
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        String srcPath = new File(context.getCacheDir(), "exampleobject")
+                .toString(); //本地文件的绝对路径
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, srcPath);
+        try {
+            // 设置对象标签，标签集合中的 Key 和 Value 必须先进行 URL 编码
+            putObjectRequest.setRequestHeaders("x-cos-tagging", "Key1=Value&Key2=Value2", false);
+        } catch (CosXmlClientException e) {
+            e.printStackTrace();
+        }
+        // 若存在初始化分块上传的 UploadId，则赋值对应的 uploadId 值用于续传；否则，赋值 null
+        String uploadId = null;
+        // 上传文件
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(bucket, cosPath,
+                srcPath, uploadId);
+        //设置返回结果回调
+        cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
+
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                        (COSXMLUploadTask.COSXMLUploadTaskResult) result;
+            }
+            @Override
+            public void onFail(CosXmlRequest request,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
     /**
      * 设置对象标签
      */
     private void putObjectTagging() {
         //.cssg-snippet-body-start:[put-object-tagging]
-
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        PutObjectTaggingRequest putObjectTaggingRequest = new PutObjectTaggingRequest(bucket, cosPath);
+        putObjectTaggingRequest.addTag("key", "value");
+        try {
+            PutObjectTaggingResult putObjectTaggingResult = cosXmlService.putObjectTagging(putObjectTaggingRequest);
+        } catch (CosXmlClientException clientException) {
+            clientException.printStackTrace();
+        } catch (CosXmlServiceException serviceException) {
+            serviceException.printStackTrace();
+        }
         //.cssg-snippet-body-end
     }
 
@@ -68,7 +119,16 @@ public class ObjectTagging {
      */
     private void getObjectTagging() {
         //.cssg-snippet-body-start:[get-object-tagging]
-
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        GetObjectTaggingRequest getObjectTaggingRequest = new GetObjectTaggingRequest(bucket, cosPath);
+        try {
+            GetObjectTaggingResult getObjectTaggingResult = cosXmlService.getObjectTagging(getObjectTaggingRequest);
+        } catch (CosXmlClientException clientException) {
+            clientException.printStackTrace();
+        } catch (CosXmlServiceException serviceException) {
+            serviceException.printStackTrace();
+        }
         //.cssg-snippet-body-end
     }
 
@@ -77,7 +137,16 @@ public class ObjectTagging {
      */
     private void deleteObjectTagging() {
         //.cssg-snippet-body-start:[delete-object-tagging]
-
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
+        DeleteObjectTaggingRequest deleteObjectTaggingRequest = new DeleteObjectTaggingRequest(bucket, cosPath);
+        try {
+            DeleteObjectTaggingResult deleteObjectTaggingResult = cosXmlService.deleteObjectTagging(deleteObjectTaggingRequest);
+        } catch (CosXmlClientException clientException) {
+            clientException.printStackTrace();
+        } catch (CosXmlServiceException serviceException) {
+            serviceException.printStackTrace();
+        }
         //.cssg-snippet-body-end
     }
     // .cssg-methods-pragma

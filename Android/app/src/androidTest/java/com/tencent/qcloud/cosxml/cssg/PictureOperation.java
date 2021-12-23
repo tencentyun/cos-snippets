@@ -1,37 +1,30 @@
 package com.tencent.qcloud.cosxml.cssg;
 
 import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
 import com.tencent.cos.xml.listener.*;
 import com.tencent.cos.xml.model.*;
+import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionRequest;
+import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionResult;
 import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
 import com.tencent.cos.xml.model.tag.pic.PicOperationRule;
 import com.tencent.cos.xml.model.tag.pic.PicOperations;
 import com.tencent.cos.xml.transfer.*;
 import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
 
 import android.content.Context;
-import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.Test;
-
-import java.net.*;
 import java.util.*;
-import java.nio.charset.Charset;
 import java.io.*;
 
 public class PictureOperation {
 
     private Context context;
     private CosXmlService cosXmlService;
+    CIService ciService;
 
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
         
@@ -93,7 +86,7 @@ public class PictureOperation {
      */
     private void processWithPicOperation() {
         //.cssg-snippet-body-start:[process-with-pic-operation]
-        
+
         //.cssg-snippet-body-end
     }
 
@@ -157,10 +150,8 @@ public class PictureOperation {
 
         //.cssg-snippet-body-start:[download-object-with-watermark]
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath, savePathDir, savedFileName);
-        Map<String, String> params = new HashMap<>();
         // 添加文字盲水印
-        params.put("watermark/3/type/3/text/dGVuY2VudCBjbG91ZA==", null);
-        getObjectRequest.setQueryParameters(params);
+        getObjectRequest.addQuery("watermark/3/type/3/text/dGVuY2VudCBjbG91ZA==", null);
 
         COSXMLDownloadTask cosxmlDownloadTask =
                 transferManager.download(applicationContext, getObjectRequest);
@@ -172,8 +163,27 @@ public class PictureOperation {
      * 图片审核
      */
     private void sensitiveContentRecognition() {
-        // TODO: 2020/8/14
         //.cssg-snippet-body-start:[sensitive-content-recognition]
+        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        String key = "exampleobject"; //对象键
+        SensitiveContentRecognitionRequest sensitiveContentRecognitionRequest = new SensitiveContentRecognitionRequest(bucket, key);
+        sensitiveContentRecognitionRequest.addType("politics");
+        // CIService 是 CosXmlService 的子类，初始化方法和 CosXmlService 一致
+        ciService.sensitiveContentRecognitionAsync(sensitiveContentRecognitionRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                SensitiveContentRecognitionResult sensitiveContentRecognitionResult = (SensitiveContentRecognitionResult) result;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
         //.cssg-snippet-body-end
     }
 
@@ -182,10 +192,104 @@ public class PictureOperation {
      */
     private void downloadWithPicOperation() {
         //.cssg-snippet-body-start:[download-with-pic-operation]
-        
+
         //.cssg-snippet-body-end
     }
 
+
+
+    private void getObjectThumbnail() {
+        //.cssg-snippet-body-start:[get-object-thumbnail]
+        String bucket = "examplebucket-1250000000"; //存储桶名称，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象位于存储桶中的位置标识符，即对象键
+        String savePath = context.getExternalCacheDir().toString(); //本地路径
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
+                savePath);
+        getObjectRequest.addQuery("imageMogr2/thumbnail/!50p", null);
+
+        cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest cosXmlRequest,
+                                  CosXmlResult cosXmlResult) {
+                GetObjectResult getObjectResult = (GetObjectResult) cosXmlResult;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    private void getObjectIRadius() {
+        //.cssg-snippet-body-start:[get-object-iradius]
+        String bucket = "examplebucket-1250000000"; //存储桶名称，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象位于存储桶中的位置标识符，即对象键
+        String savePath = context.getExternalCacheDir().toString(); //本地路径
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
+                savePath);
+        getObjectRequest.addQuery("imageMogr2/iradius/150", null);
+
+        cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest cosXmlRequest,
+                                  CosXmlResult cosXmlResult) {
+                GetObjectResult getObjectResult = (GetObjectResult) cosXmlResult;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    private void getObjectRotate() {
+        //.cssg-snippet-body-start:[get-object-rotate]
+        String bucket = "examplebucket-1250000000"; //存储桶名称，格式：BucketName-APPID
+        String cosPath = "exampleobject"; //对象位于存储桶中的位置标识符，即对象键
+        String savePath = context.getExternalCacheDir().toString(); //本地路径
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath,
+                savePath);
+        getObjectRequest.addQuery("imageMogr2/rotate/90", null);
+
+        cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest cosXmlRequest,
+                                  CosXmlResult cosXmlResult) {
+                GetObjectResult getObjectResult = (GetObjectResult) cosXmlResult;
+            }
+
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest,
+                               CosXmlClientException clientException,
+                               CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
 
 
     // .cssg-methods-pragma

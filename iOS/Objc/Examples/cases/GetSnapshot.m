@@ -5,6 +5,7 @@
 #import <QCloudCOSXML/QCloudAbortMultipfartUploadRequest.h>
 #import <QCloudCOSXML/QCloudMultipartInfo.h>
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
+#import <QCloudCOSXML/QCloudGenerateSnapshotConfiguration.h>
 
 
 @interface GetSnapshot : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
@@ -41,7 +42,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
         initWithCredential:credential];
     continueBlock(creator, nil);
@@ -66,24 +67,24 @@
  */
 -(void)getDescribeMediaBuckets{
     //.cssg-snippet-body-start:[objc-media-buckets]
-    QCloudGetDescribeMediaBucketsRequest * reqeust = [[QCloudGetDescribeMediaBucketsRequest alloc]init];
+    QCloudGetDescribeMediaBucketsRequest * request = [[QCloudGetDescribeMediaBucketsRequest alloc]init];
 
     // 地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，支持中国大陆地域
-    request.regions = regions;
+    request.regions = @[@"ap-shanghai"];
     // 存储桶名称，以“,”分隔，支持多个存储桶，精确搜索
-    request.bucketNames = bucketNames;
+    request.bucketNames = @[@"examplebucket-1250000000"];
     // 存储桶名称前缀，前缀搜索
-    request.bucketName = bucketName;
+    request.bucketName = @"examplebucket-1250000000";
     // 第几页
-    request.pageNumber = pageNumber;
+    request.pageNumber = 0;
     // 每页个数
-    request.pageSize = pageSize;
+    request.pageSize = 100;
 
-    reqeust.finishBlock = ^(QCloudDescribeMediaInfo * outputObject, NSError *error) {
+    request.finishBlock = ^(QCloudDescribeMediaInfo * outputObject, NSError *error) {
         // outputObject 请求到的媒体信息，详细字段请查看api文档或者SDK源码
         // QCloudDescribeMediaInfo  类；
     };
-    [[QCloudCOSXMLService defaultCOSXML] CIGetDescribeMediaBuckets:reqeust];
+    [[QCloudCOSXMLService defaultCOSXML] CIGetDescribeMediaBuckets:request];
     //.cssg-snippet-body-end
 }
 
@@ -92,44 +93,44 @@
  */
 - (void)getSnapshot {
     //.cssg-snippet-body-start:[objc-get-snapshot]
-    QCloudGetGenerateSnapshotRequest * reqeust = [[QCloudGetGenerateSnapshotRequest alloc]init];
+    QCloudGetGenerateSnapshotRequest * request = [[QCloudGetGenerateSnapshotRequest alloc]init];
 
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
     request.object = @"exampleobject";
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
     // 截图配置信息
-    shotRequest.generateSnapshotConfiguration = [QCloudGenerateSnapshotConfiguration new];
+    request.generateSnapshotConfiguration = [QCloudGenerateSnapshotConfiguration new];
     // 截取哪个时间点的内容，单位为秒 必传
-    shotRequest.generateSnapshotConfiguration.time = 10;
+    request.generateSnapshotConfiguration.time = 10;
     // 截图的宽。默认为0
-    shotRequest.generateSnapshotConfiguration.width = 100;
+    request.generateSnapshotConfiguration.width = 100;
     // 截图的宽。默认为0
-    shotRequest.generateSnapshotConfiguration.height = 100;
+    request.generateSnapshotConfiguration.height = 100;
 
     // 截帧方式:枚举值
     //  GenerateSnapshotModeExactframe：截取指定时间点的帧
     //  GenerateSnapshotModeKeyframe：截取指定时间点之前的最近的
     //  默认值为 exactframe
-    shotRequest.generateSnapshotConfiguration.mode = GenerateSnapshotModeExactframe;
+    request.generateSnapshotConfiguration.mode = QCloudGenerateSnapshotModeExactframe;
 
     // 图片旋转方式:枚举值
     // GenerateSnapshotRotateTypeAuto：按视频旋转信息进行自动旋转
     // GenerateSnapshotRotateTypeOff：不旋转
     // 默认值为 auto
-    shotRequest.generateSnapshotConfiguration.rotate = GenerateSnapshotRotateTypeAuto;
+    request.generateSnapshotConfiguration.rotate = QCloudGenerateSnapshotRotateTypeAuto;
 
     // 截图的格式:枚举值
     // GenerateSnapshotFormatJPG：jpg
     // GenerateSnapshotFormatPNG：png
     // 默认 jpg
-    shotRequest.generateSnapshotConfiguration.format = GenerateSnapshotFormatJPG;
+    request.generateSnapshotConfiguration.format = QCloudGenerateSnapshotFormatJPG;
 
-    reqeust.finishBlock = ^(QCloudGenerateSnapshotResult * outputObject, NSError *error) {
+    request.finishBlock = ^(QCloudGenerateSnapshotResult * outputObject, NSError *error) {
         // outputObject 截图信息，详细字段请查看api文档或者SDK源码
         // QCloudGenerateSnapshotResult  类；
     };
-    [[QCloudCOSXMLService defaultCOSXML] GetGenerateSnapshot:reqeust];
+    [[QCloudCOSXMLService defaultCOSXML] GetGenerateSnapshot:request];
     //.cssg-snippet-body-end
 }
 
@@ -138,16 +139,16 @@
  */
 -(void)getMediaInfo{
     //.cssg-snippet-body-start:[objc-get-media-info]
-    QCloudGetMediaInfoRequest * reqeust = [[QCloudGetMediaInfoRequest alloc]init];
+    QCloudGetMediaInfoRequest * request = [[QCloudGetMediaInfoRequest alloc]init];
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
     request.object = @"exampleobject";
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
-    reqeust.finishBlock = ^(QCloudMediaInfo * outputObject, NSError *error) {
+    request.finishBlock = ^(QCloudMediaInfo * outputObject, NSError *error) {
         // outputObject 请求到的媒体信息，详细字段请查看api文档或者SDK源码
         // QCloudMediaInfo 类；
     };
-    [[QCloudCOSXMLService defaultCOSXML] CIGetMediaInfo:reqeust];
+    [[QCloudCOSXMLService defaultCOSXML] CIGetMediaInfo:request];
     //.cssg-snippet-body-end
 }
 

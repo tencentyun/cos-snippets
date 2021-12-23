@@ -40,7 +40,7 @@
     credential.token = @"COS_TOKEN";
     /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
-    credential.experationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
+    credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
                                             initWithCredential:credential];
     continueBlock(creator, nil);
@@ -100,9 +100,26 @@
 // .cssg-methods-pragma
 
 
+- (void)doesObjectExist {
+
+    //.cssg-snippet-body-start:[objc-object-exist]
+    
+    //存储桶名称，格式为 BucketName-APPID
+    NSString *bucket = @"examplebucket-1250000000";
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
+    NSString *object = @"exampleobject";
+    [[QCloudCOSXMLService defaultCOSXML] doesObjectExistWithBucket:bucket object:object];
+    
+    //.cssg-snippet-body-end
+    
+}
+// .cssg-methods-pragma
+
 - (void)testHeadObject {
     // 获取对象信息
     [self headObject];
+    // 判断对象是否窜在
+    [self doesObjectExist];
     // .cssg-methods-pragma
     
 }

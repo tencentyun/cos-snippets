@@ -30,7 +30,7 @@ class BucketTagging: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
         cre.token = "COS_TOKEN";
         /*强烈建议返回服务器时间作为签名的开始时间，用来避免由于用户手机本地时间偏差过大导致的签名不正确 */
         cre.startDate = DateFormatter().date(from: "startTime"); // 单位是秒
-        cre.experationDate = DateFormatter().date(from: "expiredTime");
+        cre.expirationDate = DateFormatter().date(from: "expiredTime");
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
@@ -59,12 +59,12 @@ class BucketTagging: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
         
         // 存储桶名称，格式为 BucketName-APPID
         req.bucket = "examplebucket-1250000000";
-        let taggings = QCloudBucketTagging.init();
+        let taggings = QCloudTagging.init();
         
         // 标签集合
-        let tagSet = QCloudBucketTagSet.init();
+        let tagSet = QCloudTagSet.init();
         taggings.tagSet = tagSet;
-        let tag1 = QCloudBucketTag.init();
+        let tag1 = QCloudTag.init();
         
         // 标签的 Key，长度不超过128字节, 支持英文字母、数字、空格、加号、减号、下划线、等号、点号、
         // 冒号、斜线
@@ -74,7 +74,7 @@ class BucketTagging: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
         // 、冒号、斜线
         tag1.value = "20";
         
-        let tag2 = QCloudBucketTag.init();
+        let tag2 = QCloudTag.init();
         tag2.key = "name";
         tag2.value = "karis";
         
