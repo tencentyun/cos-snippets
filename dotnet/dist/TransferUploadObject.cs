@@ -39,12 +39,17 @@ namespace COSSnippet
       }
 
       /// 高级接口上传对象
-      public async void TransferUploadFile()
+      public async Task TransferUploadFile()
       {
-        //.cssg-snippet-body-start:[transfer-upload-file]
         // 初始化 TransferConfig
         TransferConfig transferConfig = new TransferConfig();
-        
+        // 手动设置上传上传分块阈值和分块大小（建议采用默认值，非必要无需修改）
+        /*
+        // 手动设置触发分块上传的阈值为5MB（默认为5MB），大于此阈值文件会触发分块上传
+        transferConfig.DivisionForUpload = 5 * 1024 * 1024; 
+         // 手动设置分块上传的分块大小为1MB（默认为1MB） 
+        transferConfig.SliceSizeForUpload = 1 * 1024 * 1024;
+        */
         // 初始化 TransferManager
         TransferManager transferManager = new TransferManager(cosXml, transferConfig);
         

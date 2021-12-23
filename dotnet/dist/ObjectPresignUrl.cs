@@ -137,6 +137,30 @@ namespace COSSnippet
 
       // .cssg-methods-pragma
 
+      // 获取对象公有读链接
+      public void GetObjectUrl() 
+      {
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          // 生成链接（默认域名访问）
+          String url = cosXml.GetObjectUrl(bucket, key);
+          Console.WriteLine("Object Url is: " + url);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
+      }
+
       static void Main(string[] args)
       {
         ObjectPresignUrlModel m = new ObjectPresignUrlModel();
@@ -145,6 +169,8 @@ namespace COSSnippet
         m.GetPresignDownloadUrl();
         /// 获取预签名上传链接
         m.GetPresignUploadUrl();
+        /// 获取无签名访问链接
+        m.GetObjectUrl();
         // .cssg-methods-pragma
       }
     }

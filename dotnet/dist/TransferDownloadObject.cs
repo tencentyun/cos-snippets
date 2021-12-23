@@ -119,6 +119,54 @@ namespace COSSnippet
         //.cssg-snippet-body-end
       }
 
+      /// 文件夹批量下载
+      public async Task TransferDownloadObjectsFromFolder()
+      { 
+        try
+        {
+          String nextMarker = null;
+          // 注意：COS中实际不存在文件夹下载的接口
+          // 需要通过组合 “指定前缀列出” 和 “遍历列出的对象key做下载” 两种操作，实现类似文件夹下载的操作
+          // 下面的操作，把对象列出到队列里，然后异步下载队列中的对象
+          TransferConfig transferConfig = new TransferConfig();
+          
+          // 初始化 TransferManager
+          TransferManager transferManager = new TransferManager(cosXml, transferConfig);
+          
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string localDir = System.IO.Path.GetTempPath();//本地文件夹
+
+          // 循环请求直到没有下一页数据
+          do
+          {
+            // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+            string prefix = "folder1/"; // 指定文件夹前缀
+            GetBucketRequest listRequest = new GetBucketRequest(bucket);
+            //获取 folder1/ 下的所有对象以及子目录
+            listRequest.SetPrefix(prefix);
+            listRequest.SetMarker(nextMarker);
+            //执行列出对象请求
+            GetBucketResult listResult = cosXml.GetBucket(listRequest);
+            ListBucket info = listResult.listBucket;
+            // 对象列表
+            List<ListBucket.Contents> objects = info.contentsList;
+            // 下一页的下标
+            nextMarker = info.nextMarker;
+
+            DeleteMultiObjectRequest deleteRequest = new DeleteMultiObjectRequest(bucket);
+            //设置返回结果形式
+            deleteRequest.SetDeleteQuiet(false);
+            //对象列表
+            foreach (var content in objects)
+            {
+              // 下载对象
+            }
+          } while (nextMarker != null);
+        //.cssg-snippet-body-end
+        }
+      }
+
       /// 下载时对单链接限速
       public async void DownloadObjectTrafficLimit()
       {

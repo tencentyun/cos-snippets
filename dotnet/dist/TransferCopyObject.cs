@@ -1,21 +1,8 @@
-using COSXML.Common;
-using COSXML.CosException;
-using COSXML.Model;
-using COSXML.Model.Object;
 using COSXML.Model.Tag;
-using COSXML.Model.Bucket;
-using COSXML.Model.Service;
-using COSXML.Utils;
 using COSXML.Auth;
 using COSXML.Transfer;
 using System;
 using COSXML;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace COSSnippet
@@ -39,9 +26,13 @@ namespace COSSnippet
       }
 
       /// 高级接口拷贝对象
-      public async void TransferCopyObject()
+      public async Task TransferCopyObject()
       {
         TransferConfig transferConfig = new TransferConfig();
+        //手动设置分块复制阈值，小于阈值的对象使用简单复制，大于阈值的对象使用分块复制，不设定则默认为5MB
+        transferConfig.DdivisionForCopy = 5242880;
+        //手动设置高级接口的自动分块大小，不设定则默认为2MB
+        transferConfig.SliceSizeForCopy = 2097152;
         
         // 初始化 TransferManager
         TransferManager transferManager = new TransferManager(cosXml, transferConfig);
@@ -87,7 +78,7 @@ namespace COSSnippet
         TransferCopyObjectModel m = new TransferCopyObjectModel();
 
         /// 高级接口拷贝对象
-        m.TransferCopyObject();
+        m.TransferCopyObject().Wait();
         // .cssg-methods-pragma
       }
     }
