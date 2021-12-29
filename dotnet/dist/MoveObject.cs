@@ -71,8 +71,16 @@ namespace COSSnippet
           DeleteObjectResult deleteResult = cosXml.DeleteObject(request);
           // 打印结果
           Console.WriteLine(deleteResult.GetResultInfo());
-        } catch (Exception e) {
-            Console.WriteLine("CosException: " + e);
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
         }
         //.cssg-snippet-body-end
       }

@@ -76,8 +76,7 @@ namespace COSSnippet
         // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
         string bucket = "examplebucket-1250000000";
         string key = "exampleobject"; //对象键
-        string srcPath = @"temp-source-file";//本地文件绝对路径
-        //.cssg-snippet-body-start:[process-with-pic-operation]
+
         JObject o = new JObject();
         // 不返回原图
         o["is_pic_info"] = 0;
@@ -136,7 +135,7 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[download-object-with-watermark]
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, key, localDir, localFileName);
         //处理参数，规则参见：https://cloud.tencent.com/document/product/460/19017
-        getObjectRequest.SetQueryParameter("watermark/3/type/<type>/image/<imageUrl>/text/<text>", null);
+        getObjectRequest.SetQueryParameter(URLEncodeUtils.Encode("watermark/3/type/<type>/image/<imageUrl>/text/<text>"), null);
 
         GetObjectResult result = cosXml.GetObject(getObjectRequest);
         //.cssg-snippet-body-end
@@ -145,14 +144,59 @@ namespace COSSnippet
       /// 图片审核
       public void SensitiveContentRecognition()
       {
-        // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
-        string bucket = "examplebucket-1250000000";
-        string key = "exampleobject"; //对象键
-        //.cssg-snippet-body-start:[sensitive-content-recognition]
-        SensitiveContentRecognitionRequest request = 
-          new SensitiveContentRecognitionRequest(bucket, key, "politics");
-        SensitiveContentRecognitionResult result = cosXml.SensitiveContentRecognition(request);
-        //.cssg-snippet-body-end
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          //.cssg-snippet-body-start:[sensitive-content-recognition]
+          SensitiveContentRecognitionRequest request = 
+            new SensitiveContentRecognitionRequest(bucket, key, "politics");
+          SensitiveContentRecognitionResult result = cosXml.SensitiveContentRecognition(request);
+          Console.WriteLine(result.GetResultInfo());
+          //.cssg-snippet-body-end
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
+
+      }
+
+      /// 图片审核，传入 URL
+      public void SensitiveContentRecognitionWithUrl()
+      {
+        try 
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "/"; //对象键, 此处传入根对象, 表示不传入对象参数
+          //.cssg-snippet-body-start:[sensitive-content-recognition]
+          SensitiveContentRecognitionRequest request = 
+            new SensitiveContentRecognitionRequest(bucket, key, "politics");
+          // 传入需要审核的URL，注意将 "url" 替换成需要审核的图片 URL, 不需要进行URLEncode
+          request.SetQueryParameter("detect-url", "url");
+          SensitiveContentRecognitionResult result = cosXml.SensitiveContentRecognition(request);
+          // 打印请求参数
+          Console.WriteLine(result.GetResultInfo());
+          //.cssg-snippet-body-end
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
       }
 
       /// 下载时进行图片处理
@@ -166,7 +210,7 @@ namespace COSSnippet
         //.cssg-snippet-body-start:[download-with-pic-operation]
         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, key, localDir, localFileName);
         //处理参数，这里的实例是格式转换为 TPG 图片，规则参见：https://cloud.tencent.com/document/product/460/19017
-        getObjectRequest.SetQueryParameter("imageMogr2/format/tpg", null);
+        getObjectRequest.SetQueryParameter(URLEncodeUtils.Encode("imageMogr2/format/tpg"), null);
         
         //.cssg-snippet-body-end
       }

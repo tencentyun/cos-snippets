@@ -41,7 +41,6 @@ namespace COSSnippet
       /// 设置存储桶防盗链
       public void PutBucketReferer()
       {
-        //.cssg-snippet-body-start:[put-bucket-cors]
         try
         {
           // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
@@ -75,13 +74,11 @@ namespace COSSnippet
           Console.WriteLine("CosServerException: " + serverEx.GetInfo());
         }
         
-        //.cssg-snippet-body-end
       }
 
       /// 获取存储桶防盗链规则
       public void GetBucketReferer()
       {
-        //.cssg-snippet-body-start:[get-bucket-cors]
         try
         {
           // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
@@ -110,11 +107,8 @@ namespace COSSnippet
           //请求失败
           Console.WriteLine("CosServerException: " + serverEx.GetInfo());
         }
-        
-        //.cssg-snippet-body-end
       }
     
-      // .cssg-methods-pragma
 
       static void Main(string[] args)
       {
@@ -124,7 +118,6 @@ namespace COSSnippet
         m.PutBucketReferer();
         /// 获取存储桶跨域规则
         m.GetBucketReferer();
-        // .cssg-methods-pragma
       }
     }
 }

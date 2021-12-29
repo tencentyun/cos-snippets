@@ -1,22 +1,10 @@
-using COSXML.Common;
-using COSXML.CosException;
 using COSXML.Model;
 using COSXML.Model.Object;
 using COSXML.Model.Tag;
-using COSXML.Model.Bucket;
-using COSXML.Model.Service;
-using COSXML.Utils;
 using COSXML.Auth;
-using COSXML.Transfer;
 using System;
 using COSXML;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace COSSnippet
 {
@@ -38,27 +26,94 @@ namespace COSSnippet
         this.cosXml = new CosXmlServer(config, qCloudCredentialProvider);
       }
 
-      /// 设置对象标签
+      /// 设置对象标签, 此接口从 5.4.25 版本开始支持
       public void PutObjectTagging()
       {
         //.cssg-snippet-body-start:[put-object-tagging]
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          PutObjectTaggingRequest request = new PutObjectTaggingRequest(bucket, key);
+          // 增加标签键值对 
+          request.AddTag("tag1", "value1");
+          //执行请求
+          PutObjectTaggingResult result = cosXml.PutObjectTagging(request);
+          //请求成功
+          Console.WriteLine(result.GetResultInfo());
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         
-        //.cssg-snippet-body-end
       }
 
-      /// 获取对象标签
+      /// 获取对象标签, 此接口从 5.4.25 版本开始支持
       public void GetObjectTagging()
       {
         //.cssg-snippet-body-start:[get-object-tagging]
-        
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          GetObjectTaggingRequest request = new GetObjectTaggingRequest(bucket, key);
+          // 执行请求
+          GetObjectTaggingResult result = cosXml.GetObjectTagging(request);
+          // 请求成功
+          Console.WriteLine(result.GetResultInfo());
+          // 遍历输出Tagging列表
+          for (int i = 0; i < result.tagging.tagSet.tags.Count; i++) {
+            Console.WriteLine(result.tagging.tagSet.tags[i].key);
+            Console.WriteLine(result.tagging.tagSet.tags[i].value);
+          }
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 
-      /// 删除对象标签
+      /// 删除对象标签, 此接口从 5.4.25 版本开始支持
       public void DeleteObjectTagging()
       {
         //.cssg-snippet-body-start:[delete-object-tagging]
-        
+        try
+        {
+          // 存储桶名称，此处填入格式必须为 bucketname-APPID, 其中 APPID 获取参考 https://console.cloud.tencent.com/developer
+          string bucket = "examplebucket-1250000000";
+          string key = "exampleobject"; //对象键
+          DeleteObjectTaggingRequest request = new DeleteObjectTaggingRequest(bucket, key);
+          // 执行请求
+          DeleteObjectTaggingResult result = cosXml.DeleteObjectTagging(request);
+          // 请求成功
+          Console.WriteLine(result.GetResultInfo());
+        }
+        catch (COSXML.CosException.CosClientException clientEx)
+        {
+          //请求失败
+          Console.WriteLine("CosClientException: " + clientEx);
+        }
+        catch (COSXML.CosException.CosServerException serverEx)
+        {
+          //请求失败
+          Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+        }
         //.cssg-snippet-body-end
       }
 
