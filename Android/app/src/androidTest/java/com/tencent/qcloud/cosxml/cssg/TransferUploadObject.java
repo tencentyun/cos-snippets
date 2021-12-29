@@ -31,6 +31,7 @@ public class TransferUploadObject {
         protected QCloudLifecycleCredentials fetchNewCredentials() throws QCloudClientException {
     
             // 首先从您的临时密钥服务器获取包含了密钥信息的响应
+			// 临时密钥生成和使用指引参见https://cloud.tencent.com/document/product/436/14048
     
             // 然后解析响应，获取密钥信息
             String tmpSecretId = "临时密钥 secretId";
@@ -74,7 +75,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
         String srcPath = new File(context.getCacheDir(), "exampleobject")
                 .toString(); //本地文件的绝对路径
@@ -130,7 +132,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
 
         // 上传字节数组
@@ -169,7 +172,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
 
         // 流式上传
@@ -208,7 +212,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
 
         // 文件的 Uri
@@ -250,7 +255,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
         String srcPath = new File(context.getCacheDir(), "exampleobject")
                 .toString(); //本地文件的绝对路径
@@ -289,7 +295,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
 
         //.cssg-snippet-body-start:[transfer-batch-upload-objects]
@@ -339,7 +346,8 @@ public class TransferUploadObject {
         TransferManager transferManager = new TransferManager(cosXmlService,
                 transferConfig);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即称对象键
         String srcPath = new File(context.getCacheDir(), "exampleobject")
                 .toString(); //本地文件的绝对路径
@@ -394,7 +402,8 @@ public class TransferUploadObject {
      */
     private void createDirectory() {
         //.cssg-snippet-body-start:[create-directory]
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         // 文件夹在存储桶中的位置标识符，即称对象键，必须以 '/' 结尾
         String cosPath = "exampleobject/";
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, new byte[0]);
@@ -424,7 +433,8 @@ public class TransferUploadObject {
      */
     private void uploadPriorityLow() {
         //.cssg-snippet-body-start:[transfer-upload-priority-low]
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         // 文件夹在存储桶中的位置标识符，即称对象键，必须以 '/' 结尾
         String cosPath = "exampleobject/";
         String srcPath = new File(context.getCacheDir(), "exampleobject")
@@ -448,6 +458,7 @@ public class TransferUploadObject {
     // .cssg-methods-pragma
 
     private void initService() {
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-guangzhou";
         
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()

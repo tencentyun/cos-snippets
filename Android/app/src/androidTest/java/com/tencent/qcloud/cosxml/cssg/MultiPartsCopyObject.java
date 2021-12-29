@@ -13,7 +13,7 @@ import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
 import com.tencent.qcloud.core.http.*;
 import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -38,6 +38,7 @@ public class MultiPartsCopyObject {
         protected QCloudLifecycleCredentials fetchNewCredentials() throws QCloudClientException {
 
             // 首先从您的临时密钥服务器获取包含了密钥信息的响应
+			// 临时密钥生成和使用指引参见https://cloud.tencent.com/document/product/436/14048
 
             // 然后解析响应，获取密钥信息
             String tmpSecretId = "临时密钥 secretId";
@@ -60,7 +61,8 @@ public class MultiPartsCopyObject {
      */
     private void initMultiUpload() {
         //.cssg-snippet-body-start:[init-multi-upload]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即对象键。
 
         InitMultipartUploadRequest initMultipartUploadRequest =
@@ -103,7 +105,8 @@ public class MultiPartsCopyObject {
                 new CopyObjectRequest.CopySourceStruct(
                 sourceAppid, sourceBucket, sourceRegion, sourceCosPath);
 
-        String bucket = "examplebucket-1250000000"; //存储桶，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即对象键
 
         String uploadId = "exampleUploadId";
@@ -142,7 +145,8 @@ public class MultiPartsCopyObject {
      */
     private void completeMultiUpload() {
         //.cssg-snippet-body-start:[complete-multi-upload]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象在存储桶中的位置标识符，即对象键。
         String uploadId = "exampleUploadId";
         int partNumber = 1;
@@ -178,6 +182,7 @@ public class MultiPartsCopyObject {
     // .cssg-methods-pragma
 
     private void initService() {
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-guangzhou";
 
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()

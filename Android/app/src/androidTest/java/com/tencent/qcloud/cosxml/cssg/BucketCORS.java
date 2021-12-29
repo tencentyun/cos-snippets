@@ -13,7 +13,7 @@ import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
 import com.tencent.qcloud.core.http.*;
 import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -37,6 +37,7 @@ public class BucketCORS {
         protected QCloudLifecycleCredentials fetchNewCredentials() throws QCloudClientException {
 
             // 首先从您的临时密钥服务器获取包含了密钥信息的响应
+			// 临时密钥生成和使用指引参见https://cloud.tencent.com/document/product/436/14048
 
             // 然后解析响应，获取密钥信息
             String tmpSecretId = "临时密钥 secretId";
@@ -59,7 +60,8 @@ public class BucketCORS {
      */
     private void putBucketCors() {
         //.cssg-snippet-body-start:[put-bucket-cors]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
         PutBucketCORSRequest putBucketCORSRequest = new PutBucketCORSRequest(bucket);
 
         CORSConfiguration.CORSRule corsRule = new CORSConfiguration.CORSRule();
@@ -117,7 +119,8 @@ public class BucketCORS {
      */
     private void getBucketCors() {
         //.cssg-snippet-body-start:[get-bucket-cors]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
         GetBucketCORSRequest getBucketCORSRequest = new GetBucketCORSRequest(bucket);
         cosXmlService.getBucketCORSAsync(getBucketCORSRequest,
                 new CosXmlResultListener() {
@@ -145,7 +148,8 @@ public class BucketCORS {
      */
     private void optionObject() {
         //.cssg-snippet-body-start:[option-object]
-        String bucket = "examplebucket-1250000000"; //存储桶名称，格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
         String cosPath = "exampleobject"; //对象位于存储桶中的位置标识符，即对象键
         String origin = "https://cloud.tencent.com";
         String accessMethod = "PUT";
@@ -178,7 +182,8 @@ public class BucketCORS {
      */
     private void deleteBucketCors() {
         //.cssg-snippet-body-start:[delete-bucket-cors]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
         DeleteBucketCORSRequest deleteBucketCORSRequest =
                 new DeleteBucketCORSRequest(bucket);
         cosXmlService.deleteBucketCORSAsync(deleteBucketCORSRequest,
@@ -205,6 +210,7 @@ public class BucketCORS {
     // .cssg-methods-pragma
 
     private void initService() {
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-guangzhou";
 
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()
