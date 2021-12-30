@@ -97,8 +97,8 @@ public class TransferCopyObject {
             // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest request,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
