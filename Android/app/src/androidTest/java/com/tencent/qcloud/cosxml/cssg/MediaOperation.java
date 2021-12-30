@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 

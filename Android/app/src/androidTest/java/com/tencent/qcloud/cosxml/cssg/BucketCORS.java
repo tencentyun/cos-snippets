@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import com.tencent.cos.xml.*;
 import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
@@ -100,10 +102,12 @@ public class BucketCORS {
                 PutBucketCORSResult putBucketCORSResult = (PutBucketCORSResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -129,10 +133,12 @@ public class BucketCORS {
                 GetBucketCORSResult getBucketCORSResult = (GetBucketCORSResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -163,10 +169,12 @@ public class BucketCORS {
                 OptionObjectResult optionObjectResult = (OptionObjectResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -194,10 +202,12 @@ public class BucketCORS {
                         (DeleteBucketCORSResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {

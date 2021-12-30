@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import com.tencent.cos.xml.*;
 import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;

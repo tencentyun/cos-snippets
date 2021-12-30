@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import com.tencent.cos.xml.*;
 import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
@@ -25,6 +27,8 @@ import java.net.*;
 import java.util.*;
 import java.nio.charset.Charset;
 import java.io.*;
+
+import javax.annotation.Nullable;
 
 public class DeleteBucket {
 
@@ -72,8 +76,8 @@ public class DeleteBucket {
 
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
