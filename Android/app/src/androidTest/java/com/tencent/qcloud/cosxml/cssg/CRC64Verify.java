@@ -92,6 +92,8 @@ public class CRC64Verify {
                 String crc64 = result.getHeader("x-cos-hash-crc64ecma");
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest request,
                                CosXmlClientException clientException,
@@ -136,6 +138,10 @@ public class CRC64Verify {
                 String cosCRC64 = result.getHeader("x-cos-hash-crc64ecma");
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest request,
                                CosXmlClientException clientException,
