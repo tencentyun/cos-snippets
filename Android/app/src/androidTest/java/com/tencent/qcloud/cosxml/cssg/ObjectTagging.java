@@ -82,7 +82,7 @@ public class ObjectTagging {
 
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                         (COSXMLUploadTask.COSXMLUploadTaskResult) result;
             }
             // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：

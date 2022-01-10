@@ -89,7 +89,7 @@ public class TransferCopyObject {
         cosxmlCopyTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLCopyTask.COSXMLCopyTaskResult cOSXMLCopyTaskResult =
+                COSXMLCopyTask.COSXMLCopyTaskResult copyResult =
                         (COSXMLCopyTask.COSXMLCopyTaskResult) result;
             }
 

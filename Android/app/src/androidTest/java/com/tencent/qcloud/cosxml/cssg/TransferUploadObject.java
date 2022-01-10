@@ -100,7 +100,7 @@ public class TransferUploadObject {
         cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                         (COSXMLUploadTask.COSXMLUploadTaskResult) result;
             }
 
@@ -149,7 +149,7 @@ public class TransferUploadObject {
         cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                         (COSXMLUploadTask.COSXMLUploadTaskResult) result;
             }
 
@@ -193,7 +193,7 @@ public class TransferUploadObject {
         cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                         (COSXMLUploadTask.COSXMLUploadTaskResult) result;
             }
 
@@ -235,7 +235,7 @@ public class TransferUploadObject {
         cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                         (COSXMLUploadTask.COSXMLUploadTaskResult) result;
             }
 
@@ -326,7 +326,7 @@ public class TransferUploadObject {
             cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
                 @Override
                 public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                    COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                    COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                             (COSXMLUploadTask.COSXMLUploadTaskResult) result;
                 }
 
@@ -384,7 +384,7 @@ public class TransferUploadObject {
         cosxmlUploadTask.setCosXmlResultListener(new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult =
+                COSXMLUploadTask.COSXMLUploadTaskResult uploadResult =
                         (COSXMLUploadTask.COSXMLUploadTaskResult) result;
             }
 
