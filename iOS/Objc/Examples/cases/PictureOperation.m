@@ -4,8 +4,9 @@
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadRequest.h>
 #import <QCloudCOSXML/QCloudAbortMultipfartUploadRequest.h>
 #import <QCloudCOSXML/QCloudMultipartInfo.h>
-#import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
-#import <QCloudCOSXML/QCloudPutObjectWatermarkRequest.h>
+#import <QCloudCOSXML/QCloudGetImageRecognitionRequest.h>
+#import <QCloudCOSXML/QCloudSyncImageRecognitionRequest.h>
+#import <QCloudCOSXML/QCloudBatchimageRecognitionRequest.h>
 
 @interface PictureOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -219,20 +220,78 @@
 - (void)sensitiveContentRecognition{
     //不支持
     //.cssg-snippet-body-start:[objc-sensitive-content-recognition]
-    QCloudGetRecognitionObjectRequest *request = [QCloudGetRecognitionObjectRequest new];
+    QCloudSyncImageRecognitionRequest * request = [[QCloudSyncImageRecognitionRequest alloc]init];
+
+    // 存储桶名称，格式为 BucketName-APPID
+    request.bucket = @"bucket";
+
+    // 文件所在地域
+    request.regionName = @"regionName";
+
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    request.object = @"***.jpg";
+
+    // 审核类型，拥有 porn（涉黄识别）、ads（广告识别）
+    // 用户可选择多种识别类型，例如 detect-type=porn,ads 表示对图片进行涉黄及广告审核
+    // 可以使用或进行组合赋值 如： QCloudRecognitionPorn | QCloudRecognitionTerrorist
+    request.detectType = QCloudRecognitionPorn | QCloudRecognitionTerrorist | QCloudRecognitionPolitics | QCloudRecognitionAds;
+    [request setFinishBlock:^(QCloudImageRecognitionResult * _Nullable result, NSError * _Nullable error) {
+    // outputObject 提交审核反馈信息，详细字段请查看api文档或者SDK源码
+    // QCloudImageRecognitionResult 类；
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] SyncImageRecognition:request];
+
+    //.cssg-snippet-body-end
+}
+
+-(void)getImageRecognition{
+    //.cssg-snippet-body-start:[objc-get-image-recognition]
+    QCloudGetImageRecognitionRequest * request = [[QCloudGetImageRecognitionRequest alloc]init];
+
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
-    //  对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    request.object = @"exampleobject";
-    
-    // 支持多种类型同时审核
-    request.detectType = QCloudRecognitionPorn | QCloudRecognitionAds;
-    
-    [request setFinishBlock:^(QCloudGetRecognitionObjectResult *_Nullable outputObject, NSError *_Nullable error) {
-        NSLog(@"%@", outputObject);
-    }];
 
-    [[QCloudCOSXMLService defaultCOSXML] GetRecognitionObject:request];
+    // 文件所在地域
+    request.regionName = @"regionName";
+
+    // 同步审核或批量审核返回结果的jobid
+    request.jobId = @"jobid";
+
+    request.finishBlock = ^(QCloudImageRecognitionResult * outputObject, NSError *error) {
+        // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
+        // QCloudImageRecognitionResult 类；
+    };
+    [[QCloudCOSXMLService defaultCOSXML] GetImageRecognition:request];
+    //.cssg-snippet-body-end
+}
+
+-(void)batchRecognitionImage{
+    //.cssg-snippet-body-start:[objc-batch-image-recognition]
+    QCloudBatchimageRecognitionRequest * request = [[QCloudBatchimageRecognitionRequest alloc]init];
+
+    request.bucket = @"bucket";
+    // 文件所在地域
+    request.regionName = @"regionName";
+
+    NSMutableArray * input = [NSMutableArray new];
+
+    // 待审核的图片对象
+    QCloudBatchRecognitionImageInfo * input1 = [QCloudBatchRecognitionImageInfo new];
+    input1.Object = @"***.jpg";
+    [input addObject:input1];
+
+    QCloudBatchRecognitionImageInfo * input2 = [QCloudBatchRecognitionImageInfo new];
+    input2.Object = @"***.jpg";
+    [input addObject:input2];
+
+    // 待审核的图片对象数组
+    request.input = input;
+    request.detectType = QCloudRecognitionPorn | QCloudRecognitionTerrorist | QCloudRecognitionPolitics | QCloudRecognitionAds;
+    [request setFinishBlock:^(QCloudBatchImageRecognitionResult * _Nullable result, NSError * _Nullable error) {
+    // outputObject 审核结果，详细字段请查看api文档或者SDK源码
+    // QCloudBatchImageRecognitionResult 类；
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] BatchImageRecognition:request];
     //.cssg-snippet-body-end
 }
 
@@ -268,8 +327,12 @@
 
     // 下载时进行图片处理
     [self downloadWithPicOperation];
+    
+    // 获取图片审核结果
+    [self getImageRecognition];
         
-  
+    // 批量审核图片
+    [self batchRecognitionImage];
         
     // .cssg-methods-pragma
 }
