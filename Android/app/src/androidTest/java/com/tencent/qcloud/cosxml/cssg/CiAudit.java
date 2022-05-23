@@ -78,8 +78,8 @@ public class CiAudit {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        String cosPath1 = "exampleobject1";
-        String cosPath2 = "exampleobject2";
+        String cosPath1 = "dir1/exampleobject1.jpg";
+        String cosPath2 = "dir1/exampleobject2.jpg";
         //图片的链接地址,Object 和 Url 只能选择其中一种
         String imageUrl = "https://myqcloud.com/%205image.jpg";
         PostImagesAuditRequest request = new PostImagesAuditRequest(bucket);
@@ -166,7 +166,7 @@ public class CiAudit {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        String cosPath = "exampleobject";
+        String cosPath = "dir1/exampleobject.mp4";
         //视频的链接地址,Object 和 Url 只能选择其中一种
         String url = "https://myqcloud.com/%205video.mp4";
         PostVideoAuditRequest request = new PostVideoAuditRequest(bucket);
@@ -246,7 +246,7 @@ public class CiAudit {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        String cosPath = "exampleobject";
+        String cosPath = "dir1/exampleobject.mp3";
         //音频的链接地址,Object 和 Url 只能选择其中一种
         String url = "https://myqcloud.com/%205Audio.mp3";
         PostAudioAuditRequest request = new PostAudioAuditRequest(bucket);
@@ -320,7 +320,7 @@ public class CiAudit {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        String cosPath = "exampleobject";
+        String cosPath = "dir1/exampleobject.txt";
         //文本的链接地址,Object 和 Url 只能选择其中一种
         String url = "https://myqcloud.com/%205text.txt";
         //当传入的内容为纯文本信息，需要先经过 base64 编码，文本编码前的原文长度不能超过10000个 utf8 编码字符。若超出长度限制，接口将会报错。
@@ -397,7 +397,7 @@ public class CiAudit {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        String cosPath = "exampleobject";
+        String cosPath = "dir1/exampleobject.pdf";
         //文档的链接地址,Object 和 Url 只能选择其中一种
         String url = "https://myqcloud.com/%205Document.pdf";
         PostDocumentAuditRequest request = new PostDocumentAuditRequest(bucket);
