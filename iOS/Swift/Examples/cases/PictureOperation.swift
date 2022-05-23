@@ -208,27 +208,73 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
     func sensitiveContentRecognition() {
         //不支持
         //.cssg-snippet-body-start:[swift-sensitive-content-recognition]
-        let request : QCloudGetRecognitionObjectRequest = QCloudGetRecognitionObjectRequest();
-        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        request.object = "exampleobject";
+        let request : QCloudSyncImageRecognitionRequest = QCloudSyncImageRecognitionRequest();
+
         // 存储桶名称，格式为 BucketName-APPID
-        request.bucket = "examplebucket-1250000000";
-        // 支持多种类型同时审核
-        request.detectType = .porn;
-        
+        request.bucket = "bucket";
+
+        // 文件所在地域
+        request.regionName = "regionName";
+
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+        request.object = "***.jpg";
+
+        // 审核类型，拥有 porn（涉黄识别）、ads（广告识别）
+        // 用户可选择多种识别类型，例如 detect-type=porn,ads 表示对图片进行涉黄及广告审核
+        // 可以使用或进行组合赋值 如： QCloudRecognitionPorn | QCloudRecognitionTerrorist
+        request.detectType = QCloudRecognitionEnum(rawValue: QCloudRecognitionEnum.porn.rawValue | QCloudRecognitionEnum.ads.rawValue)!
+            
         request.finishBlock = { (result, error) in
-            if let result = result {
-                // result 包含响应的 header 信息
-            } else {
-                print(error!);
-            }
+                // outputObject 提交审核反馈信息，详细字段请查看api文档或者SDK源码
+            // QCloudImageRecognitionResult 类；
         }
-
-
-        QCloudCOSXMLService.defaultCOSXML().getRecognitionObject(request);
+        QCloudCOSXMLService.defaultCOSXML().syncImageRecognition(request);
         //.cssg-snippet-body-end
     }
 
+    func batchimageRecognition(){
+        //.cssg-snippet-body-start:[swift-batch-image-recognition]
+        let request = QCloudBatchimageRecognitionRequest();
+        request.bucket = "bucket";
+
+        // 文件所在地域
+        request.regionName = "regionName";
+
+        // 待审核的图片对象
+        let input1 = QCloudBatchRecognitionImageInfo();
+        input1.object = "***.jpg";
+
+        let input2 = QCloudBatchRecognitionImageInfo();
+        input2.object = "***.jpg";
+
+        // 待审核的图片对象数组
+        request.input = [input1,input2];
+        request.detectType = QCloudRecognitionEnum(rawValue: QCloudRecognitionEnum.porn.rawValue | QCloudRecognitionEnum.ads.rawValue)!
+        request.setFinish { outputObject, error in
+        // outputObject 审核结果，详细字段请查看api文档或者SDK源码
+        // QCloudBatchImageRecognitionResult 类；
+        }
+        QCloudCOSXMLService.defaultCOSXML().batchImageRecognition(request);
+        //.cssg-snippet-body-end
+    }
+    
+    func getImageRecognition(){
+        let request = QCloudGetImageRecognitionRequest();
+
+        // 存储桶名称，格式为 BucketName-APPID
+        request.bucket = "examplebucket-1250000000";
+
+        request.regionName = "regionName";
+
+        // 同步审核或批量审核返回结果的jobid
+        request.jobId = "jobid";
+
+        request.setFinish { outputObject, error in
+            // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
+            // QCloudWebRecognitionResult 类；
+        };
+        QCloudCOSXMLService.defaultCOSXML().getImageRecognition(request);
+    }
 
     // 下载时进行图片处理
     func downloadWithPicOperation() {
@@ -254,8 +300,11 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         // 图片审核
         self.sensitiveContentRecognition();
 
+        self.batchimageRecognition();
         // 下载时进行图片处理
         self.downloadWithPicOperation();
+        
+        self.getImageRecognition();
         // .cssg-methods-pragma
     }
 }

@@ -1,14 +1,14 @@
 #import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudGetVideoRecognitionRequest.h>
-#import <QCloudCOSXML/QCloudPostVideoRecognitionRequest.h>
-@interface VideoOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+#import <QCloudCOSXML/QCloudPostAudioRecognitionRequest.h>
+#import <QCloudCOSXML/QCloudGetAudioRecognitionRequest.h>
+@interface AudioRecognition : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation VideoOperation
+@implementation AudioRecognition
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -60,74 +60,64 @@
 /**
  * 提交审核任务
  */
-- (void)putVideoRecognition{
-    //.cssg-snippet-body-start:[objc-put-video-recognition]
-    QCloudPostVideoRecognitionRequest * request = [[QCloudPostVideoRecognitionRequest alloc]init];
+- (void)putAudioRecognition{
+    //.cssg-snippet-body-start:[objc-post-audio-recognition]
+    
+    QCloudPostAudioRecognitionRequest * request = [[QCloudPostAudioRecognitionRequest alloc]init];
 
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
     request.object = @"exampleobject";
+
+    // 文件所在地域
+    request.regionName = @"regionName";
+
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
 
     // 审核类型，拥有 porn（涉黄识别）、terrorist（涉暴恐识别）、politics（涉政识别）、ads（广告识别）四种，
     // 用户可选择多种识别类型，例如 detect-type=porn,ads 表示对图片进行涉黄及广告审核
     // 可以使用或进行组合赋值 如： QCloudRecognitionPorn | QCloudRecognitionTerrorist
-    request.detectType = QCloudRecognitionPorn | QCloudRecognitionAds | QCloudRecognitionPolitics | QCloudRecognitionTerrorist;
+    request.detectType = QCloudRecognitionPorn | QCloudRecognitionAds;
 
-    // 截帧模式。Interval 表示间隔模式；Average 表示平均模式；Fps 表示固定帧率模式。
-    // Interval 模式：TimeInterval，Count 参数生效。当设置 Count，未设置 TimeInterval 时，表示截取所有帧，共 Count 张图片。
-    // Average 模式：Count 参数生效。表示整个视频，按平均间隔截取共 Count 张图片。
-    // Fps 模式：TimeInterval 表示每秒截取多少帧，Count 表示共截取多少帧。
-    request.mode = QCloudVideoRecognitionModeFps;
-
-    // 视频截帧频率，范围为(0, 60]，单位为秒，支持 float 格式，执行精度精确到毫秒
-    request.timeInterval = 1;
-
-    // 视频截帧数量，范围为(0, 10000]。
-    request.count = 10;
-
-    // 审核策略，不带审核策略时使用默认策略。具体查看 https://cloud.tencent.com/document/product/460/56345
-    request.bizType = @"BizType";
-
-    // 用于指定是否审核视频声音，当值为0时：表示只审核视频画面截图；值为1时：表示同时审核视频画面截图和视频声音。默认值为0。
-    request.detectContent = YES;
-
-    request.finishBlock = ^(QCloudPostVideoRecognitionResult * outputObject, NSError *error) {
+    request.finishBlock = ^(QCloudPostAudioRecognitionResult * outputObject, NSError *error) {
         // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
-        // QCloudPostVideoRecognitionResult 类；
+        // QCloudPostAudioRecognitionResult 类；
     };
-    [[QCloudCOSXMLService defaultCOSXML] PostVideoRecognition:request];
+    [[QCloudCOSXMLService defaultCOSXML] PostAudioRecognition:request];
     //.cssg-snippet-body-end
 }
 
 /**
- * 查询视频审核任务
+ * 查询审核任务
  */
-- (void)getVideoRecognitionResult {
-    //.cssg-snippet-body-start:[objc-get-video-recognition]
-    QCloudGetVideoRecognitionRequest * request = [[QCloudGetVideoRecognitionRequest alloc]init];
+- (void)getAudioRecognitionResult {
+    //.cssg-snippet-body-start:[objc-get-audio-recognition]
+    QCloudGetAudioRecognitionRequest * request = [[QCloudGetAudioRecognitionRequest alloc]init];
 
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
 
-    // QCloudPostVideoRecognitionRequest接口返回的jobid
+    // 文件所在地域
+    request.regionName = @"regionName";
+
+    // QCloudPostAudioRecognitionRequest接口返回的jobid
     request.jobId = @"jobid";
-    [request setFinishBlock:^(QCloudVideoRecognitionResult * _Nullable result, NSError * _Nullable error) {
+
+    request.finishBlock = ^(QCloudAudioRecognitionResult * outputObject, NSError *error) {
         // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
-        // QCloudVideoRecognitionResult 类；
-    }];
-    [[QCloudCOSXMLService defaultCOSXML] GetVideoRecognition:request];
+        // QCloudAudioRecognitionResult 类；
+    };
+    [[QCloudCOSXMLService defaultCOSXML] GetAudioRecognition:request];
     //.cssg-snippet-body-end
 }
 
 // .cssg-methods-pragma
-
-- (void)testVideoOperation {
+- (void)testAudioOperation {
     // 提交审核任务
-    [self putVideoRecognition];
+    [self putAudioRecognition];
 
-    // 查询视频审核任务
-    [self getVideoRecognitionResult];
+    // 查询审核任务
+    [self getAudioRecognitionResult];
   
     // .cssg-methods-pragma
 }
