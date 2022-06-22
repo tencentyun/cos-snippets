@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import com.tencent.cos.xml.*;
 import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
@@ -13,7 +15,7 @@ import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
 import com.tencent.qcloud.core.http.*;
 import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -37,6 +39,7 @@ public class BucketTagging {
         protected QCloudLifecycleCredentials fetchNewCredentials() throws QCloudClientException {
 
             // 首先从您的临时密钥服务器获取包含了密钥信息的响应
+			// 临时密钥生成和使用指引参见https://cloud.tencent.com/document/product/436/14048
 
             // 然后解析响应，获取密钥信息
             String tmpSecretId = "临时密钥 secretId";
@@ -59,7 +62,8 @@ public class BucketTagging {
      */
     private void putBucketTagging() {
         //.cssg-snippet-body-start:[put-bucket-tagging]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
         PutBucketTaggingRequest putBucketTaggingRequest =
                 new PutBucketTaggingRequest(bucket);
         // 设置标签
@@ -74,10 +78,12 @@ public class BucketTagging {
                         (PutBucketTaggingResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -94,7 +100,8 @@ public class BucketTagging {
      */
     private void getBucketTagging() {
         //.cssg-snippet-body-start:[get-bucket-tagging]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
         GetBucketTaggingRequest getBucketTaggingRequest =
                 new GetBucketTaggingRequest(bucket);
 
@@ -106,10 +113,12 @@ public class BucketTagging {
                         (GetBucketTaggingResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -126,7 +135,8 @@ public class BucketTagging {
      */
     private void deleteBucketTagging() {
         //.cssg-snippet-body-start:[delete-bucket-tagging]
-        String bucket = "examplebucket-1250000000"; //格式：BucketName-APPID
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+String bucket = "examplebucket-1250000000";
         DeleteBucketTaggingRequest deleteBucketTaggingRequest =
                 new DeleteBucketTaggingRequest(bucket);
 
@@ -138,10 +148,12 @@ public class BucketTagging {
                         (DeleteBucketTaggingResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -156,6 +168,7 @@ public class BucketTagging {
     // .cssg-methods-pragma
 
     private void initService() {
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-guangzhou";
 
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()

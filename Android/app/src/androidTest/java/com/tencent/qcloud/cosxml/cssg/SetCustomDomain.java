@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import com.tencent.cos.xml.*;
 import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
@@ -13,7 +15,7 @@ import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
 import com.tencent.qcloud.core.http.*;
 import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -37,6 +39,7 @@ public class SetCustomDomain {
         protected QCloudLifecycleCredentials fetchNewCredentials() throws QCloudClientException {
     
             // 首先从您的临时密钥服务器获取包含了密钥信息的响应
+			// 临时密钥生成和使用指引参见https://cloud.tencent.com/document/product/436/14048
     
             // 然后解析响应，获取密钥信息
             String tmpSecretId = "临时密钥 secretId";
@@ -58,6 +61,7 @@ public class SetCustomDomain {
      */
     private void setCdnDomain() {
         //.cssg-snippet-body-start:[set-cdn-domain]
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-beijing"; // 您的存储桶地域
         // 存储桶的默认加速域名
         String cdnDomain = "examplebucket-1250000000.file.myqcloud.com";
@@ -81,6 +85,7 @@ public class SetCustomDomain {
      */
     private void setCdnCustomDomain() {
         //.cssg-snippet-body-start:[set-cdn-custom-domain]
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-beijing"; // 您的存储桶地域
         String cdnCustomDomain = "exampledomain.com"; // 自定义加速域名
 
@@ -104,6 +109,7 @@ public class SetCustomDomain {
 
         ServerCredentialProvider credentialProvider = new ServerCredentialProvider();
         //.cssg-snippet-body-start:[set-custom-domain]
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-beijing"; // 您的存储桶地域
         String customDomain = "exampledomain.com"; // 自定义域名
 
@@ -127,6 +133,7 @@ public class SetCustomDomain {
         ServerCredentialProvider credentialProvider = new ServerCredentialProvider();
 
         //.cssg-snippet-body-start:[set-accelerate-domain]
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-beijing"; // 您的存储桶地域
 
         CosXmlServiceConfig cosXmlServiceConfig = new CosXmlServiceConfig.Builder()
@@ -148,6 +155,7 @@ public class SetCustomDomain {
 
         ServerCredentialProvider credentialProvider = new ServerCredentialProvider();
         //.cssg-snippet-body-start:[set-endpoint-suffix]
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-beijing"; // 您的存储桶地域
 
         CosXmlServiceConfig cosXmlServiceConfig = new CosXmlServiceConfig.Builder()
@@ -168,6 +176,7 @@ public class SetCustomDomain {
     // .cssg-methods-pragma
 
     private void initService() {
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-guangzhou";
         
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()

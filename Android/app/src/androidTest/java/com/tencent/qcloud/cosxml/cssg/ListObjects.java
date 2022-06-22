@@ -1,5 +1,7 @@
 package com.tencent.qcloud.cosxml.cssg;
 
+import android.support.annotation.Nullable;
+
 import com.tencent.cos.xml.*;
 import com.tencent.cos.xml.common.*;
 import com.tencent.cos.xml.exception.*;
@@ -13,7 +15,7 @@ import com.tencent.qcloud.core.auth.*;
 import com.tencent.qcloud.core.common.*;
 import com.tencent.qcloud.core.http.*;
 import com.tencent.cos.xml.model.service.*;
-import com.tencent.qcloud.cosxml.cssg.BuildConfig;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -38,6 +40,7 @@ public class ListObjects {
         protected QCloudLifecycleCredentials fetchNewCredentials() throws QCloudClientException {
 
             // 首先从您的临时密钥服务器获取包含了密钥信息的响应
+			// 临时密钥生成和使用指引参见https://cloud.tencent.com/document/product/436/14048
 
             // 然后解析响应，获取密钥信息
             String tmpSecretId = "临时密钥 secretId";
@@ -79,10 +82,12 @@ public class ListObjects {
                 }
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -122,10 +127,12 @@ public class ListObjects {
                 }
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -161,10 +168,12 @@ public class ListObjects {
                 GetBucketResult getBucketResult = (GetBucketResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest cosXmlRequest,
-                               CosXmlClientException clientException,
-                               CosXmlServiceException serviceException) {
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
                 if (clientException != null) {
                     clientException.printStackTrace();
                 } else {
@@ -177,6 +186,7 @@ public class ListObjects {
     // .cssg-methods-pragma
 
     private void initService() {
+        // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
         String region = "ap-guangzhou";
 
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()
