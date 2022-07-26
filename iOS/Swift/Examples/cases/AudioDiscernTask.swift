@@ -83,10 +83,10 @@ class AudioDiscernTask: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
        //  语音识别任务
        request.taskInfo = taskInfo;
 
-       [request .setFinish({ outputObject, error in
-           // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
-           // QCloudPostAudioRecognitionResult 类；
-       })];
+        request.setFinish { outputObject, error in
+            // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
+            // QCloudPostAudioRecognitionResult 类；
+        };
        QCloudCOSXMLService.defaultCOSXML().postAudioDiscernTask(request);
         
         //.cssg-snippet-body-end
