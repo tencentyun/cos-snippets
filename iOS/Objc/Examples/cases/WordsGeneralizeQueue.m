@@ -1,7 +1,7 @@
 #import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudGetWordsGeneralizeQueueRequest.h>
-#import <QCloudCOSXML/QCloudOpenWordsGeneralizeRequest.h>
+#import <QCloudCOSXML/QCloudGetAIJobQueueRequest.h>
+#import <QCloudCOSXML/QCloudOpenAIBucketRequest.h>
 
 @interface WordsGeneralizeQueue : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -61,8 +61,8 @@
 /**
  * 开通AI 内容识别服务并生成队列
  */
--(void)openWordsGeneralize{
-    QCloudOpenWordsGeneralizeRequest * request = [[QCloudOpenWordsGeneralizeRequest alloc]init];
+-(void)openAIBucket{
+    QCloudOpenAIBucketRequest * request = [[QCloudOpenAIBucketRequest alloc]init];
 
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
@@ -73,36 +73,36 @@
         // outputObject 详细字段请查看api文档或者SDK源码
         // QCloudOpenAIBucketResult 类；
     }];
-    [[QCloudCOSXMLService defaultCOSXML] OpenWordsGeneralize:request];
+    [[QCloudCOSXMLService defaultCOSXML] OpenAIBucket:request];
 }
 
 
 /**
- *  接口用于查询分词队列。
+ *  接口用于查询AI内容识别队列。
  */
--(void)getWordsGeneralizeQueue{
+-(void)getAIJobQueue{
 
-    QCloudGetWordsGeneralizeQueueRequest * request = [[QCloudGetWordsGeneralizeQueueRequest alloc]init];
+    QCloudGetAIJobQueueRequest * request = [[QCloudGetAIJobQueueRequest alloc]init];
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
     // 设置地域名
     request.regionName = @"regionName";
     request.state = 1;
-    [request setFinishBlock:^(QCloudAIqueueResult * _Nullable result, NSError * _Nullable error) {
+    [request setFinishBlock:^(QCloudAIJobQueueResult * _Nullable result, NSError * _Nullable error) {
         // outputObject 详细字段请查看api文档或者SDK源码
-        // QCloudAIqueueResult 类；
+        // QCloudAIJobQueueResult 类；
     }];
-    [[QCloudCOSXMLService defaultCOSXML] GetWordsGeneralizeQueue:request];
+    [[QCloudCOSXMLService defaultCOSXML] GetAIJobQueue:request];
 
 }
 
-- (void)testWordsGeneralizeQueueOperation {
+- (void)testAIBucket {
     
     // 开通AI 内容识别服务并生成队列
-    [self openWordsGeneralize];
+    [self openAIBucket];
     
-    // 接口用于查询分词队列
-    [self getWordsGeneralizeQueue];
+    // 查询AI内容识别队列。
+    [self getAIJobQueue];
   
 }
 

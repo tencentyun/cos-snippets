@@ -45,8 +45,8 @@ class WordsGeneralizeQueue: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
     }
 
     //  开通AI 内容识别服务并生成队列
-    func openWordsGeneralize() {
-        let request = QCloudOpenWordsGeneralizeRequest.init();
+    func openAIBucket() {
+        let request = QCloudOpenAIBucketRequest.init();
 
         // 存储桶名称，格式为 BucketName-APPID
         request.bucket = "examplebucket-1250000000";
@@ -57,14 +57,14 @@ class WordsGeneralizeQueue: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
             // outputObject 详细字段请查看api文档或者SDK源码
             // QCloudOpenAIBucketResult 类；
         }
-        QCloudCOSXMLService.defaultCOSXML().openWordsGeneralize(request);
+        QCloudCOSXMLService.defaultCOSXML().openAIBucket(request);
         
     }
 
-    // 接口用于查询分词队列
-    func getWordsGeneralizeQueue() {
+    // 接口用于AI内容识别队列
+    func getAIJobQueue() {
         
-        let request = QCloudGetWordsGeneralizeQueueRequest.init();
+        let request = QCloudGetAIJobQueueRequest.init();
         // 存储桶名称，格式为 BucketName-APPID
         request.bucket = "examplebucket-1250000000";
         // 设置地域名
@@ -73,17 +73,17 @@ class WordsGeneralizeQueue: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
 
         request.setFinish { outputObject, error in
             // outputObject 详细字段请查看api文档或者SDK源码
-            // QCloudAIqueueResult 类；
+            // QCloudAIJobQueueResult 类；
         };
-        QCloudCOSXMLService.defaultCOSXML().getWordsGeneralizeQueue(request);
+        QCloudCOSXMLService.defaultCOSXML().getAIJobQueue(request);
     
     }
 
-    func testWordsGeneralizeQueueOperation() {
+    func testAIBucket() {
         // 开通AI 内容识别服务并生成队列
-        self.openWordsGeneralize();
+        self.openAIBucket();
 
-        //  接口用于查询分词队列
-        self.getWordsGeneralizeQueue();
+        //  接口用于AI内容识别队列
+        self.getAIJobQueue();
     }
 }
