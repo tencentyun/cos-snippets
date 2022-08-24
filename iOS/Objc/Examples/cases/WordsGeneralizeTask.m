@@ -74,7 +74,7 @@
     taskInfo.Input.Object = @"aaa.m4a";
     
     taskInfo.Tag = @"WordsGeneralize";
-    taskInfo.QueueId = @"p7857912dc5bd4d01b75133e5533614ef";
+    taskInfo.QueueId = @"QueueId";
     //  分词任务
     request.taskInfo = taskInfo;
     
@@ -97,7 +97,7 @@
     request.regionName = @"regionName";
 
     // QCloudPostAudioDiscernTaskRequest接口返回的jobid
-    request.jobId = @"se864122a0cc111ed89889f3c2c4f232b";
+    request.jobId = @"jobId";
 
     [request setFinishBlock:^(QCloudWordsGeneralizeResult * _Nullable result, NSError * _Nullable error) {
         // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
