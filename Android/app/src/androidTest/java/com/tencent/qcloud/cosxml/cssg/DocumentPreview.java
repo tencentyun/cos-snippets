@@ -1,40 +1,36 @@
 package com.tencent.qcloud.cosxml.cssg;
 
-import android.support.annotation.Nullable;
-
-import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.common.*;
-import com.tencent.cos.xml.exception.*;
-import com.tencent.cos.xml.listener.*;
-import com.tencent.cos.xml.model.*;
-import com.tencent.cos.xml.model.ci.PreviewDocumentRequest;
-import com.tencent.cos.xml.model.ci.PreviewDocumentResult;
-import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
-import com.tencent.cos.xml.transfer.*;
-import com.tencent.qcloud.core.auth.*;
-import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-
-
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
-import org.junit.Test;
+import com.tencent.cos.xml.CIService;
+import com.tencent.cos.xml.CosXmlService;
+import com.tencent.cos.xml.CosXmlServiceConfig;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.exception.CosXmlServiceException;
+import com.tencent.cos.xml.listener.CosXmlResultListener;
+import com.tencent.cos.xml.model.CosXmlRequest;
+import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.cos.xml.model.ci.DescribeDocProcessBucketsRequest;
+import com.tencent.cos.xml.model.ci.DescribeDocProcessBucketsResult;
+import com.tencent.cos.xml.model.ci.PreviewDocumentInHtmlLinkRequest;
+import com.tencent.cos.xml.model.ci.PreviewDocumentInHtmlLinkResult;
+import com.tencent.cos.xml.model.ci.PreviewDocumentInHtmlRequest;
+import com.tencent.cos.xml.model.ci.PreviewDocumentInHtmlResult;
+import com.tencent.cos.xml.model.ci.PreviewDocumentRequest;
+import com.tencent.cos.xml.model.ci.PreviewDocumentResult;
+import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
+import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
+import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
+import com.tencent.qcloud.core.common.QCloudClientException;
 
-import java.net.*;
-import java.util.*;
-import java.nio.charset.Charset;
-import java.io.*;
+import org.junit.Test;
 
 public class DocumentPreview {
 
     private Context context;
     private CosXmlService cosXmlService;
+    private CIService ciService;
 
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
         
@@ -60,6 +56,35 @@ public class DocumentPreview {
     }
 
     /**
+     * 查询文档预览开通状态
+     */
+    private void describeDocProcessBuckets() {
+        //.cssg-snippet-body-start:[describe-docprocess-buckets]
+        DescribeDocProcessBucketsRequest request = new DescribeDocProcessBucketsRequest();
+        request.setPageNumber(1);
+        request.setPageSize(20);
+        ciService.describeDocProcessBucketsAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                // 详细字段请查看api文档或者SDK源码
+                DescribeDocProcessBucketsResult describeDocProcessBucketsResult = (DescribeDocProcessBucketsResult) result;
+            }
+
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
      * 文档预览
      */
     private void documentPreview() {
@@ -75,9 +100,12 @@ public class DocumentPreview {
         cosXmlService.previewDocumentAsync(previewDocumentRequest, new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                // 详细字段请查看api文档或者SDK源码
                 PreviewDocumentResult previewDocumentResult = (PreviewDocumentResult) result;
             }
 
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
             @Override
             public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
                 if (clientException != null) {
@@ -87,6 +115,90 @@ public class DocumentPreview {
                 }
             }
         });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 以HTML格式预览文档
+     */
+    private void previewDocumentInHtml() {
+        //.cssg-snippet-body-start:[preview-document-in-html]
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
+        String cosPath = "exampleobject.pdf"; //文档位于存储桶中的位置标识符，即对象键
+        String localPath = "localdownloadpath"; // 保存在本地文件夹的路径
+        PreviewDocumentInHtmlRequest request = new PreviewDocumentInHtmlRequest(bucket,
+                cosPath, localPath);
+
+        cosXmlService.previewDocumentInHtmlAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                PreviewDocumentInHtmlResult previewDocumentInHtmlResult = (PreviewDocumentInHtmlResult) result;
+                String previewFilePath = previewDocumentInHtmlResult.getPreviewFilePath();
+            }
+
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 以HTML格式链接预览文档
+     */
+    private void previewDocumentInHtmlLinkAsync() {
+        //.cssg-snippet-body-start:[preview-document-in-html-link]
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
+        String cosPath = "exampleobject.pdf"; //文档位于存储桶中的位置标识符，即对象键
+        PreviewDocumentInHtmlLinkRequest request = new PreviewDocumentInHtmlLinkRequest(bucket,
+                cosPath);
+
+        cosXmlService.previewDocumentInHtmlLinkAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                PreviewDocumentInHtmlLinkResult previewDocumentInHtmlLinkResult = (PreviewDocumentInHtmlLinkResult) result;
+                String previewUrl = previewDocumentInHtmlLinkResult.getPreviewUrl();
+            }
+
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 以HTML格式直出内容预览文档到字节数组
+     * 注意：请不要通过本接口预览大文件，否则容易造成内存溢出
+     */
+    private void previewDocumentInHtmlBytes() {
+        //.cssg-snippet-body-start:[preview-document-in-html-bytes]
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
+        String cosPath = "exampleobject.pdf"; //文档位于存储桶中的位置标识符，即对象键
+        try {
+            byte[] bytes = cosXmlService.previewDocumentInHtmlBytes(bucket, cosPath);
+        } catch (CosXmlClientException e) {
+            e.printStackTrace();
+        } catch (CosXmlServiceException e) {
+            e.printStackTrace();
+        }
         //.cssg-snippet-body-end
     }
 
@@ -103,14 +215,27 @@ public class DocumentPreview {
         
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         cosXmlService = new CosXmlService(context, serviceConfig, new ServerCredentialProvider());
+        ciService = new CIService(context, serviceConfig, new ServerCredentialProvider());
     }
 
     @Test
     public void testDocumentPreview() {
         initService();
 
+        //查询文档预览开通状态
+        describeDocProcessBuckets();
+
         // 文档预览
         documentPreview();
+
+        //以HTML格式预览文档
+        previewDocumentInHtml();
+
+        //以HTML格式链接预览文档
+        previewDocumentInHtmlLinkAsync();
+
+        //以HTML格式直出内容预览文档到字节数组
+        previewDocumentInHtmlBytes();
         
         // .cssg-methods-pragma
     }
