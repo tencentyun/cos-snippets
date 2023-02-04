@@ -109,7 +109,7 @@
 }
 
 /**
- *PUT Bucket policy
+ * DELETE Bucket policy
  */
 - (void)deleteBucketPolicy{
     //.cssg-snippet-body-start:[cssg-snippet-delete-bucket-policy]
