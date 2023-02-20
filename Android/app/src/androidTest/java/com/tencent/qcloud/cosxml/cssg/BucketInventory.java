@@ -1,32 +1,31 @@
 package com.tencent.qcloud.cosxml.cssg;
 
-import android.support.annotation.Nullable;
-
-import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.common.*;
-import com.tencent.cos.xml.exception.*;
-import com.tencent.cos.xml.listener.*;
-import com.tencent.cos.xml.model.*;
-import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
-import com.tencent.cos.xml.transfer.*;
-import com.tencent.qcloud.core.auth.*;
-import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-
-
 import android.content.Context;
-import android.util.Log;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 
-import org.junit.Test;
+import com.tencent.cos.xml.CosXmlService;
+import com.tencent.cos.xml.CosXmlServiceConfig;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.exception.CosXmlServiceException;
+import com.tencent.cos.xml.listener.CosXmlResultListener;
+import com.tencent.cos.xml.model.CosXmlRequest;
+import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.cos.xml.model.bucket.DeleteBucketInventoryRequest;
+import com.tencent.cos.xml.model.bucket.DeleteBucketInventoryResult;
+import com.tencent.cos.xml.model.bucket.GetBucketInventoryRequest;
+import com.tencent.cos.xml.model.bucket.GetBucketInventoryResult;
+import com.tencent.cos.xml.model.bucket.ListBucketInventoryRequest;
+import com.tencent.cos.xml.model.bucket.ListBucketInventoryResult;
+import com.tencent.cos.xml.model.bucket.PutBucketInventoryRequest;
+import com.tencent.cos.xml.model.bucket.PutBucketInventoryResult;
+import com.tencent.cos.xml.model.tag.InventoryConfiguration;
+import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
+import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
+import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
+import com.tencent.qcloud.core.common.QCloudClientException;
 
-import java.net.*;
-import java.util.*;
-import java.nio.charset.Charset;
-import java.io.*;
+import org.junit.Test;
 
 public class BucketInventory {
 
@@ -166,6 +165,11 @@ public class BucketInventory {
             public void onFail(CosXmlRequest cosXmlRequest,
                                @Nullable CosXmlClientException clientException,
                                @Nullable CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
             }
         });
 
@@ -177,7 +181,29 @@ public class BucketInventory {
      */
     private void listBucketInventory() {
         //.cssg-snippet-body-start:[list-bucket-inventory]
-        
+        // 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+        String bucket = "examplebucket-1250000000";
+        ListBucketInventoryRequest request = new ListBucketInventoryRequest(bucket);
+        cosXmlService.listBucketInventoryAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                ListBucketInventoryResult listBucketInventoryResult =
+                        (ListBucketInventoryResult) result;
+            }
+            // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：
+            // clientException 的类型为 CosXmlClientException?，serviceException 的类型为 CosXmlServiceException?
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest,
+                               @Nullable CosXmlClientException clientException,
+                               @Nullable CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+
         //.cssg-snippet-body-end
     }
 
@@ -212,7 +238,7 @@ public class BucketInventory {
 
         // 列出所有存储桶清单任务
         listBucketInventory();
-        
+
         // .cssg-methods-pragma
 
     }
