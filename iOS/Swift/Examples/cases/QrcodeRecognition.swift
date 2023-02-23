@@ -75,7 +75,7 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         op.rule = [rule];
         put.picOperations = op;
         put.setFinish { result, error in
-            NSLog("识别的信息 = %@",result);
+            
         }
         QCloudCOSXMLService.defaultCOSXML().putObjectQRCodeRecognition(put);
         //.cssg-snippet-body-end

@@ -74,7 +74,7 @@ class WordsGeneralizeTask: XCTestCase,QCloudSignatureProvider,QCloudCredentailFe
 
     // 查询指定的分词任务
     func getWordsGeneralizeTask() {
-        let request = QCloudGetWordsGeneralizeRequest.init();
+        let request = QCloudGetWordsGeneralizeTaskRequest.init();
 
         // 存储桶名称，格式为 BucketName-APPID
         request.bucket = "examplebucket-1250000000";

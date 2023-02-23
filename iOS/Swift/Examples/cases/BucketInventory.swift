@@ -185,7 +185,16 @@ class BucketInventory: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
     // 列出所有存储桶清单任务
     func listBucketInventory() {
         //.cssg-snippet-body-start:[swift-list-bucket-inventory]
-        
+        let req = QCloudListBucketInventoryConfigurationsRequest.init();
+        req.bucket = "examplebucket-1250000000";
+        req.finishBlock = {(result,error) in
+            if let result = result {
+                // result 包含响应的 header 信息
+            } else {
+                print(error!);
+            }
+        }
+        QCloudCOSXMLService.defaultCOSXML().listBucketInventory(req);
         //.cssg-snippet-body-end
     }
 
