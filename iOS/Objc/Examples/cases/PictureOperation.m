@@ -231,10 +231,6 @@
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
     request.object = @"***.jpg";
 
-    // 审核类型，拥有 porn（涉黄识别）、ads（广告识别）
-    // 用户可选择多种识别类型，例如 detect-type=porn,ads 表示对图片进行涉黄及广告审核
-    // 可以使用或进行组合赋值 如： QCloudRecognitionPorn | QCloudRecognitionTerrorist
-    request.detectType = QCloudRecognitionPorn | QCloudRecognitionTerrorist | QCloudRecognitionPolitics | QCloudRecognitionAds;
     [request setFinishBlock:^(QCloudImageRecognitionResult * _Nullable result, NSError * _Nullable error) {
     // outputObject 提交审核反馈信息，详细字段请查看api文档或者SDK源码
     // QCloudImageRecognitionResult 类；
@@ -286,7 +282,7 @@
 
     // 待审核的图片对象数组
     request.input = input;
-    request.detectType = QCloudRecognitionPorn | QCloudRecognitionTerrorist | QCloudRecognitionPolitics | QCloudRecognitionAds;
+
     [request setFinishBlock:^(QCloudBatchImageRecognitionResult * _Nullable result, NSError * _Nullable error) {
     // outputObject 审核结果，详细字段请查看api文档或者SDK源码
     // QCloudBatchImageRecognitionResult 类；
