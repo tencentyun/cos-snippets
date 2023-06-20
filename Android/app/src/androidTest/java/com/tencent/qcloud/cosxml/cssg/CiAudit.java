@@ -118,8 +118,6 @@ public class CiAudit {
         request.addImage(image1);
         request.addImage(image2);
         request.addImage(image3);
-        //审核的场景类型，有效值：Porn（涉黄）、Ads（广告），可以传入多种类型，不同类型以,分隔，例如：Porn,Ads。
-        request.setDetectType("Porn,Ads");
 
         ciService.postImagesAuditAsync(request, new CosXmlResultListener() {
             @Override
@@ -196,8 +194,6 @@ public class CiAudit {
         request.setCount(3);
         //视频截帧频率，范围为(0, 60]，单位为秒，支持 float 格式，执行精度精确到毫秒。
         request.setTimeInterval(10);
-        //审核的场景类型，有效值：Porn（涉黄）、Ads（广告），可以传入多种类型，不同类型以逗号分隔，例如：Porn,Ads。
-        request.setDetectType("Porn,Ads");
         //用于指定是否审核视频声音，当值为0时：表示只审核视频画面截图；值为1时：表示同时审核视频画面截图和视频声音。默认值为0。
         request.setDetectContent(1);
 
@@ -272,8 +268,6 @@ public class CiAudit {
         request.setCallback("https://github.com");
         //回调内容的结构，有效值：Simple（回调内容包含基本信息）、Detail（回调内容包含详细信息）。默认为 Simple。
         request.setCallbackVersion("Detail");
-        //审核的场景类型，有效值：Porn（涉黄）、Ads（广告），可以传入多种类型，不同类型以逗号分隔，例如：Porn,Ads。
-        request.setDetectType("Porn,Ads");
 
         ciService.postAudioAuditAsync(request, new CosXmlResultListener() {
             @Override
@@ -349,8 +343,6 @@ public class CiAudit {
         request.setCallback("https://github.com");
         //回调内容的结构，有效值：Simple（回调内容包含基本信息）、Detail（回调内容包含详细信息）。默认为 Simple。
         request.setCallbackVersion("Detail");
-        //审核的场景类型，有效值：Porn（涉黄）、Ads（广告），可以传入多种类型，不同类型以逗号分隔，例如：Porn,Ads。
-        request.setDetectType("Porn,Ads");
 
         ciService.postTextAuditAsync(request, new CosXmlResultListener() {
             @Override
@@ -421,8 +413,6 @@ public class CiAudit {
         request.setDataId("DataId");
         //回调地址，以http://或者https://开头的地址。
         request.setCallback("https://github.com");
-        //审核的场景类型，有效值：Porn（涉黄）、Ads（广告），可以传入多种类型，不同类型以逗号分隔，例如：Porn,Ads。
-        request.setDetectType("Porn,Ads");
 
         ciService.postDocumentAuditAsync(request, new CosXmlResultListener() {
             @Override
@@ -489,8 +479,6 @@ public class CiAudit {
         request.setUrl(url);
         //回调地址，以http://或者https://开头的地址。
         request.setCallback("https://github.com");
-        //审核的场景类型，有效值：Porn（涉黄）、Ads（广告），可以传入多种类型，不同类型以逗号分隔，例如：Porn,Ads。
-        request.setDetectType("Porn,Ads");
         //指定是否需要高亮展示网页内的违规文本，查询及回调结果时会根据此参数决定是否返回高亮展示的 html 内容。取值为 true 或者 false，默认为 false。
         request.setReturnHighlightHtml(true);
 
