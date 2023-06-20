@@ -1,26 +1,38 @@
 package com.tencent.qcloud.cosxml.cssg;
 
-import android.support.annotation.Nullable;
-
-import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.exception.*;
-import com.tencent.cos.xml.listener.*;
-import com.tencent.cos.xml.model.*;
-import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionRequest;
-import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionResult;
-import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.tag.pic.PicOperationRule;
-import com.tencent.cos.xml.model.tag.pic.PicOperations;
-import com.tencent.cos.xml.transfer.*;
-import com.tencent.qcloud.core.auth.*;
-import com.tencent.qcloud.core.common.*;
-
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 
+import com.tencent.cos.xml.CIService;
+import com.tencent.cos.xml.CosXmlService;
+import com.tencent.cos.xml.CosXmlServiceConfig;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.exception.CosXmlServiceException;
+import com.tencent.cos.xml.listener.CosXmlResultListener;
+import com.tencent.cos.xml.model.CosXmlRequest;
+import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionRequest;
+import com.tencent.cos.xml.model.ci.SensitiveContentRecognitionResult;
+import com.tencent.cos.xml.model.object.GetObjectRequest;
+import com.tencent.cos.xml.model.object.GetObjectResult;
+import com.tencent.cos.xml.model.object.PutObjectRequest;
+import com.tencent.cos.xml.model.tag.pic.PicOperationRule;
+import com.tencent.cos.xml.model.tag.pic.PicOperations;
+import com.tencent.cos.xml.transfer.COSXMLDownloadTask;
+import com.tencent.cos.xml.transfer.COSXMLUploadTask;
+import com.tencent.cos.xml.transfer.TransferConfig;
+import com.tencent.cos.xml.transfer.TransferManager;
+import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
+import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
+import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
+import com.tencent.qcloud.core.common.QCloudClientException;
+
 import org.junit.Test;
-import java.util.*;
-import java.io.*;
+
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PictureOperation {
 
@@ -174,7 +186,6 @@ public class PictureOperation {
 		String bucket = "examplebucket-1250000000";
         String key = "exampleobject"; //对象键
         SensitiveContentRecognitionRequest sensitiveContentRecognitionRequest = new SensitiveContentRecognitionRequest(bucket, key);
-        sensitiveContentRecognitionRequest.addType("politics");
         // CIService 是 CosXmlService 的子类，初始化方法和 CosXmlService 一致
         ciService.sensitiveContentRecognitionAsync(sensitiveContentRecognitionRequest, new CosXmlResultListener() {
             @Override
