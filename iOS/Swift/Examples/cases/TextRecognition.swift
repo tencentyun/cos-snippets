@@ -91,6 +91,24 @@ class TextRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
         //.cssg-snippet-body-end
     }
     
+    func PostTextAuditReport() {
+        let request = QCloudPostTextAuditReportRequest()
+        // 存储桶名称，格式为 BucketName-APPID
+        request.bucket = "examplebucket-1250000000"
+        // 文件所在地域
+        request.regionName = "regionName"
+        let input = QCloudPostTextAuditReport()
+        input.contentType = 1
+        input.label = "Label"
+        input.suggestedLabel = "Normal"
+        request.input = input
+        request.finishBlock = { result, error in
+          /// result 文本审核结果反馈 ，详细字段请查看 API 文档或者 SDK 源码
+        }
+        QCloudCOSXMLService.defaultCOSXML().postTextAuditReport(request)
+
+    }
+    
     // .cssg-methods-pragma
 
     func testTextOperation() {

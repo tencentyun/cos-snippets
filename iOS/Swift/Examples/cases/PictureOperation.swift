@@ -270,6 +270,25 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         QCloudCOSXMLService.defaultCOSXML().getImageRecognition(request);
     }
 
+    func PostImageAuditReport() {
+        let request = QCloudPostImageAuditReportRequest()
+        // 存储桶名称，格式为 BucketName-APPID
+        request.bucket = "examplebucket-1250000000"
+        // 文件所在地域
+        request.regionName = "regionName"
+
+
+        let input = QCloudPostImageAuditReport()
+        input.contentType = 2
+        input.label = "Label"
+        input.suggestedLabel = "Normal"
+        request.input = input
+        request.finishBlock = { result, error in
+            /// result 文本审核结果反馈 ，详细字段请查看 API 文档或者 SDK 源码
+        }
+        QCloudCOSXMLService.defaultCOSXML().postImageAuditReport(request)
+    }
+
     // 下载时进行图片处理
     func downloadWithPicOperation() {
         //.cssg-snippet-body-start:[swift-download-with-pic-operation]

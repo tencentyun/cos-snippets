@@ -7,7 +7,7 @@
 #import <QCloudCOSXML/QCloudGetImageRecognitionRequest.h>
 #import <QCloudCOSXML/QCloudSyncImageRecognitionRequest.h>
 #import <QCloudCOSXML/QCloudBatchimageRecognitionRequest.h>
-
+#import <QCloudCOSXML/QCloudPostImageAuditReportRequest.h>
 @interface PictureOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
@@ -301,8 +301,42 @@
 }
 
 
+-(void)PostImageAuditReport{
+    QCloudPostImageAuditReportRequest * request = [QCloudPostImageAuditReportRequest new];
+    // 存储桶名称，格式为 BucketName-APPID
+    request.bucket = @"examplebucket-1250000000";
+    // 文件所在地域
+    request.regionName = @"regionName";
 
 
+    QCloudPostImageAuditReport * input = [QCloudPostImageAuditReport new];
+    input.ContentType = 2;
+    input.Label = @"Label";
+    input.SuggestedLabel = @"Normal";
+    request.input = input;
+    [request setFinishBlock:^(QCloudPostImageAuditReportResult * _Nullable result, NSError * _Nullable error) {
+      /// result 文本审核结果反馈 ，详细字段请查看 API 文档或者 SDK 源码
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] PostImageAuditReport:request];
+}
+
+-(void)PostTextAuditReport{
+    QCloudPostTextAuditReportRequest * request = [QCloudPostTextAuditReportRequest new];
+    // 存储桶名称，格式为 BucketName-APPID
+    request.bucket = @"examplebucket-1250000000";
+    // 文件所在地域
+    request.regionName = @"regionName";
+    QCloudPostTextAuditReport * input = [QCloudPostTextAuditReport new];
+    input.ContentType = 1;
+    input.Label = @"Label";
+    input.SuggestedLabel = @"Normal";
+    request.input = input;
+    [request setFinishBlock:^(QCloudPostTextAuditReportResult * _Nullable result, NSError * _Nullable error) {
+      /// result 文本审核结果反馈 ，详细字段请查看 API 文档或者 SDK 源码
+    }];
+    [[QCloudCOSXMLService defaultCOSXML] PostTextAuditReport:request];
+
+}
 // .cssg-methods-pragma
 
 - (void)testPictureOperation {
