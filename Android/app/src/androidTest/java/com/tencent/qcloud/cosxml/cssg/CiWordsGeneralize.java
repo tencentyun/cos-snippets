@@ -113,8 +113,6 @@ public class CiWordsGeneralize {
         // Active 表示队列内的作业会被识别服务调度执行
         // Paused 表示队列暂停，作业不再会被识别服务调度执行，队列内的所有作业状态维持在暂停状态，已经处于识别中的任务将继续执行，不受影响
         request.setState("Active");
-        //设置队列 ID，以“,”符号分割字符串
-        //request.setQueueIds("p74b5265ab1df466682b7b355007d0dfc"+",p74b9995ab1df455782b7b355007d0dfc");
         ciService.describeAiQueuesAsync(request, new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
@@ -148,8 +146,6 @@ public class CiWordsGeneralize {
         String inputPath = "dir1/input.txt";
         //设置文件在 COS 上的 key
         request.setInputObject(inputPath);
-        //设置任务所在的队列 ID
-        request.setQueueId("p74b5265ab1df466682b7b355007d0dfc");
         //设置任务回调地址
         //优先级高于队列的回调地址。设置为 no 时，表示队列的回调地址不产生回调
         request.setCallBack("no");

@@ -123,8 +123,6 @@ public class CiAsr {
         // Active 表示队列内的作业会被语音识别服务调度执行
         // Paused 表示队列暂停，作业不再会被语音识别服务调度执行，队列内的所有作业状态维持在暂停状态，已经处于识别中的任务将继续执行，不受影响
         request.setState("Active");
-        //设置队列 ID，以“,”符号分割字符串
-        //request.setQueueIds("p74b5265ab1df466682b7b355007d0dfc"+",p74b9995ab1df455782b7b355007d0dfc");
         ciService.describeSpeechQueuesAsync(request, new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
@@ -158,8 +156,6 @@ public class CiAsr {
         String inputPath = "dir1/input.m4a";
         //设置语音文件在 COS 上的 key
         request.setInputObject(inputPath);
-        //设置任务所在的队列 ID
-        request.setQueueId("p74b5265ab1df466682b7b355007d0dfc");
         //输出cos路径
         String outputPath = "dir1/putput.txt";
         //设置结果输出地址
@@ -239,9 +235,7 @@ public class CiAsr {
 
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
-        //要查询的队列id
-        String queueId = "p74b5265ab1df466682b7b355007d0dfc";
-        DescribeSpeechJobsRequest request = new DescribeSpeechJobsRequest(bucket, queueId);
+        DescribeSpeechJobsRequest request = new DescribeSpeechJobsRequest(bucket);
         //Desc 或者 Asc。默认为 Desc。
         request.setOrderByTime("Desc");
         //请求的上下文，用于翻页。上次返回的值。
