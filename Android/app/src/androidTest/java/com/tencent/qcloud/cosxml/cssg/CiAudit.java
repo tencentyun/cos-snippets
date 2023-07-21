@@ -12,12 +12,16 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.cos.xml.model.ci.audit.CancelLiveVideoAuditRequest;
+import com.tencent.cos.xml.model.ci.audit.CancelLiveVideoAuditResult;
 import com.tencent.cos.xml.model.ci.audit.GetAudioAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.GetAudioAuditResult;
 import com.tencent.cos.xml.model.ci.audit.GetDocumentAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.GetDocumentAuditResult;
 import com.tencent.cos.xml.model.ci.audit.GetImageAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.GetImageAuditResult;
+import com.tencent.cos.xml.model.ci.audit.GetLiveVideoAuditRequest;
+import com.tencent.cos.xml.model.ci.audit.GetLiveVideoAuditResult;
 import com.tencent.cos.xml.model.ci.audit.GetTextAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.GetVideoAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.GetVideoAuditResult;
@@ -26,8 +30,17 @@ import com.tencent.cos.xml.model.ci.audit.GetWebPageAuditResult;
 import com.tencent.cos.xml.model.ci.audit.PostAudioAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.PostAuditResult;
 import com.tencent.cos.xml.model.ci.audit.PostDocumentAuditRequest;
+import com.tencent.cos.xml.model.ci.audit.PostImageAuditReport;
+import com.tencent.cos.xml.model.ci.audit.PostImageAuditReportRequest;
+import com.tencent.cos.xml.model.ci.audit.PostImageAuditReportResult;
 import com.tencent.cos.xml.model.ci.audit.PostImagesAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.PostImagesAuditResult;
+import com.tencent.cos.xml.model.ci.audit.PostLiveVideoAudit;
+import com.tencent.cos.xml.model.ci.audit.PostLiveVideoAuditRequest;
+import com.tencent.cos.xml.model.ci.audit.PostLiveVideoAuditResult;
+import com.tencent.cos.xml.model.ci.audit.PostTextAuditReport;
+import com.tencent.cos.xml.model.ci.audit.PostTextAuditReportRequest;
+import com.tencent.cos.xml.model.ci.audit.PostTextAuditReportResult;
 import com.tencent.cos.xml.model.ci.audit.PostTextAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.PostVideoAuditRequest;
 import com.tencent.cos.xml.model.ci.audit.PostWebPageAuditRequest;
@@ -41,6 +54,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class CiAudit {
     private Context context;
@@ -532,8 +546,182 @@ public class CiAudit {
         //.cssg-snippet-body-end
     }
 
+    /**
+     * 提交直播审核任务
+     */
+    private void postLiveVideoAudit() {
+        //.cssg-snippet-body-start:[post-livevideo-audit]
+
+        // 存储桶名称，格式为 BucketName-APPID
+        String bucket = "examplebucket-1250000000";
+        // 直播的链接地址
+        String url = "rtmp://xxx.com/live";
+        PostLiveVideoAuditRequest request = new PostLiveVideoAuditRequest(bucket);
+        PostLiveVideoAudit postLiveVideoAudit = new PostLiveVideoAudit();
+        PostLiveVideoAudit.PostLiveVideoAuditInput input = new PostLiveVideoAudit.PostLiveVideoAuditInput();
+        // 需要审核的直播流播放地址，例如 rtmp://example.com/live/123。;是否必传：是;
+        input.url = url;
+        // 该字段在审核结果中会返回原始内容，长度限制为512字节。您可以使用该字段对待审核的数据进行唯一业务标识。;是否必传：否;
+        input.dataId = "dataId";
+        postLiveVideoAudit.input = input;
+        PostLiveVideoAudit.PostLiveVideoAuditConf conf = new PostLiveVideoAudit.PostLiveVideoAuditConf();
+        // 表示审核策略的唯一标识，您可以通过控制台上的审核策略页面，配置您希望审核的场景，例如涉黄、广告、违法违规等，配置指引： 设置审核策略。您可以在控制台上获取到 BizType。BizType 填写时，此条审核请求将按照该审核策略中配置的场景进行审核。BizType 不填写时��将自动使用默认的审核策略。;是否必传：是;
+        conf.bizType = "b81d45f94b91a683255e9a9506f45a11";
+        // 回调地址，以http://或者https://开头的地址。;是否必传：否;
+        conf.callback = "https://xxx.com";
+        // 回调片段类型，有效值：1（回调全部截帧和音频片段）、2（仅回调违规截帧和音频片段）。默认为 1。;是否必传：否;
+        conf.callbackType = 1;
+        postLiveVideoAudit.conf = conf;
+        request.setPostLiveVideoAudit(postLiveVideoAudit);
+        ciService.postLiveVideoAuditAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+                // result 提交直播审核任务的结果
+                // 详细字段请查看api文档或者SDK源码
+                PostLiveVideoAuditResult result = (PostLiveVideoAuditResult) cosResult;
+            }
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 查询直播审核任务结果
+     */
+    private void getLiveVideoAudit() {
+        //.cssg-snippet-body-start:[get-livevideo-audit]
+        // 存储桶名称，格式为 BucketName-APPID
+        String bucket = "examplebucket-1250000000";
+        // 审核任务的 ID
+        String jobId = "iab1ca9fc8a3ed11ea834c525400863904";
+        GetLiveVideoAuditRequest request = new GetLiveVideoAuditRequest(bucket, jobId);
+        ciService.getLiveVideoAuditAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+                // result 查询直播审核任务的结果
+                // 详细字段请查看api文档或者SDK源码
+                GetLiveVideoAuditResult result = (GetLiveVideoAuditResult) cosResult;
+            }
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 取消直播审核任务
+     */
+    private void cancelLiveVideoAudit() {
+        //.cssg-snippet-body-start:[cancel-livevideo-audit]
+        // 存储桶名称，格式为 BucketName-APPID
+        String bucket = "examplebucket-1250000000";
+        // 审核任务的 ID
+        String jobId = "iab1ca9fc8a3ed11ea834c525400863904";
+        CancelLiveVideoAuditRequest request = new CancelLiveVideoAuditRequest(bucket, jobId);
+        ciService.cancelLiveVideoAuditAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+                // result 取消直播审核任务的结果
+                // 详细字段请查看api文档或者SDK源码
+                CancelLiveVideoAuditResult result = (CancelLiveVideoAuditResult) cosResult;
+            }
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 图片审核结果反馈
+     */
+    private void postImageAuditReport() {
+        //.cssg-snippet-body-start:[post_image_audit_report]
+        // 存储桶名称，格式为 BucketName-APPID
+        String bucket = "examplebucket-1250000000";
+        PostImageAuditReportRequest request = new PostImageAuditReportRequest(bucket);
+        PostImageAuditReport PostImageAuditReport = new PostImageAuditReport();
+        // 图片类型的样本，需要填写图片的 url 链接
+        PostImageAuditReport.url = "https://xxximg.com/x6e14.jpeg";
+        // 数据万象审核判定的审核结果标签，例如 Porn。;是否必传：是;
+        PostImageAuditReport.label = "Porn";
+        // 您自己期望的正确审核结果的标签，例如期望是正常，则填 Normal。;是否必传：是;
+        PostImageAuditReport.suggestedLabel = "Normal";
+        request.setPostImageAuditReport(PostImageAuditReport);
+        ciService.postImageAuditReportAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+                // result 图片审核结果反馈的结果
+                // 详细字段请查看api文档或者SDK源码
+                PostImageAuditReportResult result = (PostImageAuditReportResult) cosResult;
+            }
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
+    /**
+     * 文本审核结果反馈
+     */
+    private void postTextAuditReport() {
+        //.cssg-snippet-body-start:[post_text_audit_report]
+        // 存储桶名称，格式为 BucketName-APPID
+        String bucket = "examplebucket-1250000000";
+        PostTextAuditReportRequest request = new PostTextAuditReportRequest(bucket);
+        PostTextAuditReport PostTextAuditReport = new PostTextAuditReport();
+        // 文本类型的样本，需要填写 base64 的文本内容
+        PostTextAuditReport.text = Base64.encodeToString("texttexttexttexttextte".getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
+        // 数据万象审核判定的审核结果标签，例如 Porn。;是否必传：是;
+        PostTextAuditReport.label = "Porn";
+        // 您自己期望的正确审核结果的标签，例如期望是正常，则填 Normal。;是否必传：是;
+        PostTextAuditReport.suggestedLabel = "Normal";
+        request.setPostTextAuditReport(PostTextAuditReport);
+        ciService.postTextAuditReportAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+                // result 文本审核结果反馈的结果
+                // 详细字段请查看api文档或者SDK源码
+                PostTextAuditReportResult result = (PostTextAuditReportResult) cosResult;
+            }
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+        //.cssg-snippet-body-end
+    }
+
     @Test
-    public void testBucketWebsite() {
+    public void testCiAudit() {
         initService();
 
         // 图片批量审核
@@ -571,6 +759,22 @@ public class CiAudit {
 
         // 查询网页审核任务结果
         getWebPageAudit();
+
+        // 提交直播审核任务
+        postLiveVideoAudit();
+
+        // 查询直播审核任务结果
+        getLiveVideoAudit();
+
+        // 取消直播审核任务结果
+        cancelLiveVideoAudit();
+
+        // 图片审核结果反馈
+        postImageAuditReport();
+
+        // 文本审核结果反馈
+        postTextAuditReport();
+
         // .cssg-methods-pragma
     }
 }

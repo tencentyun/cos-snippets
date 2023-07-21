@@ -270,7 +270,7 @@ public class CiAsr {
     }
 
     @Test
-    public void testBucketWebsite() {
+    public void testCiAsr() {
         initService();
 
         // 查询已经开通语音识别功能的存储桶

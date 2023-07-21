@@ -212,7 +212,7 @@ public class CiWordsGeneralize {
     }
 
     @Test
-    public void testBucketWebsite() {
+    public void testCiWordsGeneralize() {
         initService();
 
         // 开通AI内容识别服务并生成队列
