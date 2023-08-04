@@ -66,20 +66,33 @@
     
     QCloudPostTextRecognitionRequest * request = [[QCloudPostTextRecognitionRequest alloc]init];
 
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    request.object = @"exampleobject";
-
+    // content:纯文本信息
+    // object:对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    // url:文本文件的完整链接
+    // 单次请求只能使用 Object 、Content、Url 中的一个。
+    // 当选择 Object、Url 时，审核结果为异步返回，可通过 查询文本审核任务结果 API 接口获取返回结果。
+    // 当选择 Content 时，审核结果为同步返回，可通过 响应体 查看返回结果。
+    request.content = @"文本内容";
+    
+    
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
-
+    
+    
     // 文件所在地域
     request.regionName = @"regionName";
-
+    
+    
+    // 审核策略，不带审核策略时使用默认策略。具体查看 https://cloud.tencent.com/document/product/460/56345
+    request.bizType = BizType;
+    
+    
     request.finishBlock = ^(QCloudPostTextRecognitionResult * outputObject, NSError *error) {
         // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
         // QCloudPostTextRecognitionResult 类；
     };
     [[QCloudCOSXMLService defaultCOSXML] PostTextRecognition:request];
+
     //.cssg-snippet-body-end
 }
 
