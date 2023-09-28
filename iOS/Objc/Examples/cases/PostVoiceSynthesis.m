@@ -1,12 +1,12 @@
 #import <QCloudCOSXML/QCloudCOSXML.h>
 
-@interface PostVoiceSeparateDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface PostVoiceSynthesisDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation PostVoiceSeparateDemo
+@implementation PostVoiceSynthesisDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -55,34 +55,36 @@
     }];
 }
 
-- (void) testPostVoiceSeparate{
-	QCloudPostVoiceSeparateRequest * request = [QCloudPostVoiceSeparateRequest new];
+- (void) testPostVoiceSynthesis{
+	QCloudPostVoiceSynthesisRequest * request = [QCloudPostVoiceSynthesisRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	request.input = [QCloudPostVoiceSeparate new];
-	// 创建任务的 Tag：VoiceSeparate;是否必传：是
+	request.input = [QCloudPostVoiceSynthesis new];
+	// 创建任务的 Tag：Tts;是否必传：是
 	request.input.Tag = @"";
-	// 待操作的文件信息;是否必传：是
-	request.input.Input = [QCloudPostVoiceSeparateInput new];
-	// 文件路径;是否必传：是
-	request.input.Input.Object = @"";
 	// 操作规则;是否必传：是
-	request.input.Operation = [QCloudPostVoiceSeparateOperation new];
-	// 人声分离模板参数;是否必传：否
-	request.input.Operation.VoiceSeparate = [QCloudPostVoiceSeparateVoiceSeparate new];
-	// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-	request.input.Operation.VoiceSeparate.AudioMode = @"";
+	request.input.Operation = [QCloudPostVoiceSynthesisOperation new];
+	// 语音合成参数;是否必传：否
+	request.input.Operation.TtsTpl = [QCloudPostVoiceSynthesisTtsTpl new];
+	// 语音合成任务参数;是否必传：是
+	request.input.Operation.TtsConfig = [QCloudPostVoiceSynthesisTtsConfig new];
+	// 输入类型，Url/Text;是否必传：是
+	request.input.Operation.TtsConfig.InputType = @"";
+	// 当 InputType 为 Url 时， 必须是合法的 COS 地址，文件必须是utf-8编码，且大小不超过 10M。如果合成方式为同步处理，则文件内容不超过 300 个 utf-8 字符；如果合成方式为异步处理，则文件内容不超过 10000 个 utf-8 字符。当 InputType 为 Text 时, 输入必须是 utf-8 字符, 且不超过 300 个字符。;是否必传：是
+	request.input.Operation.TtsConfig.Input = @"";
 	// 结果输出配置;是否必传：是
-	request.input.Operation.Output = [QCloudPostVoiceSeparateOutput new];
+	request.input.Operation.Output = [QCloudPostVoiceSynthesisOutput new];
 	// 存储桶的地域;是否必传：是
 	request.input.Operation.Output.Region = @"";
 	// 存储结果的存储桶;是否必传：是
 	request.input.Operation.Output.Bucket = @"";
-	[request setFinishBlock:^(QCloudPostVoiceSeparateResponse * outputObject, NSError *error) {
-		// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+	// 结果文件名;是否必传：是
+	request.input.Operation.Output.Object = @"";
+	[request setFinishBlock:^(QCloudPostVoiceSynthesisResponse * outputObject, NSError *error) {
+		// result：QCloudPostVoiceSynthesisResponse 包含所有的响应；
+		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84797
 	}];
-	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparate:request];
+	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSynthesis:request];
 
 }
 

@@ -1,6 +1,6 @@
 import QCloudCOSXML
 
-class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class PostSpeechRecognitionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -48,34 +48,30 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         })
     }
 
-	func testPostVoiceSeparate() {
-			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
+	func testPostSpeechRecognition() {
+			let request : QCloudPostSpeechRecognitionRequest = QCloudPostSpeechRecognitionRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
-		// 创建任务的 Tag：VoiceSeparate;是否必传：是
+		let postSpeechRecognition : QCloudPostSpeechRecognition = QCloudPostSpeechRecognition();
+		// 创建任务的 Tag：SpeechRecognition;是否必传：是
 		request.input.tag = "";
-		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
-		// 文件路径;是否必传：是
-		request.input.Input.object = "";
+		// 待操作的对象信息;是否必传：是
+		let input : QCloudPostSpeechRecognitionInput = QCloudPostSpeechRecognitionInput();
 		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
-		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
-		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
+		let operation : QCloudPostSpeechRecognitionOperation = QCloudPostSpeechRecognitionOperation();
 		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
+		let output : QCloudPostSpeechRecognitionOutput = QCloudPostSpeechRecognitionOutput();
 		// 存储桶的地域;是否必传：是
 		request.input.Operation.Output.region = "";
 		// 存储结果的存储桶;是否必传：是
 		request.input.Operation.Output.bucket = "";
+		// 结果文件的名称;是否必传：是
+		request.input.Operation.Output.object = "";
 		request.finishBlock = { result, error in
-			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+			// result：QCloudPostSpeechRecognitionResponse 包含所有的响应；
+			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84798
 		};
-		QCloudCOSXMLService.defaultCOSXML().postVoiceSeparate(request);
+		QCloudCOSXMLService.defaultCOSXML().postSpeechRecognition(request);
 	
 	}
 

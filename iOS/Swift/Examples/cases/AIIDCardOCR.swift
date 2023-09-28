@@ -1,6 +1,6 @@
 import QCloudCOSXML
 
-class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class AIIDCardOCRDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -48,34 +48,23 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         })
     }
 
-	func testPostVoiceSeparate() {
-			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
+	func testAIIDCardOCR() {
+			let request : QCloudAIIDCardOCRRequest = QCloudAIIDCardOCRRequest();
+		// 设置：objectKey;
+		request.objectKey = null;
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
-		// 创建任务的 Tag：VoiceSeparate;是否必传：是
-		request.input.tag = "";
-		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
-		// 文件路径;是否必传：是
-		request.input.Input.object = "";
-		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
-		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
-		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
-		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
-		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
-		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+		// 数据万象处理能力，身份证识别固定为 IDCardOCR;是否必传：true；
+		request.ciProcess = "IDCardOCR";
+		// FRONT：身份证有照片的一面（人像面）BACK：身份证有国徽的一面（国徽面）该参数如果不填，将为您自动判断身份证正反面;是否必传：false；
+		request.cardSide = ;
+		// 以下可选字段均为 bool 类型，默认 false：CropIdCard，身份证照片裁剪（去掉证件外多余的边缘、自动矫正拍摄角度）CropPortrait，人像照片裁剪（自动抠取身份证头像区域）CopyWarn，复印件告警BorderCheckWarn，边框和框内遮挡告警ReshootWarn，翻拍告警DetectPsWarn，PS 检测告警TempIdWarn，临时身份证告警InvalidDateWarn，身份证有效日期不合法告警Quality，图片质量分数（评价图片的模糊程度）MultiCardDetect，是否开启多卡证检测参数设置方式参考：Config = {"CropIdCard":true,"CropPortrait":true};是否必传：false；
+		request.config = ;
 		request.finishBlock = { result, error in
-			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+			// result：QCloudAIIDCardOCRResponse 包含所有的响应；
+			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/48638
 		};
-		QCloudCOSXMLService.defaultCOSXML().postVoiceSeparate(request);
+		QCloudCOSXMLService.defaultCOSXML().aIIDCardOCR(request);
 	
 	}
 

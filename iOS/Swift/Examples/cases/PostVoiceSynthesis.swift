@@ -1,6 +1,6 @@
 import QCloudCOSXML
 
-class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class PostVoiceSynthesisDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -48,34 +48,36 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         })
     }
 
-	func testPostVoiceSeparate() {
-			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
+	func testPostVoiceSynthesis() {
+			let request : QCloudPostVoiceSynthesisRequest = QCloudPostVoiceSynthesisRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
-		// 创建任务的 Tag：VoiceSeparate;是否必传：是
+		let postVoiceSynthesis : QCloudPostVoiceSynthesis = QCloudPostVoiceSynthesis();
+		// 创建任务的 Tag：Tts;是否必传：是
 		request.input.tag = "";
-		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
-		// 文件路径;是否必传：是
-		request.input.Input.object = "";
 		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
-		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
-		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
+		let operation : QCloudPostVoiceSynthesisOperation = QCloudPostVoiceSynthesisOperation();
+		// 语音合成参数;是否必传：否
+		let ttsTpl : QCloudPostVoiceSynthesisTtsTpl = QCloudPostVoiceSynthesisTtsTpl();
+		// 语音合成任务参数;是否必传：是
+		let ttsConfig : QCloudPostVoiceSynthesisTtsConfig = QCloudPostVoiceSynthesisTtsConfig();
+		// 输入类型，Url/Text;是否必传：是
+		request.input.Operation.TtsConfig.inputType = "";
+		// 当 InputType 为 Url 时， 必须是合法的 COS 地址，文件必须是utf-8编码，且大小不超过 10M。如果合成方式为同步处理，则文件内容不超过 300 个 utf-8 字符；如果合成方式为异步处理，则文件内容不超过 10000 个 utf-8 字符。当 InputType 为 Text 时, 输入必须是 utf-8 字符, 且不超过 300 个字符。;是否必传：是
+		request.input.Operation.TtsConfig.input = "";
 		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
+		let output : QCloudPostVoiceSynthesisOutput = QCloudPostVoiceSynthesisOutput();
 		// 存储桶的地域;是否必传：是
 		request.input.Operation.Output.region = "";
 		// 存储结果的存储桶;是否必传：是
 		request.input.Operation.Output.bucket = "";
+		// 结果文件名;是否必传：是
+		request.input.Operation.Output.object = "";
 		request.finishBlock = { result, error in
-			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+			// result：QCloudPostVoiceSynthesisResponse 包含所有的响应；
+			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84797
 		};
-		QCloudCOSXMLService.defaultCOSXML().postVoiceSeparate(request);
+		QCloudCOSXMLService.defaultCOSXML().postVoiceSynthesis(request);
 	
 	}
 

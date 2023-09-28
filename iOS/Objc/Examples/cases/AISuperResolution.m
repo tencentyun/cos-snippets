@@ -1,12 +1,12 @@
 #import <QCloudCOSXML/QCloudCOSXML.h>
 
-@interface PostVoiceSeparateDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface AISuperResolutionDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation PostVoiceSeparateDemo
+@implementation AISuperResolutionDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -55,34 +55,20 @@
     }];
 }
 
-- (void) testPostVoiceSeparate{
-	QCloudPostVoiceSeparateRequest * request = [QCloudPostVoiceSeparateRequest new];
+- (void) testAISuperResolution{
+	QCloudAISuperResolutionRequest * request = [QCloudAISuperResolutionRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	request.input = [QCloudPostVoiceSeparate new];
-	// 创建任务的 Tag：VoiceSeparate;是否必传：是
-	request.input.Tag = @"";
-	// 待操作的文件信息;是否必传：是
-	request.input.Input = [QCloudPostVoiceSeparateInput new];
-	// 文件路径;是否必传：是
-	request.input.Input.Object = @"";
-	// 操作规则;是否必传：是
-	request.input.Operation = [QCloudPostVoiceSeparateOperation new];
-	// 人声分离模板参数;是否必传：否
-	request.input.Operation.VoiceSeparate = [QCloudPostVoiceSeparateVoiceSeparate new];
-	// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-	request.input.Operation.VoiceSeparate.AudioMode = @"";
-	// 结果输出配置;是否必传：是
-	request.input.Operation.Output = [QCloudPostVoiceSeparateOutput new];
-	// 存储桶的地域;是否必传：是
-	request.input.Operation.Output.Region = @"";
-	// 存储结果的存储桶;是否必传：是
-	request.input.Operation.Output.Bucket = @"";
-	[request setFinishBlock:^(QCloudPostVoiceSeparateResponse * outputObject, NSError *error) {
-		// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+	// 设置：ObjectKey;
+	request.ObjectKey = ;
+	// 数据万象处理能力，只能裁剪参固定为AISuperResolution。;是否必传：false；
+	request.ciProcess = @"AISuperResolution";
+	// 您可以通过填写 detect-url 处理任意公网可访问的图片链接。不填写 detect-url 时，后台会默认处理 ObjectKey ，填写了 detect-url 时，后台会处理 detect-url 链接，无需再填写 ObjectKey，detect-url 示例：http://www.example.com/abc.jpg ，需要进行 UrlEncode，处理后为http%25253A%25252F%25252Fwww.example.com%25252Fabc.jpg。;是否必传：false；
+	request.detectUrl = ;
+	[request setFinishBlock:^(id outputObject, NSError *error) {
+		// 无响应体
 	}];
-	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparate:request];
+	[[QCloudCOSXMLService defaultCOSXML] AISuperResolution:request];
 
 }
 

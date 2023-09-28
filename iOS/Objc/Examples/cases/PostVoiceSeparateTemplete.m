@@ -1,12 +1,12 @@
 #import <QCloudCOSXML/QCloudCOSXML.h>
 
-@interface PostVoiceSeparateDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface PostVoiceSeparateTempleteDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation PostVoiceSeparateDemo
+@implementation PostVoiceSeparateTempleteDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -55,34 +55,22 @@
     }];
 }
 
-- (void) testPostVoiceSeparate{
-	QCloudPostVoiceSeparateRequest * request = [QCloudPostVoiceSeparateRequest new];
+- (void) testPostVoiceSeparateTemplete{
+	QCloudPostVoiceSeparateTempleteRequest * request = [QCloudPostVoiceSeparateTempleteRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	request.input = [QCloudPostVoiceSeparate new];
-	// 创建任务的 Tag：VoiceSeparate;是否必传：是
+	request.input = [QCloudPostVoiceSeparateTemplete new];
+	// 模板类型: VoiceSeparate;是否必传：是
 	request.input.Tag = @"";
-	// 待操作的文件信息;是否必传：是
-	request.input.Input = [QCloudPostVoiceSeparateInput new];
-	// 文件路径;是否必传：是
-	request.input.Input.Object = @"";
-	// 操作规则;是否必传：是
-	request.input.Operation = [QCloudPostVoiceSeparateOperation new];
-	// 人声分离模板参数;是否必传：否
-	request.input.Operation.VoiceSeparate = [QCloudPostVoiceSeparateVoiceSeparate new];
-	// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-	request.input.Operation.VoiceSeparate.AudioMode = @"";
-	// 结果输出配置;是否必传：是
-	request.input.Operation.Output = [QCloudPostVoiceSeparateOutput new];
-	// 存储桶的地域;是否必传：是
-	request.input.Operation.Output.Region = @"";
-	// 存储结果的存储桶;是否必传：是
-	request.input.Operation.Output.Bucket = @"";
-	[request setFinishBlock:^(QCloudPostVoiceSeparateResponse * outputObject, NSError *error) {
-		// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+	// 模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
+	request.input.Name = @"";
+	// 输出音频IsAudio：输出人声IsBackground：输出背景声AudioAndBackground：输出人声和背景声MusicMode：输出人声、背景声、Bass声、鼓声;是否必传：是
+	request.input.AudioMode = @"";
+	[request setFinishBlock:^(QCloudPostVoiceSeparateTempleteResponse * outputObject, NSError *error) {
+		// result：QCloudPostVoiceSeparateTempleteResponse 包含所有的响应；
+		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84500
 	}];
-	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparate:request];
+	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparateTemplete:request];
 
 }
 

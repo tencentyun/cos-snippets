@@ -1,6 +1,6 @@
 import QCloudCOSXML
 
-class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class AIImageCropDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -48,34 +48,28 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         })
     }
 
-	func testPostVoiceSeparate() {
-			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
+	func testAIImageCrop() {
+			let request : QCloudAIImageCropRequest = QCloudAIImageCropRequest();
+		// 设置：objectKey;
+		request.objectKey = null;
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
-		// 创建任务的 Tag：VoiceSeparate;是否必传：是
-		request.input.tag = "";
-		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
-		// 文件路径;是否必传：是
-		request.input.Input.object = "";
-		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
-		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
-		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
-		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
-		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
-		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+		// 数据万象处理能力，智能裁剪固定为AIImageCrop;是否必传：true；
+		request.ciProcess = "AIImageCrop";
+		// 您可以通过填写 detect-url 处理任意公网可访问的图片链接。不填写 detect-url 时，后台会默认处理 ObjectKey ，填写了 detect-url 时，后台会处理 detect-url 链接，无需再填写 ObjectKey detect-url 示例：http://www.example.com/abc.jpg ，需要进行 UrlEncode，处理后为http%25253A%25252F%25252Fwww.example.com%25252Fabc.jpg;是否必传：false；
+		request.detectUrl = ;
+		// 需要裁剪区域的宽度，与height共同组成所需裁剪的图片宽高比例；输入数字请大于0、小于图片宽度的像素值;是否必传：true；
+		request.width = 0;
+		// 需要裁剪区域的高度，与width共同组成所需裁剪的图片宽高比例；输入数字请大于0、小于图片高度的像素值；width : height建议取值在[1, 2.5]之间，超过这个范围可能会影响效果;是否必传：true；
+		request.height = 0;
+		// 是否严格按照 width 和 height 的值进行输出。取值为0时，宽高比例（width : height）会简化为最简分数，即如果width输入10、height输入20，会简化为1：2；取值为1时，输出图片的宽度等于width，高度等于height；默认值为0;是否必传：false；
+		request.fixed = 0;
+		// 当此参数为1时，针对文件过大等导致处理失败的场景，会直接返回原图而不报错;是否必传：false；
+		request.ignoreError = 0;
 		request.finishBlock = { result, error in
-			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+			// 无响应体
 		};
-		QCloudCOSXMLService.defaultCOSXML().postVoiceSeparate(request);
+		QCloudCOSXMLService.defaultCOSXML().aIImageCrop(request);
 	
 	}
 

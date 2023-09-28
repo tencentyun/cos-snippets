@@ -1,12 +1,12 @@
 #import <QCloudCOSXML/QCloudCOSXML.h>
 
-@interface PostVoiceSeparateDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface LivenessRecognitionDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation PostVoiceSeparateDemo
+@implementation LivenessRecognitionDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -55,34 +55,29 @@
     }];
 }
 
-- (void) testPostVoiceSeparate{
-	QCloudPostVoiceSeparateRequest * request = [QCloudPostVoiceSeparateRequest new];
+- (void) testLivenessRecognition{
+	QCloudLivenessRecognitionRequest * request = [QCloudLivenessRecognitionRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	request.input = [QCloudPostVoiceSeparate new];
-	// 创建任务的 Tag：VoiceSeparate;是否必传：是
-	request.input.Tag = @"";
-	// 待操作的文件信息;是否必传：是
-	request.input.Input = [QCloudPostVoiceSeparateInput new];
-	// 文件路径;是否必传：是
-	request.input.Input.Object = @"";
-	// 操作规则;是否必传：是
-	request.input.Operation = [QCloudPostVoiceSeparateOperation new];
-	// 人声分离模板参数;是否必传：否
-	request.input.Operation.VoiceSeparate = [QCloudPostVoiceSeparateVoiceSeparate new];
-	// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-	request.input.Operation.VoiceSeparate.AudioMode = @"";
-	// 结果输出配置;是否必传：是
-	request.input.Operation.Output = [QCloudPostVoiceSeparateOutput new];
-	// 存储桶的地域;是否必传：是
-	request.input.Operation.Output.Region = @"";
-	// 存储结果的存储桶;是否必传：是
-	request.input.Operation.Output.Bucket = @"";
-	[request setFinishBlock:^(QCloudPostVoiceSeparateResponse * outputObject, NSError *error) {
-		// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+	// 设置：ObjectKey;
+	request.ObjectKey = ;
+	// 数据万象处理能力，人脸核身固定为 LivenessRecognition;是否必传：true；
+	request.ciProcess = @"LivenessRecognition";
+	// 身份证号;是否必传：true；
+	request.IdCard = ;
+	// 姓名。中文请使用 UTF-8编码;是否必传：true；
+	request.Name = ;
+	// 活体检测类型，取值：LIP/ACTION/SILENTLIP 为数字模式，ACTION 为动作模式，SILENT 为静默模式，三种模式选择一种传入;是否必传：true；
+	request.LivenessType = ;
+	// 数字模式传参：数字验证码（1234），需先调用接口获取数字验证码动作模式传参：传动作顺序（2，1 or 1，2），需先调用接口获取动作顺序静默模式传参：空;是否必传：false；
+	request.ValidateData = ;
+	// 需要返回多张最佳截图，取值范围1 - 10，不设置默认返回一张最佳截图;是否必传：false；
+	request.BestFrameNum = 0;
+	[request setFinishBlock:^(QCloudLivenessRecognitionResponse * outputObject, NSError *error) {
+		// result：QCloudLivenessRecognitionResponse 包含所有的响应；
+		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/48641
 	}];
-	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparate:request];
+	[[QCloudCOSXMLService defaultCOSXML] LivenessRecognition:request];
 
 }
 

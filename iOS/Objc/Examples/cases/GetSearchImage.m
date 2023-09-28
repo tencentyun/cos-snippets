@@ -1,12 +1,12 @@
 #import <QCloudCOSXML/QCloudCOSXML.h>
 
-@interface PostVoiceSeparateDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface GetSearchImageDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation PostVoiceSeparateDemo
+@implementation GetSearchImageDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -55,34 +55,25 @@
     }];
 }
 
-- (void) testPostVoiceSeparate{
-	QCloudPostVoiceSeparateRequest * request = [QCloudPostVoiceSeparateRequest new];
+- (void) testGetSearchImage{
+	QCloudGetSearchImageRequest * request = [QCloudGetSearchImageRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	request.input = [QCloudPostVoiceSeparate new];
-	// 创建任务的 Tag：VoiceSeparate;是否必传：是
-	request.input.Tag = @"";
-	// 待操作的文件信息;是否必传：是
-	request.input.Input = [QCloudPostVoiceSeparateInput new];
-	// 文件路径;是否必传：是
-	request.input.Input.Object = @"";
-	// 操作规则;是否必传：是
-	request.input.Operation = [QCloudPostVoiceSeparateOperation new];
-	// 人声分离模板参数;是否必传：否
-	request.input.Operation.VoiceSeparate = [QCloudPostVoiceSeparateVoiceSeparate new];
-	// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-	request.input.Operation.VoiceSeparate.AudioMode = @"";
-	// 结果输出配置;是否必传：是
-	request.input.Operation.Output = [QCloudPostVoiceSeparateOutput new];
-	// 存储桶的地域;是否必传：是
-	request.input.Operation.Output.Region = @"";
-	// 存储结果的存储桶;是否必传：是
-	request.input.Operation.Output.Bucket = @"";
-	[request setFinishBlock:^(QCloudPostVoiceSeparateResponse * outputObject, NSError *error) {
-		// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+	// 设置：ObjectKey;
+	request.ObjectKey = ;
+	// 出参 Score 中，只有超过 MatchThreshold 值的结果才会返回。默认为0;是否必传：false；
+	request.MatchThreshold = 0;
+	// 起始序号，默认值为0;是否必传：false；
+	request.Offset = 0;
+	// 返回数量，默认值为10，最大值为100;是否必传：false；
+	request.Limit = 0;
+	// 针对入库时提交的 Tags 信息进行条件过滤。支持>、>=、<、<=、=、!=，多个条件之间支持 AND 和 OR 进行连接;是否必传：false；
+	request.Filter = ;
+	[request setFinishBlock:^(QCloudGetSearchImageResponse * outputObject, NSError *error) {
+		// result：QCloudGetSearchImageResponse 包含所有的响应；
+		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/63901
 	}];
-	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparate:request];
+	[[QCloudCOSXMLService defaultCOSXML] GetSearchImage:request];
 
 }
 

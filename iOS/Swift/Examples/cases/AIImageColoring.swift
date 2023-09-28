@@ -1,6 +1,6 @@
 import QCloudCOSXML
 
-class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class AIImageColoringDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -48,34 +48,20 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         })
     }
 
-	func testPostVoiceSeparate() {
-			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
+	func testAIImageColoring() {
+			let request : QCloudAIImageColoringRequest = QCloudAIImageColoringRequest();
+		// 设置：objectKey;
+		request.objectKey = null;
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
-		// 创建任务的 Tag：VoiceSeparate;是否必传：是
-		request.input.tag = "";
-		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
-		// 文件路径;是否必传：是
-		request.input.Input.object = "";
-		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
-		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
-		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
-		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
-		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
-		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+		// 数据万象处理能力，图片上色参固定为AIImageColoring。;是否必传：true；
+		request.ciProcess = "AIImageColoring";
+		// 待上色图片url，需要进行urlencode，与ObjectKey二选其一，如果同时存在，则默认以ObjectKey为准;是否必传：false；
+		request.detectUrl = ;
 		request.finishBlock = { result, error in
-			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+			// 无响应体
 		};
-		QCloudCOSXMLService.defaultCOSXML().postVoiceSeparate(request);
+		QCloudCOSXMLService.defaultCOSXML().aIImageColoring(request);
 	
 	}
 
