@@ -48,10 +48,10 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
     // 下载时进行二维码识别
     func downloadWithQrcodeRecognition() {
         //.cssg-snippet-body-start:[swift-download-with-qrcode-recognition]
-        let put = QCloudQRCodeRecognitionRequest();
+        let request = QCloudQRCodeRecognitionRequest();
         
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        put.object = "exampleobject";
+        request.object = "exampleobject";
         // 存储桶名称，格式为 BucketName-APPID
         
         put.bucket = "examplebucket-1250000000";
@@ -70,11 +70,11 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         rule.rule = "QRcode/cover/1";
 
         op.rule = [rule];
-        put.picOperations = op;
-        put.setFinish { (outoutObject, error) in
+        request.picOperations = op;
+        request.setFinish { (outoutObject, error) in
             
         };
-        QCloudCOSXMLService.defaultCOSXML().ciqrCodeRecognition(put);
+        QCloudCOSXMLService.defaultCOSXML().ciqrCodeRecognition(request);
         //.cssg-snippet-body-end
     }
 
