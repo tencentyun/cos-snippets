@@ -45,43 +45,6 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         })
     }
 
-
-    // 上传时进行二维码识别
-    func uploadWithQRcodeRecognition() {
-        //.cssg-snippet-body-start:[swift-upload-with-QRcode-recognition]
-        let put = QCloudCIPutObjectQRCodeRecognitionRequest<AnyObject>();
-        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-        put.object = "exampleobject";
-        // 存储桶名称，格式为 BucketName-APPID
-        
-        put.bucket = "examplebucket-1250000000";
-        // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
-        
-        // 需要上传的对象内容。可以传入NSData*或者NSURL*类型的变量
-        put.body = NSURL.fileURL(withPath: "Local File Path") as AnyObject;
-        
-        let op = QCloudPicOperations();
-        // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
-        op.is_pic_info = false;
-        let rule = QCloudPicOperationRule.init();
-        
-        // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-        
-        rule.fileid = "test";
-        
-        // 二维码识别的rule
-        rule.rule = "QRcode/cover/1";
-
-        op.rule = [rule];
-        put.picOperations = op;
-        put.setFinish { result, error in
-            
-        }
-        QCloudCOSXMLService.defaultCOSXML().putObjectQRCodeRecognition(put);
-        //.cssg-snippet-body-end
-    }
-
-
     // 下载时进行二维码识别
     func downloadWithQrcodeRecognition() {
         //.cssg-snippet-body-start:[swift-download-with-qrcode-recognition]
@@ -118,8 +81,7 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
     // .cssg-methods-pragma
 
     func testQrcodeRecognition() {
-        // 上传时进行二维码识别
-        self.uploadWithQRcodeRecognition();
+
         // 下载时进行二维码识别
         self.downloadWithQrcodeRecognition();
         // .cssg-methods-pragma
