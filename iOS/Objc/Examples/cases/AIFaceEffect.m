@@ -80,7 +80,7 @@
 	// type为face-age-transformation时生效，变化到的人脸年龄,[10,80]。无默认值，为必选项。限制：仅对图片中面积最大的人脸进行转换。;是否必传：false；
 	request.age = 0;
 	[request setFinishBlock:^(QCloudEffectFaceResult * outputObject, NSError *error) {
-		// result：QCloudCIFaceEffectRequest 包含所有的响应；
+		// result：QCloudEffectFaceResult 包含所有的响应；
 		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/47197
 	}];
 	[[QCloudCOSXMLService defaultCOSXML] FaceEffect:request];
