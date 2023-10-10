@@ -48,8 +48,8 @@ class CreateCRcodeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         })
     }
 
-	func testCreateCRcode() {
-			let request : QCloudCreateCRcodeRequest = QCloudCreateCRcodeRequest();
+	func testCreateQRcode() {
+		let request : QCloudCreateQRcodeRequest = QCloudCreateQRcodeRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，二维码生成参数为 qrcode-generate;是否必传：true；
@@ -61,10 +61,10 @@ class CreateCRcodeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
 		// 指定生成的二维码或条形码的宽度，高度会进行等比压缩;是否必传：true；
 		request.width = ;
 		request.finishBlock = { result, error in
-			// result：QCloudCreateCRcodeResponse 包含所有的响应；
+			// result：QCloudQreateCRcodeResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/53491
 		};
-		QCloudCOSXMLService.defaultCOSXML().createCRcode(request);
+		QCloudCOSXMLService.defaultCOSXML().createQRcode(request);
 	
 	}
 
