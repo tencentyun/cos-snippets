@@ -1,6 +1,6 @@
 import QCloudCOSXML
 
-class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+class PostSpeechRecognitionTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
 
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
 
@@ -48,34 +48,20 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
         })
     }
 
-	func testPostVoiceSeparate() {
-			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
+	func testPostSpeechRecognitionTemplete() {
+			let request : QCloudPostSpeechRecognitionTempleteRequest = QCloudPostSpeechRecognitionTempleteRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
-		// 创建任务的 Tag：VoiceSeparate;是否必传：是
+		let postSpeechRecognitionTemplete : QCloudPostSpeechRecognitionTemplete = QCloudPostSpeechRecognitionTemplete();
+		// 模板类型：SpeechRecognition;是否必传：是
 		request.input.tag = "";
-		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
-		// 文件路径;是否必传：是
-		request.input.Input.object = "";
-		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
-		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
-		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
-		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
-		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
-		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+		// 模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
+		request.input.name = "";
 		request.finishBlock = { result, error in
-			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+			// result：QCloudPostSpeechRecognitionTempleteResponse 包含所有的响应；
+			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84498
 		};
-		QCloudCOSXMLService.defaultCOSXML().postVoiceSeparate(request);
+		QCloudCOSXMLService.defaultCOSXML().postSpeechRecognitionTemplete(request);
 	
 	}
 

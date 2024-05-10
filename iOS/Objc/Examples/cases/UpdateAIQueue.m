@@ -1,28 +1,20 @@
-#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudUploadPartRequest.h>
-#import <QCloudCOSXML/QCloudCompleteMultipartUploadRequest.h>
-#import <QCloudCOSXML/QCloudAbortMultipfartUploadRequest.h>
-#import <QCloudCOSXML/QCloudMultipartInfo.h>
-#import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
 
-
-@interface QrcodeRecognition : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface UpdateAIQueueDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation QrcodeRecognition
+@implementation UpdateAIQueueDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
     QCloudServiceConfiguration* configuration = [QCloudServiceConfiguration new];
-    configuration.appID = @"1253653367";
+    configuration.appID = @"1250000000";
     configuration.signatureProvider = self;
     QCloudCOSXMLEndPoint* endpoint = [[QCloudCOSXMLEndPoint alloc] init];
     endpoint.regionName = @"ap-guangzhou";//服务地域名称，可用的地域请参考注释
-    endpoint.useHTTPS = true;
     configuration.endpoint = endpoint;
     [QCloudCOSXMLService registerDefaultCOSXMLWithConfiguration:configuration];
     [QCloudCOSTransferMangerService registerDefaultCOSTransferMangerWithConfiguration:configuration];
@@ -43,7 +35,7 @@
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
     credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
-        initWithCredential:credential];
+                                            initWithCredential:credential];
     continueBlock(creator, nil);
 }
 
@@ -52,7 +44,8 @@
                   urlRequest:(NSMutableURLRequest*)urlRequst
                    compelete:(QCloudHTTPAuthentationContinueBlock)continueBlock
 {
-    [self.credentialFenceQueue performAction:^(QCloudAuthentationCreator *creator, NSError *error) {
+    [self.credentialFenceQueue performAction:^(QCloudAuthentationCreator *creator,
+                                               NSError *error) {
         if (error) {
             continueBlock(nil, error);
         } else {
@@ -62,45 +55,23 @@
     }];
 }
 
+- (void) testUpdateAIQueue{
+	QCloudUpdateAIQueueRequest * request = [QCloudUpdateAIQueueRequest new];
+	request.bucket = @"sample-1250000000";
+	request.regionName = @"COS_REGIONNAME";
+	// 设置：queueId;
+	request.queueId = ;
+	request.input = [QCloudUpdateAIQueue new];
+	// 队列名称，仅支持中文、英文、数字、_、-和*，长度不超过 128;是否必传：是
+	request.input.Name = @"";
+	// Active 表示队列内的作业会被调度执行Paused 表示队列暂停，作业不再会被调度执行，队列内的所有作业状态维持在暂停状态，已经执行中的任务不受影响;是否必传：是
+	request.input.State = @"";
+	[request setFinishBlock:^(QCloudUpdateAIQueueResponse * outputObject, NSError *error) {
+		// result：QCloudUpdateAIQueueResponse 包含所有的响应；
+		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/79397
+	}];
+	[[QCloudCOSXMLService defaultCOSXML] UpdateAIQueue:request];
 
-/**
- * 下载时进行二维码识别
- */
-- (void)downloadWithQrcodeRecognition {
-    //.cssg-snippet-body-start:[objc-download-with-qrcode-recognition]
-    QCloudQRCodeRecognitionRequest *req = [QCloudQRCodeRecognitionRequest new];
-    // 存储桶名称，格式为 BucketName-APPID
-    req.bucket = @"examplebucket-1250000000";
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    req.object = @"exampleobject";
-
-    QCloudPicOperations *op = [[QCloudPicOperations alloc] init];
-    // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
-    op.is_pic_info = NO;
-    QCloudPicOperationRule * rule = [[QCloudPicOperationRule alloc]init];
-    rule.fileid = @"test";
-    //二维码识别的rule
-    rule.rule = @"QRcode/cover/1";
-    // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-    rule.fileid = @"test";
-    op.rule = @[ rule ];
-    req.picOperations = op;
-    [req setFinishBlock:^(QCloudCIObject * _Nonnull result, NSError * _Nonnull error) {
-        NSLog(@"result = %@",result);
-    }];
-    [[QCloudCOSXMLService defaultCOSXML] CIQRCodeRecognition:req];
-    //.cssg-snippet-body-end
-}
-
-// .cssg-methods-pragma
-
-- (void)testQrcodeRecognition {
-    
-    // 下载时进行二维码识别
-    [self downloadWithQrcodeRecognition];
-        
-    // .cssg-methods-pragma
 }
 
 @end

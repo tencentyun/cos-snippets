@@ -1,28 +1,20 @@
-#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudUploadPartRequest.h>
-#import <QCloudCOSXML/QCloudCompleteMultipartUploadRequest.h>
-#import <QCloudCOSXML/QCloudAbortMultipfartUploadRequest.h>
-#import <QCloudCOSXML/QCloudMultipartInfo.h>
-#import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
 
-
-@interface QrcodeRecognition : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+@interface LivenessRecognitionDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation QrcodeRecognition
+@implementation LivenessRecognitionDemo
 
 - (void)setUp {
     // 注册默认的 COS 服务
     QCloudServiceConfiguration* configuration = [QCloudServiceConfiguration new];
-    configuration.appID = @"1253653367";
+    configuration.appID = @"1250000000";
     configuration.signatureProvider = self;
     QCloudCOSXMLEndPoint* endpoint = [[QCloudCOSXMLEndPoint alloc] init];
     endpoint.regionName = @"ap-guangzhou";//服务地域名称，可用的地域请参考注释
-    endpoint.useHTTPS = true;
     configuration.endpoint = endpoint;
     [QCloudCOSXMLService registerDefaultCOSXMLWithConfiguration:configuration];
     [QCloudCOSTransferMangerService registerDefaultCOSTransferMangerWithConfiguration:configuration];
@@ -43,7 +35,7 @@
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
     credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
-        initWithCredential:credential];
+                                            initWithCredential:credential];
     continueBlock(creator, nil);
 }
 
@@ -52,7 +44,8 @@
                   urlRequest:(NSMutableURLRequest*)urlRequst
                    compelete:(QCloudHTTPAuthentationContinueBlock)continueBlock
 {
-    [self.credentialFenceQueue performAction:^(QCloudAuthentationCreator *creator, NSError *error) {
+    [self.credentialFenceQueue performAction:^(QCloudAuthentationCreator *creator,
+                                               NSError *error) {
         if (error) {
             continueBlock(nil, error);
         } else {
@@ -62,45 +55,30 @@
     }];
 }
 
+- (void) testLivenessRecognition{
+	QCloudLivenessRecognitionRequest * request = [QCloudLivenessRecognitionRequest new];
+	request.bucket = @"sample-1250000000";
+	request.regionName = @"COS_REGIONNAME";
+	// 设置：ObjectKey;
+	request.ObjectKey = ;
+	// 数据万象处理能力，人脸核身固定为 LivenessRecognition;是否必传：true；
+	request.ciProcess = @"LivenessRecognition";
+	// 身份证号;是否必传：true；
+	request.IdCard = ;
+	// 姓名。中文请使用 UTF-8编码;是否必传：true；
+	request.Name = ;
+	// 活体检测类型，取值：LIP/ACTION/SILENTLIP 为数字模式，ACTION 为动作模式，SILENT 为静默模式，三种模式选择一种传入;是否必传：true；
+	request.LivenessType = ;
+	// 数字模式传参：数字验证码（1234），需先调用接口获取数字验证码动作模式传参：传动作顺序（2，1 or 1，2），需先调用接口获取动作顺序静默模式传参：空;是否必传：false；
+	request.ValidateData = ;
+	// 需要返回多张最佳截图，取值范围1 - 10，不设置默认返回一张最佳截图;是否必传：false；
+	request.BestFrameNum = 0;
+	[request setFinishBlock:^(QCloudLivenessRecognitionResponse * outputObject, NSError *error) {
+		// result：QCloudLivenessRecognitionResponse 包含所有的响应；
+		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/48641
+	}];
+	[[QCloudCOSXMLService defaultCOSXML] LivenessRecognition:request];
 
-/**
- * 下载时进行二维码识别
- */
-- (void)downloadWithQrcodeRecognition {
-    //.cssg-snippet-body-start:[objc-download-with-qrcode-recognition]
-    QCloudQRCodeRecognitionRequest *req = [QCloudQRCodeRecognitionRequest new];
-    // 存储桶名称，格式为 BucketName-APPID
-    req.bucket = @"examplebucket-1250000000";
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    req.object = @"exampleobject";
-
-    QCloudPicOperations *op = [[QCloudPicOperations alloc] init];
-    // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
-    op.is_pic_info = NO;
-    QCloudPicOperationRule * rule = [[QCloudPicOperationRule alloc]init];
-    rule.fileid = @"test";
-    //二维码识别的rule
-    rule.rule = @"QRcode/cover/1";
-    // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-    rule.fileid = @"test";
-    op.rule = @[ rule ];
-    req.picOperations = op;
-    [req setFinishBlock:^(QCloudCIObject * _Nonnull result, NSError * _Nonnull error) {
-        NSLog(@"result = %@",result);
-    }];
-    [[QCloudCOSXMLService defaultCOSXML] CIQRCodeRecognition:req];
-    //.cssg-snippet-body-end
-}
-
-// .cssg-methods-pragma
-
-- (void)testQrcodeRecognition {
-    
-    // 下载时进行二维码识别
-    [self downloadWithQrcodeRecognition];
-        
-    // .cssg-methods-pragma
 }
 
 @end
