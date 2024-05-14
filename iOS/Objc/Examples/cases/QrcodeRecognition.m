@@ -68,28 +68,19 @@
  */
 - (void)downloadWithQrcodeRecognition {
     //.cssg-snippet-body-start:[objc-download-with-qrcode-recognition]
-    QCloudQRCodeRecognitionRequest *req = [QCloudQRCodeRecognitionRequest new];
-    // 存储桶名称，格式为 BucketName-APPID
-    req.bucket = @"examplebucket-1250000000";
-    
-    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
-    req.object = @"exampleobject";
+    QCloudQRCodeRecognitionRequest * request = [QCloudQRCodeRecognitionRequest new];
+    request.bucket = @"sample-1250000000";
+    request.regionName = @"COS_REGIONNAME";
+    // 万象处理能力，二维码识别固定为 QRcode;是否必传：true；
+    request.ciProcess = @"QRcode";
+    // 二维码覆盖功能，将对识别出的二维码覆盖上马赛克。取值为0或1。0表示不开启二维码覆盖，1表示开启二维码覆盖，默认值0;是否必传：false；
+    request.cover = 0;
 
-    QCloudPicOperations *op = [[QCloudPicOperations alloc] init];
-    // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
-    op.is_pic_info = NO;
-    QCloudPicOperationRule * rule = [[QCloudPicOperationRule alloc]init];
-    rule.fileid = @"test";
-    //二维码识别的rule
-    rule.rule = @"QRcode/cover/1";
-    // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-    rule.fileid = @"test";
-    op.rule = @[ rule ];
-    req.picOperations = op;
-    [req setFinishBlock:^(QCloudCIObject * _Nonnull result, NSError * _Nonnull error) {
-        NSLog(@"result = %@",result);
+    [request setFinishBlock:^(QCloudRecognitionQRcodeResponse * outputObject, NSError *error) {
+        // result：QCloudRecognitionQRcodeResponse 包含所有的响应；
+        // 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/37513
     }];
-    [[QCloudCOSXMLService defaultCOSXML] CIQRCodeRecognition:req];
+    [[QCloudCOSXMLService defaultCOSXML] CIQRCodeRecognition:request];
     //.cssg-snippet-body-end
 }
 

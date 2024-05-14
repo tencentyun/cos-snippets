@@ -96,10 +96,7 @@ class MediaJobs: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDe
         request.bucket = "examplebucket-1250000000"
         // 文件所在地域
         request.regionName = "regionName"
-        request.input = [
-            [:], // 任务一
-            [:]  // 任务二
-        ]
+    
         request.finishBlock = { result, error in
             // result 精彩集锦 ，详细字段请查看 API 文档或者 SDK 源码
         }

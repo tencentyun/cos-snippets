@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudOpenAIBucketRequest.h>
 
 @interface OpenAIBucketDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -59,7 +61,7 @@
 	QCloudOpenAIBucketRequest * request = [QCloudOpenAIBucketRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	[request setFinishBlock:^(QCloudOpenAIBucketResponse * outputObject, NSError *error) {
+	[request setFinishBlock:^(QCloudOpenAIBucketResult * outputObject, NSError *error) {
 		// result：QCloudOpenAIBucketResponse 包含所有的响应；
 		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/79593
 	}];

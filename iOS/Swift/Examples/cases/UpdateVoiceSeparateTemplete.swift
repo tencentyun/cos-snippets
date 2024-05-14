@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class UpdateVoiceSeparateTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class UpdateVoiceSeparateTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloud
 	func testUpdateVoiceSeparateTemplete() {
 			let request : QCloudUpdateVoiceSeparateTempleteRequest = QCloudUpdateVoiceSeparateTempleteRequest();
 		// 设置：templateId;
-		request.templateId = null;
+		request.templateId = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let updateVoiceSeparateTemplete : QCloudUpdateVoiceSeparateTemplete = QCloudUpdateVoiceSeparateTemplete();

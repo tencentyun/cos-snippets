@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class LivenessRecognitionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,19 +52,19 @@ class LivenessRecognitionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredenta
 	func testLivenessRecognition() {
 			let request : QCloudLivenessRecognitionRequest = QCloudLivenessRecognitionRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，人脸核身固定为 LivenessRecognition;是否必传：true；
 		request.ciProcess = "LivenessRecognition";
 		// 身份证号;是否必传：true；
-		request.idCard = ;
+		request.idCard = "";
 		// 姓名。中文请使用 UTF-8编码;是否必传：true；
-		request.name = ;
+		request.name = "";
 		// 活体检测类型，取值：LIP/ACTION/SILENTLIP 为数字模式，ACTION 为动作模式，SILENT 为静默模式，三种模式选择一种传入;是否必传：true；
-		request.livenessType = ;
+		request.livenessType = "";
 		// 数字模式传参：数字验证码（1234），需先调用接口获取数字验证码动作模式传参：传动作顺序（2，1 or 1，2），需先调用接口获取动作顺序静默模式传参：空;是否必传：false；
-		request.validateData = ;
+		request.validateData = "";
 		// 需要返回多张最佳截图，取值范围1 - 10，不设置默认返回一张最佳截图;是否必传：false；
 		request.bestFrameNum = 0;
 		request.finishBlock = { result, error in

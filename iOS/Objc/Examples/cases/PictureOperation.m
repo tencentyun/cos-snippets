@@ -8,6 +8,8 @@
 #import <QCloudCOSXML/QCloudSyncImageRecognitionRequest.h>
 #import <QCloudCOSXML/QCloudBatchimageRecognitionRequest.h>
 #import <QCloudCOSXML/QCloudPostImageAuditReportRequest.h>
+#import <QCloudCOSXML/QCloudPostTextAuditReportRequest.h>
+
 @interface PictureOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
@@ -253,10 +255,10 @@
     // 同步审核或批量审核返回结果的jobid
     request.jobId = @"jobid";
 
-    request.finishBlock = ^(QCloudImageRecognitionResult * outputObject, NSError *error) {
-        // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
-        // QCloudImageRecognitionResult 类；
-    };
+    [request setFinishBlock:^(QCloudBatchImageRecognitionResultItem * _Nullable result, NSError * _Nullable error) {
+            // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
+            // QCloudImageRecognitionResult 类；
+    }];
     [[QCloudCOSXMLService defaultCOSXML] GetImageRecognition:request];
     //.cssg-snippet-body-end
 }

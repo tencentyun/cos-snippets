@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostWordsGeneralizeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -58,7 +59,7 @@ class PostWordsGeneralizeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredenta
 		// 待操作的对象信息;是否必传：是
 		let input : QCloudPostWordsGeneralizeInput = QCloudPostWordsGeneralizeInput();
 		// 文件路径;是否必传：是
-		request.input.Input.object = "";
+		request.input.input.object = "";
 		// 操作规则;是否必传：是
 		let operation : QCloudPostWordsGeneralizeOperation = QCloudPostWordsGeneralizeOperation();
 		// 指定分词参数;是否必传：是

@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class UpdateVideoTargetTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class UpdateVideoTargetTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloudCr
 	func testUpdateVideoTargetTemplete() {
 			let request : QCloudUpdateVideoTargetTempleteRequest = QCloudUpdateVideoTargetTempleteRequest();
 		// 设置：templateId;
-		request.templateId = null;
+		request.templateId = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let updateVideoTargetTemplete : QCloudUpdateVideoTargetTemplete = QCloudUpdateVideoTargetTemplete();

@@ -3,6 +3,7 @@
 #import <QCloudCOSXML/QCloudPostAudioDiscernTaskRequest.h>
 #import <QCloudCOSXML/QCloudBatchGetAudioDiscernTaskRequest.h>
 #import <QCloudCOSXML/QCloudGetAudioDiscernTaskRequest.h>
+#import <QCloudCOSXML/QCloudPostAudioDiscernTaskInfo.h>
 @interface AudioDiscernTask : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
@@ -79,7 +80,7 @@
     input.Object = @"test1";
     // 待操作的语音文件
     taskInfo.Input = input;
-    QCloudPostAudioDiscernTaskInfoOperation * op = [QCloudPostAudioDiscernTaskInfoOperation new];
+    QCloudPostAudioDiscernOperation * op = [QCloudPostAudioDiscernOperation new];
     QCloudPostAudioDiscernTaskInfoOutput * output = QCloudPostAudioDiscernTaskInfoOutput.new;
     output.Region = @"regionName";
     output.Bucket = @"BucketName-APPID";
@@ -87,7 +88,7 @@
     // 结果输出地址
     op.Output = output;
 
-    QCloudPostAudioDiscernTaskInfoSpeechRecognition * speechRecognition = [QCloudPostAudioDiscernTaskInfoSpeechRecognition new];
+    QCloudPostAudioDiscernRecognition * speechRecognition = [QCloudPostAudioDiscernRecognition new];
     speechRecognition.EngineModelType =@"16k_zh";
     speechRecognition.ChannelNum = 1;
     speechRecognition.ResTextFormat = 0;

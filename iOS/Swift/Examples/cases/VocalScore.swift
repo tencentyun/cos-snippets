@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class VocalScoreDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -59,8 +60,7 @@ class VocalScoreDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQu
 		let input : QCloudVocalScoreInput = QCloudVocalScoreInput();
 		// 操作规则;是否必传：是
 		let operation : QCloudVocalScoreOperation = QCloudVocalScoreOperation();
-		// 音乐评分参数配置;是否必传：是
-		let operation : QCloudVocalScoreVocalScore = QCloudVocalScoreVocalScore();
+    
 		request.finishBlock = { result, error in
 			// result：QCloudVocalScoreResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/96095

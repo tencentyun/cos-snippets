@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudPostNoiseReductionRequest.h>
 
 @interface PostNoiseReductionDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 

@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudAIIDCardOCRRequest.h>
 
 @interface AIIDCardOCRDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,13 +62,13 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：ObjectKey;
-	request.ObjectKey = ;
+	request.ObjectKey = @"";
 	// 数据万象处理能力，身份证识别固定为 IDCardOCR;是否必传：true；
 	request.ciProcess = @"IDCardOCR";
 	// FRONT：身份证有照片的一面（人像面）BACK：身份证有国徽的一面（国徽面）该参数如果不填，将为您自动判断身份证正反面;是否必传：false；
-	request.CardSide = ;
+	request.CardSide = @"";
 	// 以下可选字段均为 bool 类型，默认 false：CropIdCard，身份证照片裁剪（去掉证件外多余的边缘、自动矫正拍摄角度）CropPortrait，人像照片裁剪（自动抠取身份证头像区域）CopyWarn，复印件告警BorderCheckWarn，边框和框内遮挡告警ReshootWarn，翻拍告警DetectPsWarn，PS 检测告警TempIdWarn，临时身份证告警InvalidDateWarn，身份证有效日期不合法告警Quality，图片质量分数（评价图片的模糊程度）MultiCardDetect，是否开启多卡证检测参数设置方式参考：Config = {"CropIdCard":true,"CropPortrait":true};是否必传：false；
-	request.Config = ;
+	request.Config = @"";
 	[request setFinishBlock:^(QCloudAIIDCardOCRResponse * outputObject, NSError *error) {
 		// result：QCloudAIIDCardOCRResponse 包含所有的响应；
 		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/48638

@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudGetAIBucketRequest.h>
 
 @interface GetAIBucketDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,15 +62,15 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，详情请参见 地域与域名;是否必传：true；
-	request.regions = ;
+	request.regions = @"";
 	// 存储桶名称，以“,”分隔，支持多个存储桶，精确搜索;是否必传：true；
-	request.bucketNames = ;
+	request.bucketNames = @"";
 	// 存储桶名称前缀，前缀搜索;是否必传：true；
-	request.bucketName = ;
+	request.bucketName = @"";
 	// 第几页;是否必传：true；
-	request.pageNumber = @"1";
+	request.pageNumber = 0;
 	// 每页个数，大于0且小于等于100的整数;是否必传：true；
-	request.pageSize = @"10";
+	request.pageSize = 10;
 	[request setFinishBlock:^(QCloudGetAIBucketResponse * outputObject, NSError *error) {
 		// result：QCloudGetAIBucketResponse 包含所有的响应；
 		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/79594

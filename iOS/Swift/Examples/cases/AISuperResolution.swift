@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AISuperResolutionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,17 +52,17 @@ class AISuperResolutionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
 	func testAISuperResolution() {
 			let request : QCloudAISuperResolutionRequest = QCloudAISuperResolutionRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，只能裁剪参固定为AISuperResolution。;是否必传：false；
 		request.ciProcess = "AISuperResolution";
 		// 您可以通过填写 detect-url 处理任意公网可访问的图片链接。不填写 detect-url 时，后台会默认处理 ObjectKey ，填写了 detect-url 时，后台会处理 detect-url 链接，无需再填写 ObjectKey，detect-url 示例：http://www.example.com/abc.jpg ，需要进行 UrlEncode，处理后为http%25253A%25252F%25252Fwww.example.com%25252Fabc.jpg。;是否必传：false；
-		request.detectUrl = ;
+		request.detectUrl = "";
 		request.finishBlock = { result, error in
 			// 无响应体
 		};
-		QCloudCOSXMLService.defaultCOSXML().aISuperResolution(request);
+		QCloudCOSXMLService.defaultCOSXML().aiSuperResolution(request);
 	
 	}
 

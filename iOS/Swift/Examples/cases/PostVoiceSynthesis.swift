@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostVoiceSynthesisDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -62,17 +63,17 @@ class PostVoiceSynthesisDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentai
 		// 语音合成任务参数;是否必传：是
 		let ttsConfig : QCloudPostVoiceSynthesisTtsConfig = QCloudPostVoiceSynthesisTtsConfig();
 		// 输入类型，Url/Text;是否必传：是
-		request.input.Operation.TtsConfig.inputType = "";
+		request.input.operation.ttsConfig.inputType = "";
 		// 当 InputType 为 Url 时， 必须是合法的 COS 地址，文件必须是utf-8编码，且大小不超过 10M。如果合成方式为同步处理，则文件内容不超过 300 个 utf-8 字符；如果合成方式为异步处理，则文件内容不超过 10000 个 utf-8 字符。当 InputType 为 Text 时, 输入必须是 utf-8 字符, 且不超过 300 个字符。;是否必传：是
-		request.input.Operation.TtsConfig.input = "";
+		request.input.operation.ttsConfig.input = "";
 		// 结果输出配置;是否必传：是
 		let output : QCloudPostVoiceSynthesisOutput = QCloudPostVoiceSynthesisOutput();
 		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
+		request.input.operation.output.region = "";
 		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+		request.input.operation.output.bucket = "";
 		// 结果文件名;是否必传：是
-		request.input.Operation.Output.object = "";
+		request.input.operation.output.object = "";
 		request.finishBlock = { result, error in
 			// result：QCloudPostVoiceSynthesisResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84797

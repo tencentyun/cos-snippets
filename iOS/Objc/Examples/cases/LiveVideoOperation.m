@@ -76,9 +76,6 @@
     // 需要审核的直播流播放地址，例如 rtmp://example.com/live/123。
     request.url = @"test";
 
-    // 审核策略，不带审核策略时使用默认策略。具体查看 https://cloud.tencent.com/document/product/460/56345
-    request.bizType = BizType;
-
     request.finishBlock = ^(QCloudPostVideoRecognitionResult * outputObject, NSError *error) {
      // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
      // QCloudPostVideoRecognitionResult 类；
@@ -102,10 +99,10 @@
 
     request.regionName = @"regionName";
 
-    request.finishBlock = ^(QCloudGetVideoRecognitionRequest * outputObject, NSError *error) {
-        // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
-        // QCloudVideoRecognitionResult 类；
-    };
+    [request setFinishBlock:^(QCloudVideoRecognitionResult * _Nullable result, NSError * _Nullable error) {
+            // outputObject 审核结果 包含用于查询的job id，详细字段请查看api文档或者SDK源码
+            // QCloudVideoRecognitionResult 类；
+        }];
     [[QCloudCOSXMLService defaultCOSXML] GetLiveVideoRecognition:request];
     //.cssg-snippet-body-end
 }

@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudUpdateAIQueueRequest.h>
 
 @interface UpdateAIQueueDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,7 +62,7 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：queueId;
-	request.queueId = ;
+	request.queueId = @"";
 	request.input = [QCloudUpdateAIQueue new];
 	// 队列名称，仅支持中文、英文、数字、_、-和*，长度不超过 128;是否必传：是
 	request.input.Name = @"";

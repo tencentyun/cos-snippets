@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class GetSearchImageDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class GetSearchImageDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFen
 	func testGetSearchImage() {
 			let request : QCloudGetSearchImageRequest = QCloudGetSearchImageRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 出参 Score 中，只有超过 MatchThreshold 值的结果才会返回。默认为0;是否必传：false；
@@ -61,7 +62,7 @@ class GetSearchImageDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFen
 		// 返回数量，默认值为10，最大值为100;是否必传：false；
 		request.limit = 0;
 		// 针对入库时提交的 Tags 信息进行条件过滤。支持>、>=、<、<=、=、!=，多个条件之间支持 AND 和 OR 进行连接;是否必传：false；
-		request.filter = ;
+		request.filter = "";
 		request.finishBlock = { result, error in
 			// result：QCloudGetSearchImageResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/63901

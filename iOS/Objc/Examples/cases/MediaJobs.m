@@ -1,6 +1,10 @@
 #import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudVideoSnapshotRequest.h>
+#import <QCloudCOSXML/QCloudGetMediaJobListRequest.h>
+#import <QCloudCOSXML/QCloudCreateMediaJobRequest.h>
+#import <QCloudCOSXML/QCloudGetMediaJobRequest.h>
+
+
 @interface MediaJobs : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
@@ -68,7 +72,6 @@
     request.regionName = @"regionName";
     request.queueId = @"queueId";
     request.queueType = @"queueType";
-    ... 等参数
     [request setFinishBlock:^(QCloudGetMediaJobResponse * _Nullable result, NSError * _Nullable error) {
        // result 查询指定任务 ，详细字段请查看 API 文档或者 SDK 源码
     }];
@@ -101,10 +104,10 @@
     request.bucket = @"examplebucket-1250000000";
     // 文件所在地域
     request.regionName = @"regionName";
-    request.input = @{
+    request.input = @[
       @{},// 任务一
       @{} // 任务二
-    };
+    ];
     [request setFinishBlock:^(QCloudCreateMediaJobResponse * _Nullable result, NSError * _Nullable error) {
     // result 精彩集锦 ，详细字段请查看 API 文档或者 SDK 源码
     }];

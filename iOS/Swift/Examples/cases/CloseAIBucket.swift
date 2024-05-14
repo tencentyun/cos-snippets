@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class CloseAIBucketDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{

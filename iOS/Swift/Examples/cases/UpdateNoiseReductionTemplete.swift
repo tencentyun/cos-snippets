@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class UpdateNoiseReductionTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class UpdateNoiseReductionTempleteDemo: XCTestCase,QCloudSignatureProvider,QClou
 	func testUpdateNoiseReductionTemplete() {
 			let request : QCloudUpdateNoiseReductionTempleteRequest = QCloudUpdateNoiseReductionTempleteRequest();
 		// 设置：templateId;
-		request.templateId = null;
+		request.templateId = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let updateNoiseReductionTemplete : QCloudUpdateNoiseReductionTemplete = QCloudUpdateNoiseReductionTemplete();

@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudAIImageColoringRequest.h>
 
 @interface AIImageColoringDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,11 +62,11 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：ObjectKey;
-	request.ObjectKey = ;
+	request.ObjectKey = @"";
 	// 数据万象处理能力，图片上色参固定为AIImageColoring。;是否必传：true；
 	request.ciProcess = @"AIImageColoring";
 	// 待上色图片url，需要进行urlencode，与ObjectKey二选其一，如果同时存在，则默认以ObjectKey为准;是否必传：false；
-	request.detectUrl = ;
+	request.detectUrl = @"";
 	[request setFinishBlock:^(id outputObject, NSError *error) {
 		// 无响应体
 	}];

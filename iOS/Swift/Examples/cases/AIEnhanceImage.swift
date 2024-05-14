@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AIEnhanceImageDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class AIEnhanceImageDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFen
 	func testAIEnhanceImage() {
 			let request : QCloudAIEnhanceImageRequest = QCloudAIEnhanceImageRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，只能裁剪参固定为 AIEnhanceImage。;是否必传：true；
@@ -61,13 +62,13 @@ class AIEnhanceImageDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFen
 		// 锐化强度值，取值范围为 0 - 5 之间的整数，值为 0 时不进行锐化操作，默认值为3。;是否必传：false；
 		request.sharpen = 0;
 		// 您可以通过填写 detect-url 处理任意公网可访问的图片链接。不填写 detect-url  时，后台会默认处理 ObjectKey ，填写了detect-url 时，后台会处理 detect-url链接，无需再填写 ObjectKey ，detect-url 示例：http://www.example.com/abc.jpg ，需要进行 UrlEncode，处理后为  http%25253A%25252F%25252Fwww.example.com%25252Fabc.jpg;是否必传：false；
-		request.detectUrl = ;
+		request.detectUrl = "";
 		// ;是否必传：false；
 		request.ignoreError = 0;
 		request.finishBlock = { result, error in
 			// 无响应体
 		};
-		QCloudCOSXMLService.defaultCOSXML().aIEnhanceImage(request);
+		QCloudCOSXMLService.defaultCOSXML().aiEnhanceImage(request);
 	
 	}
 

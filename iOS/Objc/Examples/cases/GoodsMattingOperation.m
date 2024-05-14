@@ -1,7 +1,7 @@
 #import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudCIPostGoodsMattingRequest.h>
 #import <QCloudCOSXML/QCloudCIGetGoodsMattingRequest.h>
+#import <QCloudCOSXML/QCloudCICloudDataOperationsRequest.h>
 @interface FaceOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
@@ -79,22 +79,18 @@
  */
 - (void)postGoodsMatting {
     //.cssg-snippet-body-start:[objc-get-video-recognition]
-    QCloudCIPostGoodsMattingRequest * request = [QCloudCIPostGoodsMattingRequest new];
+    QCloudCICloudDataOperationsRequest * request = [QCloudCICloudDataOperationsRequest new];
     request.regionName = @"regionName";
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
     request.object = @"exampleobject";
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
 
-    QCloudCIGoodsMattingInput * input = [QCloudCIGoodsMattingInput new];
-    // 以fileid 作为文件名保存在存储桶中。
-    input.fileid = @"object1";
-    request.rules = @[input];
-
-    [request setFinishBlock:^(QCloudCIGoodsMattingResult *  _Nullable result, NSError * _Nullable error) {
-        
+    
+    [request setFinishBlock:^(QCloudImageProcessResult * _Nullable result, NSError * _Nullable error) {
+            
     }];
-    [[QCloudCOSXMLService defaultCOSXML] PostGoodsMatting:request];
+    [[QCloudCOSXMLService defaultCOSXML] CloudDataOperations:request];
     //.cssg-snippet-body-end
 }
 

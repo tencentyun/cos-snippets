@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -52,25 +53,27 @@ class PostVoiceSeparateDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
 			let request : QCloudPostVoiceSeparateRequest = QCloudPostVoiceSeparateRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
-		let postVoiceSeparate : QCloudPostVoiceSeparate = QCloudPostVoiceSeparate();
 		// 创建任务的 Tag：VoiceSeparate;是否必传：是
-		request.input.tag = "";
 		// 待操作的文件信息;是否必传：是
-		let input : QCloudPostVoiceSeparateInput = QCloudPostVoiceSeparateInput();
+		let input : QCloudInputVoiceSeparate = QCloudInputVoiceSeparate();
 		// 文件路径;是否必传：是
-		request.input.Input.object = "";
+        request.input = input;
+        request.input.input.object = "";
 		// 操作规则;是否必传：是
-		let operation : QCloudPostVoiceSeparateOperation = QCloudPostVoiceSeparateOperation();
+		let operation : QCloudInputVoiceSeparateOperation = QCloudInputVoiceSeparateOperation();
+        request.input.operation = operation;
 		// 人声分离模板参数;是否必传：否
-		let voiceSeparate : QCloudPostVoiceSeparateVoiceSeparate = QCloudPostVoiceSeparateVoiceSeparate();
+		let voiceSeparate : QCloudVoiceSeparate = QCloudVoiceSeparate();
+        request.input.operation.voiceSeparate = voiceSeparate;
 		// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
-		request.input.Operation.VoiceSeparate.audioMode = "";
+        request.input.operation.voiceSeparate.audioMode = "";
 		// 结果输出配置;是否必传：是
-		let output : QCloudPostVoiceSeparateOutput = QCloudPostVoiceSeparateOutput();
+		let output : QCloudInputVoiceSeparateOutput = QCloudInputVoiceSeparateOutput();
+        request.input.operation.output = output;
 		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
+        request.input.operation.output.region = "";
 		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+        request.input.operation.output.bucket = "";
 		request.finishBlock = { result, error in
 			// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794

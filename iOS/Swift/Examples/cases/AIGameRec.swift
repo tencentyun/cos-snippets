@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AIGameRecDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -53,16 +54,16 @@ class AIGameRecDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQue
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 图片地址;是否必传：false；
-		request.objectKey = ;
+		request.objectKey = "";
 		// 数据万象处理能力，游戏场景识别固定为 AIGameRec;是否必传：true；
 		request.ciProcess = "AIGameRec";
 		// 您可以通过填写 detect-url 对任意公网可访问的图片进行游戏场景识别。不填写 detect-url 时，后台会默认处理 objectkey ；填写了 detect-url 时，后台会处理 detect-url 链接，无需再填写 objectkey ， detect-url 示例：http://www.example.com/abc.jpg。;是否必传：true；
-		request.detectUrl = ;
+		request.detectUrl = "";
 		request.finishBlock = { result, error in
 			// result：QCloudAIGameRecResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/93153
 		};
-		QCloudCOSXMLService.defaultCOSXML().aIGameRec(request);
+		QCloudCOSXMLService.defaultCOSXML().aiGameRec(request);
 	
 	}
 

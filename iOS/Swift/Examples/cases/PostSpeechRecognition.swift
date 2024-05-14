@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostSpeechRecognitionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -62,11 +63,11 @@ class PostSpeechRecognitionDemo: XCTestCase,QCloudSignatureProvider,QCloudCreden
 		// 结果输出配置;是否必传：是
 		let output : QCloudPostSpeechRecognitionOutput = QCloudPostSpeechRecognitionOutput();
 		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
+        request.input.operation.output.region = "";
 		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+        request.input.operation.output.bucket = "";
 		// 结果文件的名称;是否必传：是
-		request.input.Operation.Output.object = "";
+        request.input.operation.output.object = "";
 		request.finishBlock = { result, error in
 			// result：QCloudPostSpeechRecognitionResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84798

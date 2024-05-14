@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AssessQualityDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class AssessQualityDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
 	func testAssessQuality() {
 			let request : QCloudAssessQualityRequest = QCloudAssessQualityRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，图像质量检测固定为 AssessQuality。;是否必传：true；

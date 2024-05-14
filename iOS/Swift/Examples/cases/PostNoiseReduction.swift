@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostNoiseReductionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -58,17 +59,17 @@ class PostNoiseReductionDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentai
 		// 待操作的文件信息;是否必传：是
 		let input : QCloudPostNoiseReductionInput = QCloudPostNoiseReductionInput();
 		// 执行音频降噪任务的文件路径目前只支持文件大小在10M之内的音频 如果输入为视频文件或者多通道的音频，只会保留单通道的音频流 目前暂不支持m3u8格式输入;是否必传：是
-		request.input.Input.object = "";
+        request.input.input.object = "";
 		// 操作规则;是否必传：是
 		let operation : QCloudPostNoiseReductionOperation = QCloudPostNoiseReductionOperation();
 		// 结果输出配置;是否必传：是
 		let output : QCloudPostNoiseReductionOutput = QCloudPostNoiseReductionOutput();
 		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
+        request.input.operation.output.region = "";
 		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+        request.input.operation.output.bucket = "";
 		// 输出结果的文件名;是否必传：是
-		request.input.Operation.Output.object = "";
+        request.input.operation.output.object = "";
 		request.finishBlock = { result, error in
 			// result：QCloudPostNoiseReductionResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84796

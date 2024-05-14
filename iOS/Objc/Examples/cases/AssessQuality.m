@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudAssessQualityRequest.h>
 
 @interface AssessQualityDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,7 +62,7 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：ObjectKey;
-	request.ObjectKey = ;
+	request.ObjectKey = @"";
 	// 数据万象处理能力，图像质量检测固定为 AssessQuality。;是否必传：true；
 	request.ciProcess = @"AssessQuality";
 	[request setFinishBlock:^(QCloudAssessQualityResponse * outputObject, NSError *error) {

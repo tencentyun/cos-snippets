@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class UpdateAIQueueDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class UpdateAIQueueDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
 	func testUpdateAIQueue() {
 			let request : QCloudUpdateAIQueueRequest = QCloudUpdateAIQueueRequest();
 		// 设置：queueId;
-		request.queueId = null;
+		request.queueId = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let updateAIQueue : QCloudUpdateAIQueue = QCloudUpdateAIQueue();

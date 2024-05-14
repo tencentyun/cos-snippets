@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class GetLiveCodeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{

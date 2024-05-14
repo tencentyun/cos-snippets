@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class GetAIQueueDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -53,9 +54,9 @@ class GetAIQueueDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQu
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 队列 ID，以“,”符号分割字符串;是否必传：false；
-		request.queueIds = ;
+        request.queueId = "";
 		// Active 表示队列内的作业会被调度执行Paused 表示队列暂停，作业不再会被调度执行，队列内的所有作业状态维持在暂停状态，已经执行中的任务不受影响;是否必传：false；
-		request.state = "Active";
+		request.state = 1;
 		// 第几页，默认值1;是否必传：false；
 		request.pageNumber = 0;
 		// 每页个数，默认值10;是否必传：false；
