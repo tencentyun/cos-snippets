@@ -86,6 +86,12 @@
     // 存储桶名称，格式为 BucketName-APPID
     request.bucket = @"examplebucket-1250000000";
 
+    request.picOperations = [QCloudPicOperations new];
+    
+    QCloudPicOperationRule * rule = [QCloudPicOperationRule new];
+    rule.fileid = @"exampleobject";
+    rule.rule = @"ci-process=GoodsMatting";
+    request.picOperations.rule = @[rule];
     
     [request setFinishBlock:^(QCloudImageProcessResult * _Nullable result, NSError * _Nullable error) {
             

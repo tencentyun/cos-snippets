@@ -50,7 +50,7 @@ class PostTranslationDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFe
     }
 
 	func testPostTranslation() {
-			let request : QCloudPostTranslationRequest = QCloudPostTranslationRequest();
+		let request : QCloudPostTranslationRequest = QCloudPostTranslationRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let postTranslation : QCloudPostTranslation = QCloudPostTranslation();
@@ -69,6 +69,8 @@ class PostTranslationDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFe
 		// 翻译参数;是否必传：是
 		let translation : QCloudPostTranslationTranslation = QCloudPostTranslationTranslation();
 		// 目标语言类型源语言类型为 zh/zh-hk/zh-tw/zh-tr 时支持：en、ar、de、es、fr、id、it、ja、it、ru、ko、km、lo、pt源语言类型为 en 时支持：zh、zh-hk、zh-tw、zh-tr、ar、de、es、fr、id、it、ja、it、ru、ko、km、lo、pt其他类型时支持：zh、zh-hk、zh-tw、zh-tr、en;是否必传：是
+        request.input.operation = operation;
+        request.input.operation.translation = translation;
         request.input.operation.translation.lang = "";
 		// 文档类型，源文件类型与目标文件类型映射关系如下：docx：docxpptx：pptxxlsx：xlsxtxt：txtxml：xmlhtml：htmlmarkdown：markdownpdf：pdf、docxpng：txtjpg：txtjpeg：txtwebp：txt;是否必传：是
         request.input.operation.translation.type = "";

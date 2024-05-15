@@ -50,22 +50,33 @@ class VocalScoreDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQu
     }
 
 	func testVocalScore() {
-			let request : QCloudVocalScoreRequest = QCloudVocalScoreRequest();
-		request.bucket = "sample-1250000000";
-		request.regionName = "COS_REGIONNAME";
-		let vocalScore : QCloudVocalScore = QCloudVocalScore();
-		// 创建任务的 Tag：VocalScore;是否必传：是
-		request.input.tag = "";
-		// 待操作的对象信息;是否必传：是
-		let input : QCloudVocalScoreInput = QCloudVocalScoreInput();
-		// 操作规则;是否必传：是
-		let operation : QCloudVocalScoreOperation = QCloudVocalScoreOperation();
-    
-		request.finishBlock = { result, error in
-			// result：QCloudVocalScoreResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/96095
-		};
-		QCloudCOSXMLService.defaultCOSXML().vocalScore(request);
+        let request : QCloudVocalScoreRequest = QCloudVocalScoreRequest();
+        request.bucket = "sample-1250000000";
+        request.regionName = "COS_REGIONNAME";
+        let vocalScore : QCloudVocalScore = QCloudVocalScore();
+        // 创建任务的 Tag：VocalScore;是否必传：是
+        request.input.tag = "";
+        // 待操作的对象信息;是否必传：是
+        let input : QCloudVocalScoreInput = QCloudVocalScoreInput();
+        // 操作规则;是否必传：是
+        let operation : QCloudVocalScoreOperation = QCloudVocalScoreOperation();
+        // 任务回调TDMQ配置，当 CallBackType 为 TDMQ 时必填。详情见 CallBackMqConfig;是否必传：否
+        let callBackMqConfig : QCloudCallBackMqConfig = QCloudCallBackMqConfig();
+        // 消息队列所属园区，目前支持园区 sh（上海）、bj（北京）、gz（广州）、cd（成都）、hk（中国香港）;是否必传：是
+        request.input.callBackMqConfig.mqRegion = "";
+        // 消息队列使用模式，默认 Queue ：主题订阅：Topic队列服务: Queue;是否必传：是
+        request.input.callBackMqConfig.mqMode = "";
+        // TDMQ 主题名称;是否必传：是
+        request.input.callBackMqConfig.mqName = "";
+
+
+        request.finishBlock = { result, error in
+         // result：QCloudVocalScoreResponse 包含所有的响应；
+         // 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/96095
+         // outputObject返回JobId，使用QCloudGetMediaJobRequest 查询结果
+        };
+        QCloudCOSXMLService.defaultCOSXML().vocalScore(request);
+
 	
 	}
 

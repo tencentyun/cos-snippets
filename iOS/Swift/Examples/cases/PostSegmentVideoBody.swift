@@ -50,14 +50,15 @@ class PostSegmentVideoBodyDemo: XCTestCase,QCloudSignatureProvider,QCloudCredent
     }
 
 	func testPostSegmentVideoBody() {
-			let request : QCloudPostSegmentVideoBodyRequest = QCloudPostSegmentVideoBodyRequest();
+        let request : QCloudPostSegmentVideoBodyRequest = QCloudPostSegmentVideoBodyRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let postSegmentVideoBody : QCloudPostSegmentVideoBody = QCloudPostSegmentVideoBody();
-		// 创建任务的 Tag：SegmentVideoBody;是否必传：是
-		request.input.tag = "";
 		// 待操作的对象信息;是否必传：是
-		let input : QCloudPostSegmentVideoBodyInput = QCloudPostSegmentVideoBodyInput();
+		let input : QCloudPostSegmentVideoBody = QCloudPostSegmentVideoBody();
+        request.input = input;
+        // 创建任务的 Tag：SegmentVideoBody;是否必传：是
+        request.input.tag = "SegmentVideoBody";
 		// 文件路径;是否必传：是
         request.input.input.object = "";
 		// 操作规则;是否必传：是
