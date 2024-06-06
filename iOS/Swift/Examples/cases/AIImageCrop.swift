@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AIImageCropDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,13 +52,13 @@ class AIImageCropDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
 	func testAIImageCrop() {
 			let request : QCloudAIImageCropRequest = QCloudAIImageCropRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，智能裁剪固定为AIImageCrop;是否必传：true；
 		request.ciProcess = "AIImageCrop";
 		// 您可以通过填写 detect-url 处理任意公网可访问的图片链接。不填写 detect-url 时，后台会默认处理 ObjectKey ，填写了 detect-url 时，后台会处理 detect-url 链接，无需再填写 ObjectKey detect-url 示例：http://www.example.com/abc.jpg ，需要进行 UrlEncode，处理后为http%25253A%25252F%25252Fwww.example.com%25252Fabc.jpg;是否必传：false；
-		request.detectUrl = ;
+		request.detectUrl = "";
 		// 需要裁剪区域的宽度，与height共同组成所需裁剪的图片宽高比例；输入数字请大于0、小于图片宽度的像素值;是否必传：true；
 		request.width = 0;
 		// 需要裁剪区域的高度，与width共同组成所需裁剪的图片宽高比例；输入数字请大于0、小于图片高度的像素值；width : height建议取值在[1, 2.5]之间，超过这个范围可能会影响效果;是否必传：true；
@@ -69,7 +70,7 @@ class AIImageCropDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
 		request.finishBlock = { result, error in
 			// 无响应体
 		};
-		QCloudCOSXMLService.defaultCOSXML().aIImageCrop(request);
+		QCloudCOSXMLService.defaultCOSXML().aiImageCrop(request);
 	
 	}
 

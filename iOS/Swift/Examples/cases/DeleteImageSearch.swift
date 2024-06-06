@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class DeleteImageSearchDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class DeleteImageSearchDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentail
 	func testDeleteImageSearch() {
 			let request : QCloudDeleteImageSearchRequest = QCloudDeleteImageSearchRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let deleteImageSearch : QCloudDeleteImageSearch = QCloudDeleteImageSearch();

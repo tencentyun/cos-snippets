@@ -75,7 +75,7 @@
     input.Operation.VideoMontage = QCloudInputVideoMontageVideoMontage.new;
     input.Operation.TemplateId = @"TemplateId";
     input.Operation.Output = QCloudInputVideoMontageOutput.new;
-    input.Operation.Output.Region = @regionName;
+    input.Operation.Output.Region = @"regionName";
     input.Operation.Output.Bucket = @"sample-125000000";
     input.Operation.Output.Object = @"test";
     request.input = input;

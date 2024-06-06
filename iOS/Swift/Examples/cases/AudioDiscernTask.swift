@@ -63,7 +63,7 @@ class AudioDiscernTask: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
        input.object = "test1";
        // 待操作的语音文件
        taskInfo.input = input;
-       let op = QCloudPostAudioDiscernTaskInfoOperation.init();
+       let op = QCloudPostAudioDiscernOperation.init();
        let output = QCloudPostAudioDiscernTaskInfoOutput.init();
        output.region = "regionName";
        output.bucket = "BucketName-APPID";
@@ -71,7 +71,7 @@ class AudioDiscernTask: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
        // 结果输出地址
        op.output = output;
 
-       let speechRecognition = QCloudPostAudioDiscernTaskInfoSpeechRecognition.init();
+       let speechRecognition = QCloudPostAudioDiscernRecognition.init();
        speechRecognition.engineModelType = "16k_zh";
        speechRecognition.channelNum = 1;
        speechRecognition.resTextFormat = 0;

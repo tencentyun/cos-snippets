@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostWordsGeneralizeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -49,20 +50,24 @@ class PostWordsGeneralizeDemo: XCTestCase,QCloudSignatureProvider,QCloudCredenta
     }
 
 	func testPostWordsGeneralize() {
-			let request : QCloudPostWordsGeneralizeRequest = QCloudPostWordsGeneralizeRequest();
+        let request : QCloudPostWordsGeneralizeRequest = QCloudPostWordsGeneralizeRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let postWordsGeneralize : QCloudPostWordsGeneralize = QCloudPostWordsGeneralize();
 		// 创建任务的 Tag：WordsGeneralize;是否必传：是
+        request.input = postWordsGeneralize;
 		request.input.tag = "";
 		// 待操作的对象信息;是否必传：是
 		let input : QCloudPostWordsGeneralizeInput = QCloudPostWordsGeneralizeInput();
+        request.input.input = input;
 		// 文件路径;是否必传：是
-		request.input.Input.object = "";
+		request.input.input.object = "";
 		// 操作规则;是否必传：是
 		let operation : QCloudPostWordsGeneralizeOperation = QCloudPostWordsGeneralizeOperation();
+        request.input.operation = operation;
 		// 指定分词参数;是否必传：是
 		let wordsGeneralize : QCloudPostWordsGeneralizeWordsGeneralize = QCloudPostWordsGeneralizeWordsGeneralize();
+        request.input.operation.wordsGeneralize = wordsGeneralize;
 		request.finishBlock = { result, error in
 			// result：QCloudPostWordsGeneralizeResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84800

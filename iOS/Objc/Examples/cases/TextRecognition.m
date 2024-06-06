@@ -82,11 +82,6 @@
     // 文件所在地域
     request.regionName = @"regionName";
     
-    
-    // 审核策略，不带审核策略时使用默认策略。具体查看 https://cloud.tencent.com/document/product/460/56345
-    request.bizType = BizType;
-    
-    
     request.finishBlock = ^(QCloudPostTextRecognitionResult * outputObject, NSError *error) {
         // outputObject 提交审核反馈信息 包含用于查询的job id，详细字段请查看api文档或者SDK源码
         // QCloudPostTextRecognitionResult 类；

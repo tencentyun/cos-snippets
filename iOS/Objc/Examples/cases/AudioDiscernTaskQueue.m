@@ -129,10 +129,10 @@
 
     // 其他更多参数请查看sdk文档或源码注释
 
-    request.finishBlock = ^(QCloudAudioAsrqueueUpdateResult * outputObject, NSError *error) {
-        // outputObject 详细字段请查看api文档或者SDK源码
-        // QCloudAudioAsrqueueUpdateResult 类；
-    };
+    [request setFinishBlock:^(QCloudQueueItemModel * _Nullable result, NSError * _Nullable error) {
+            // outputObject 详细字段请查看api文档或者SDK源码
+            // QCloudAudioAsrqueueUpdateResult 类；
+    }];
     [[QCloudCOSXMLService defaultCOSXML] UpdateAudioDiscernTaskQueue:request];
     //.cssg-snippet-body-end
 }

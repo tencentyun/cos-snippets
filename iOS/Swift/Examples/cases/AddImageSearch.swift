@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AddImageSearchDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -49,9 +50,9 @@ class AddImageSearchDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFen
     }
 
 	func testAddImageSearch() {
-			let request : QCloudAddImageSearchRequest = QCloudAddImageSearchRequest();
+        let request : QCloudAddImageSearchRequest = QCloudAddImageSearchRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 固定值：ImageSearch;是否必传：true；

@@ -54,23 +54,9 @@ class QrcodeRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenc
         request.object = "exampleobject";
         // 存储桶名称，格式为 BucketName-APPID
         
-        put.bucket = "examplebucket-1250000000";
+        request.bucket = "examplebucket-1250000000";
         let op = QCloudPicOperations.init();
         
-        // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
-        op.is_pic_info = false;
-        
-        let rule = QCloudPicOperationRule.init();
-        
-        // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-        
-        rule.fileid = "test";
-        
-        // 二维码识别的rule
-        rule.rule = "QRcode/cover/1";
-
-        op.rule = [rule];
-        request.picOperations = op;
         request.setFinish { (outoutObject, error) in
             
         };

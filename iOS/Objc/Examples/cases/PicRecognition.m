@@ -1,14 +1,16 @@
 #import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
-#import <QCloudCOSXML/QCloudUpdateAIQueueRequest.h>
+#import <QCloudCOSXML/QCloudCIPicRecognitionRequest.h>
 
-@interface UpdateAIQueueDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
+
+@interface PicRecognition : XCTestCase <QCloudSignatureProvider,
+                                               QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
 
 @end
 
-@implementation UpdateAIQueueDemo
+@implementation PicRecognition
 
 - (void)setUp {
     // 注册默认的 COS 服务
@@ -26,7 +28,8 @@
     self.credentialFenceQueue.delegate = self;
 }
 
-- (void) fenceQueue:(QCloudCredentailFenceQueue * )queue requestCreatorWithContinue:(QCloudCredentailFenceQueueContinue)continueBlock
+- (void) fenceQueue:(QCloudCredentailFenceQueue * )queue
+    requestCreatorWithContinue:(QCloudCredentailFenceQueueContinue)continueBlock
 {
     QCloudCredential* credential = [QCloudCredential new];
     //在这里可以同步过程从服务器获取临时签名需要的 secretID，secretKey，expiretionDate 和 token 参数
@@ -37,7 +40,7 @@
     credential.startDate = [[[NSDateFormatter alloc] init] dateFromString:@"startTime"]; // 单位是秒
     credential.expirationDate = [[[NSDateFormatter alloc] init] dateFromString:@"expiredTime"];
     QCloudAuthentationV5Creator* creator = [[QCloudAuthentationV5Creator alloc]
-                                            initWithCredential:credential];
+        initWithCredential:credential];
     continueBlock(creator, nil);
 }
 
@@ -57,23 +60,28 @@
     }];
 }
 
-- (void) testUpdateAIQueue{
-	QCloudUpdateAIQueueRequest * request = [QCloudUpdateAIQueueRequest new];
-	request.bucket = @"sample-1250000000";
-	request.regionName = @"COS_REGIONNAME";
-	// 设置：queueId;
-	request.queueId = @"";
-	request.input = [QCloudUpdateAIQueue new];
-	// 队列名称，仅支持中文、英文、数字、_、-和*，长度不超过 128;是否必传：是
-	request.input.Name = @"";
-	// Active 表示队列内的作业会被调度执行Paused 表示队列暂停，作业不再会被调度执行，队列内的所有作业状态维持在暂停状态，已经执行中的任务不受影响;是否必传：是
-	request.input.State = @"";
-	[request setFinishBlock:^(QCloudUpdateAIQueueResponse * outputObject, NSError *error) {
-		// result：QCloudUpdateAIQueueResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/79397
-	}];
-	[[QCloudCOSXMLService defaultCOSXML] UpdateAIQueue:request];
+
+- (void)PicRecognition {
+    
+    //.cssg-snippet-body-start:[objc-init-multi-upload]
+    QCloudCIPicRecognitionRequest *request = [QCloudCIPicRecognitionRequest new];
+    // 存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
+    request.bucket = @"bucket";
+    // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+    request.object = @"pic-recognition.png";
+
+
+    [request setFinishBlock:^(QCloudCIPicRecognitionResults *_Nullable result, NSError *_Nullable error) {
+      //result：返回的标签信息
+    }];
+
+
+    [[QCloudCOSXMLService defaultCOSXML] CIPicRecognition:request];
+
+    
+    //.cssg-snippet-body-end
 
 }
+
 
 @end

@@ -64,8 +64,8 @@ class PostTriggerWorkflow: XCTestCase,QCloudSignatureProvider,QCloudCredentailFe
         request.workflowId = "workflowId"
         // 需要进行工作流处理的对象名称
         request.object = "object"
-        request.setFinishBlock { (result: QCloudTriggerWorkflow?, error: Error?) in
-        // result 测试工作流 ，详细字段请查看 API 文档或者 SDK 源码
+        request.setFinish { (result: QCloudTriggerWorkflow?, error: Error?) in
+        
         }
         QCloudCOSXMLService.defaultCOSXML().postTriggerWorkflow(request)
 

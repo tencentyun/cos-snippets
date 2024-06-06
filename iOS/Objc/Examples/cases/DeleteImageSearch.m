@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudDeleteImageSearchRequest.h>
 
 @interface DeleteImageSearchDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,7 +62,7 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：ObjectKey;
-	request.ObjectKey = ;
+	request.ObjectKey = @"";
 	request.input = [QCloudDeleteImageSearch new];
 	// 物品 ID;是否必传：是
 	request.input.EntityId = @"";

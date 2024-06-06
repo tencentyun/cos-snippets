@@ -65,9 +65,9 @@
     QCloudGetWorkflowDetailRequest * detailRequest = [QCloudGetWorkflowDetailRequest new];
 
     // 存储桶名称，格式为 BucketName-APPID
-    request.bucket = @"examplebucket-1250000000";
+    detailRequest.bucket = @"examplebucket-1250000000";
     // 文件所在地域
-    request.regionName = @"regionName";
+    detailRequest.regionName = @"regionName";
     // 为工作流实例id
     detailRequest.runId = @"runId";
     [detailRequest setFinishBlock:^(QCloudWorkflowexecutionResult * _Nullable result, NSError * _Nullable error) {

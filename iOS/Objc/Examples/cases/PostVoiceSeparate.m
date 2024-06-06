@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudPostVoiceSeparateRequest.h>
 
 @interface PostVoiceSeparateDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -59,29 +61,27 @@
 	QCloudPostVoiceSeparateRequest * request = [QCloudPostVoiceSeparateRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
-	request.input = [QCloudPostVoiceSeparate new];
-	// 创建任务的 Tag：VoiceSeparate;是否必传：是
-	request.input.Tag = @"";
+	request.input = [QCloudInputVoiceSeparate new];
 	// 待操作的文件信息;是否必传：是
-	request.input.Input = [QCloudPostVoiceSeparateInput new];
+	request.input.Input = [QCloudInputVoiceSeparateInput new];
 	// 文件路径;是否必传：是
 	request.input.Input.Object = @"";
 	// 操作规则;是否必传：是
-	request.input.Operation = [QCloudPostVoiceSeparateOperation new];
+	request.input.Operation = [QCloudInputVoiceSeparateOperation new];
 	// 人声分离模板参数;是否必传：否
-	request.input.Operation.VoiceSeparate = [QCloudPostVoiceSeparateVoiceSeparate new];
+	request.input.Operation.VoiceSeparate = [QCloudVoiceSeparate new];
 	// 同创建人声分离模板接口中的 Request.AudioMode﻿;是否必传：是
 	request.input.Operation.VoiceSeparate.AudioMode = @"";
 	// 结果输出配置;是否必传：是
-	request.input.Operation.Output = [QCloudPostVoiceSeparateOutput new];
+	request.input.Operation.Output = [QCloudInputVoiceSeparateOutput new];
 	// 存储桶的地域;是否必传：是
 	request.input.Operation.Output.Region = @"";
 	// 存储结果的存储桶;是否必传：是
 	request.input.Operation.Output.Bucket = @"";
-	[request setFinishBlock:^(QCloudPostVoiceSeparateResponse * outputObject, NSError *error) {
-		// result：QCloudPostVoiceSeparateResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
-	}];
+    [request setFinishBlock:^(QCloudVoiceSeparateResult * _Nullable result, NSError * _Nullable error) {
+        // result：QCloudPostVoiceSeparateResponse 包含所有的响应；
+        // 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84794
+    }];
 	[[QCloudCOSXMLService defaultCOSXML] PostVoiceSeparate:request];
 
 }

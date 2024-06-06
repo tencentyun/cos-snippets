@@ -62,7 +62,7 @@ class WorkflowDetail: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQu
         detailRequest.regionName = "regionName"
         // 为工作流实例id
         detailRequest.runId = "runId"
-        detailRequest.setFinishBlock { (result: QCloudWorkflowexecutionResult?, error: Error?) in
+        detailRequest.setFinish { (result: QCloudWorkflowexecutionResult?, error: Error?) in
             // result 获取工作流实例详情 ，详细字段请查看 API 文档或者 SDK 源码
         }
         QCloudCOSXMLService.defaultCOSXML().getWorkflowDetail(detailRequest)

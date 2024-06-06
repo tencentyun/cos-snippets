@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class PostSegmentVideoBodyDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -49,16 +50,17 @@ class PostSegmentVideoBodyDemo: XCTestCase,QCloudSignatureProvider,QCloudCredent
     }
 
 	func testPostSegmentVideoBody() {
-			let request : QCloudPostSegmentVideoBodyRequest = QCloudPostSegmentVideoBodyRequest();
+        let request : QCloudPostSegmentVideoBodyRequest = QCloudPostSegmentVideoBodyRequest();
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		let postSegmentVideoBody : QCloudPostSegmentVideoBody = QCloudPostSegmentVideoBody();
-		// 创建任务的 Tag：SegmentVideoBody;是否必传：是
-		request.input.tag = "";
 		// 待操作的对象信息;是否必传：是
-		let input : QCloudPostSegmentVideoBodyInput = QCloudPostSegmentVideoBodyInput();
+		let input : QCloudPostSegmentVideoBody = QCloudPostSegmentVideoBody();
+        request.input = input;
+        // 创建任务的 Tag：SegmentVideoBody;是否必传：是
+        request.input.tag = "SegmentVideoBody";
 		// 文件路径;是否必传：是
-		request.input.Input.object = "";
+        request.input.input.object = "";
 		// 操作规则;是否必传：是
 		let operation : QCloudPostSegmentVideoBodyOperation = QCloudPostSegmentVideoBodyOperation();
 		// 视频人像抠图配置;是否必传：否
@@ -66,11 +68,11 @@ class PostSegmentVideoBodyDemo: XCTestCase,QCloudSignatureProvider,QCloudCredent
 		// 结果输出配置;是否必传：是
 		let output : QCloudPostSegmentVideoBodyOutput = QCloudPostSegmentVideoBodyOutput();
 		// 存储桶的地域;是否必传：是
-		request.input.Operation.Output.region = "";
+        request.input.operation.output.region = "";
 		// 存储结果的存储桶;是否必传：是
-		request.input.Operation.Output.bucket = "";
+        request.input.operation.output.bucket = "";
 		// 输出结果的文件名;是否必传：是
-		request.input.Operation.Output.object = "";
+        request.input.operation.output.object = "";
 		request.finishBlock = { result, error in
 			// result：QCloudPostSegmentVideoBodyResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/83973

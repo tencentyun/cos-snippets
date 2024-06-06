@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudUpdateVoiceSynthesisTempleteRequest.h>
 
 @interface UpdateVoiceSynthesisTempleteDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,7 +62,7 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：TemplateId;
-	request.TemplateId = ;
+	request.TemplateId = @"";
 	request.input = [QCloudUpdateVoiceSynthesisTemplete new];
 	// 模板类型：Tts;是否必传：是
 	request.input.Tag = @"";

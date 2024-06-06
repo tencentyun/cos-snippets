@@ -1,7 +1,8 @@
 #import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
 #import <QCloudCOSXML/QCloudPostWordsGeneralizeTaskRequest.h>
-#import <QCloudCOSXML/QCloudGetWordsGeneralizeRequest.h>
+#import <QCloudCOSXML/QCloudGetWordsGeneralizeTaskRequest.h>
+
 @interface WordsGeneralizeTask : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
 @property (nonatomic) QCloudCredentailFenceQueue* credentialFenceQueue;
@@ -73,7 +74,6 @@
     taskInfo.Input = [QCloudWordsGeneralizeInputObject new];
     taskInfo.Input.Object = @"aaa.m4a";
     
-    taskInfo.Tag = @"WordsGeneralize";
     taskInfo.QueueId = @"QueueId";
     //  分词任务
     request.taskInfo = taskInfo;

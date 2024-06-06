@@ -1,3 +1,4 @@
+import XCTest
 import QCloudCOSXML
 
 class AIDetectPetDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
@@ -51,7 +52,7 @@ class AIDetectPetDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
 	func testAIDetectPet() {
 			let request : QCloudAIDetectPetRequest = QCloudAIDetectPetRequest();
 		// 设置：objectKey;
-		request.objectKey = null;
+		request.objectKey = "";
 		request.bucket = "sample-1250000000";
 		request.regionName = "COS_REGIONNAME";
 		// 数据万象处理能力，宠物识别固定为 detect-pet;是否必传：true；
@@ -60,7 +61,7 @@ class AIDetectPetDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQ
 			// result：QCloudAIDetectPetResponse 包含所有的响应；
 			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/95753
 		};
-		QCloudCOSXMLService.defaultCOSXML().aIDetectPet(request);
+		QCloudCOSXMLService.defaultCOSXML().aiDetectPet(request);
 	
 	}
 

@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudCreateQRcodeRequest.h>
 
 @interface CreateCRcodeDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -56,22 +58,22 @@
 }
 
 - (void) testCreateCRcode{
-    QCloudCreateQRcodeRequest * request = [QCloudCreateCRcodeRequest new];
+    QCloudCreateQRcodeRequest * request = [QCloudCreateQRcodeRequest new];
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 数据万象处理能力，二维码生成参数为 qrcode-generate;是否必传：true；
 	request.ciProcess = @"qrcode-generate";
 	// 可识别的二维码文本信息;是否必传：true；
-	request.qrcodeContent = ;
+	request.qrcodeContent = @"";
 	// 生成的二维码类型，可选值：0或1。0为二维码，1为条形码，默认值为0;是否必传：false；
 	request.mode = 0;
 	// 指定生成的二维码或条形码的宽度，高度会进行等比压缩;是否必传：true；
-	request.width = ;
-	[request setFinishBlock:^(QCloudCreateCRcodeResponse * outputObject, NSError *error) {
-		// result：QCloudCreateCRcodeResponse 包含所有的响应；
-		// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/53491
-	}];
-	[[QCloudCOSXMLService defaultCOSXML] CreateCRcode:request];
+	request.width = @"";
+    [request setFinishBlock:^(QCloudCreateQRcodeResponse * _Nullable result, NSError * _Nullable error) {
+        // result：QCloudCreateCRcodeResponse 包含所有的响应；
+        // 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/53491
+    }];
+	[[QCloudCOSXMLService defaultCOSXML] CreateQRcode:request];
 
 }
 

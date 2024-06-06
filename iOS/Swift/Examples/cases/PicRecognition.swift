@@ -1,10 +1,12 @@
 import XCTest
 import QCloudCOSXML
 
-class UpdateSpeechRecognitionTempleteDemo: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
-
+class PicRecognition: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueDelegate{
+    
     var credentialFenceQueue:QCloudCredentailFenceQueue?;
-
+    var uploadId : String?;
+    
+    
     override func setUp() {
         let config = QCloudServiceConfiguration.init();
         config.signatureProvider = self;
@@ -15,12 +17,12 @@ class UpdateSpeechRecognitionTempleteDemo: XCTestCase,QCloudSignatureProvider,QC
         config.endpoint = endpoint;
         QCloudCOSXMLService.registerDefaultCOSXML(with: config);
         QCloudCOSTransferMangerService.registerDefaultCOSTransferManger(with: config);
-
+        
         // 脚手架用于获取临时密钥
         self.credentialFenceQueue = QCloudCredentailFenceQueue();
         self.credentialFenceQueue?.delegate = self;
     }
-
+    
     func fenceQueue(_ queue: QCloudCredentailFenceQueue!,
                     requestCreatorWithContinue continueBlock: QCloudCredentailFenceQueueContinue!) {
         let cre = QCloudCredential.init();
@@ -34,7 +36,7 @@ class UpdateSpeechRecognitionTempleteDemo: XCTestCase,QCloudSignatureProvider,QC
         let auth = QCloudAuthentationV5Creator.init(credential: cre);
         continueBlock(auth,nil);
     }
-
+    
     func signature(with fileds: QCloudSignatureFields!,
                    request: QCloudBizHTTPRequest!,
                    urlRequest urlRequst: NSMutableURLRequest!,
@@ -49,23 +51,22 @@ class UpdateSpeechRecognitionTempleteDemo: XCTestCase,QCloudSignatureProvider,QC
         })
     }
 
-	func testUpdateSpeechRecognitionTemplete() {
-			let request : QCloudUpdateSpeechRecognitionTempleteRequest = QCloudUpdateSpeechRecognitionTempleteRequest();
-		// 设置：templateId;
-		request.templateId = "";
-		request.bucket = "sample-1250000000";
-		request.regionName = "COS_REGIONNAME";
-		let updateSpeechRecognitionTemplete : QCloudUpdateSpeechRecognitionTemplete = QCloudUpdateSpeechRecognitionTemplete();
-		// 模板类型：SpeechRecognition;是否必传：是
-		request.input.tag = "";
-		// 模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
-		request.input.name = "";
-		request.finishBlock = { result, error in
-			// result：QCloudUpdateSpeechRecognitionTempleteResponse 包含所有的响应；
-			// 具体查看代码注释或api文档：https://cloud.tencent.com/document/product/460/84759
-		};
-		QCloudCOSXMLService.defaultCOSXML().updateSpeechRecognitionTemplete(request);
-	
-	}
+    /**
+     * 获取工作流实例详情
+     */
+    func picRecognition() {
+        let put = QCloudCIPicRecognitionRequest();
+        // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "dir1/object1"
+        put.object = "exampleobject";
+        // 存储桶名称，由BucketName-Appid 组成，可以在COS控制台查看 https://console.cloud.tencent.com/cos5/bucket
 
+        put.bucket = "examplebucket-1250000000";
+        put.setFinish { (outoutObject, error) in
+            //outoutObject
+        };
+        QCloudCOSXMLService.defaultCOSXML().ciPicRecognition(put);
+
+
+    }
 }
+

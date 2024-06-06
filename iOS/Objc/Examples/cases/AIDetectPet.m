@@ -1,4 +1,6 @@
+#import <XCTest/XCTest.h>
 #import <QCloudCOSXML/QCloudCOSXML.h>
+#import <QCloudCOSXML/QCloudAIDetectPetRequest.h>
 
 @interface AIDetectPetDemo : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -60,7 +62,7 @@
 	request.bucket = @"sample-1250000000";
 	request.regionName = @"COS_REGIONNAME";
 	// 设置：ObjectKey;
-	request.ObjectKey = ;
+	request.ObjectKey  = @"";
 	// 数据万象处理能力，宠物识别固定为 detect-pet;是否必传：true；
 	request.ciProcess = @"detect-pet";
 	[request setFinishBlock:^(QCloudAIDetectPetResponse * outputObject, NSError *error) {

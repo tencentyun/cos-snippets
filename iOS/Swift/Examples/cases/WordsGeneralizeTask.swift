@@ -60,7 +60,6 @@ class WordsGeneralizeTask: XCTestCase,QCloudSignatureProvider,QCloudCredentailFe
         taskInfo.input = QCloudWordsGeneralizeInputObject.init();
         taskInfo.input.object = "aaa.m4a";
         
-        taskInfo.tag = "WordsGeneralize";
         taskInfo.queueId = "queueId";
         //  分词任务
         request.taskInfo = taskInfo;
