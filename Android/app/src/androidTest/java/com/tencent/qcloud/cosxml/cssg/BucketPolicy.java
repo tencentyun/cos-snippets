@@ -122,6 +122,7 @@ public class BucketPolicy {
                         // 详细字段请查看api文档或者SDK源码
                         GetBucketPolicyResult getBucketPolicyResult =
                                 (GetBucketPolicyResult) result;
+                        String policy = getBucketPolicyResult.policy;
                     }
 
                     // 如果您使用 kotlin 语言来调用，请注意回调方法中的异常是可空的，否则不会回调 onFail 方法，即：

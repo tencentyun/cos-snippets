@@ -1,32 +1,27 @@
 package com.tencent.qcloud.cosxml.cssg;
 
-import android.support.annotation.Nullable;
-
-import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.common.*;
-import com.tencent.cos.xml.exception.*;
-import com.tencent.cos.xml.listener.*;
-import com.tencent.cos.xml.model.*;
-import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
-import com.tencent.cos.xml.transfer.*;
-import com.tencent.qcloud.core.auth.*;
-import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-
-
 import android.content.Context;
-import android.util.Log;
 import android.support.test.InstrumentationRegistry;
 
-import org.junit.Test;
+import com.tencent.cos.xml.CosXmlService;
+import com.tencent.cos.xml.CosXmlServiceConfig;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.exception.CosXmlServiceException;
+import com.tencent.cos.xml.listener.CosXmlResultListener;
+import com.tencent.cos.xml.model.CosXmlRequest;
+import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.cos.xml.model.object.CopyObjectRequest;
+import com.tencent.cos.xml.model.object.DeleteObjectRequest;
+import com.tencent.cos.xml.model.object.DeleteObjectResult;
+import com.tencent.cos.xml.transfer.COSXMLCopyTask;
+import com.tencent.cos.xml.transfer.TransferConfig;
+import com.tencent.cos.xml.transfer.TransferManager;
+import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
+import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
+import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
+import com.tencent.qcloud.core.common.QCloudClientException;
 
-import java.net.*;
-import java.util.*;
-import java.nio.charset.Charset;
-import java.io.*;
+import org.junit.Test;
 
 public class MoveObject {
 
@@ -66,12 +61,11 @@ public class MoveObject {
         TransferManager transferManager = new TransferManager(cosXmlService, transferConfig);
 
         //.cssg-snippet-body-start:[move-object]
-        final String sourceAppid = "1250000000"; //账号 appid
         final String sourceBucket = "sourcebucket-1250000000"; //"源对象所在的存储桶
         final String sourceRegion = "COS_REGION"; //源对象的存储桶所在的地域
         final String sourceKey = "sourceObject"; //源对象键
         //构造源对象属性
-        CopyObjectRequest.CopySourceStruct copySource = new CopyObjectRequest.CopySourceStruct(sourceAppid, sourceBucket,
+        CopyObjectRequest.CopySourceStruct copySource = new CopyObjectRequest.CopySourceStruct(sourceBucket,
                 sourceRegion, sourceKey);
 
         String bucket = "examplebucket-1250000000"; //目标存储桶，格式：BucketName-APPID
