@@ -62,13 +62,18 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
         
         // 监听上传结果
         put.setFinish { (result, error) in
-            // 获取上传结果
-            if let result = result {
-                // 文件的 etag
-                let eTag = result.eTag
-            } else {
-                print(error!);
-            }
+                // 获取上传结果
+                if let result = result {
+                    // 文件的 etag
+                    let eTag = result.eTag
+                    // 文件下载链接
+                    let location = result.location;
+                    // 获取文件crc64
+                    let crc64 = result?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
+                } else {
+                    print(error!);
+                }
+
         }
 
         // 监听上传进度
