@@ -48,7 +48,7 @@ public class GetAIBucketSnippet {
 
     private void getAIBucket() {
         GetAIBucketRequest request = new GetAIBucketRequest();
-        request.regions = "ap-shanghai、ap-beijing";// 设置地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，详情请参见 地域与域名
+        request.regions = "ap-shanghai,ap-beijing";// 设置地域信息，例如 ap-shanghai、ap-beijing，若查询多个地域以“,”分隔字符串，详情请参见 地域与域名
         request.bucketNames = "examplebucket-1250000000";// 设置存储桶名称，以“,”分隔，支持多个存储桶，精确搜索
         request.bucketName = "examplebucket-1250000000";// 设置存储桶名称前缀，前缀搜索
         request.pageNumber = 1;// 设置第几页

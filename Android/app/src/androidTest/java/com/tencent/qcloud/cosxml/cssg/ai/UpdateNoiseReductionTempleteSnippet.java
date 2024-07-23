@@ -10,9 +10,10 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
-import com.tencent.cos.xml.model.ci.ai.PostVoiceSynthesisTemplete;
-import com.tencent.cos.xml.model.ci.ai.PostVoiceSynthesisTempleteRequest;
-import com.tencent.cos.xml.model.ci.ai.PostVoiceSynthesisTempleteResult;
+import com.tencent.cos.xml.model.ci.ai.UpdateNoiseReductionTemplete;
+import com.tencent.cos.xml.model.ci.ai.UpdateNoiseReductionTempleteRequest;
+import com.tencent.cos.xml.model.ci.ai.UpdateNoiseReductionTempleteResult;
+import com.tencent.cos.xml.model.ci.common.NoiseReduction;
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
@@ -20,7 +21,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class PostVoiceSynthesisTemplateSnippet {
+public class UpdateNoiseReductionTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
@@ -47,33 +48,27 @@ public class PostVoiceSynthesisTemplateSnippet {
         }
     }
 
-    private void postVoiceSynthesisTemplate() {
+    private void updateNoiseReductionTemplate() {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
-        PostVoiceSynthesisTempleteRequest request = new PostVoiceSynthesisTempleteRequest(bucket);
-        PostVoiceSynthesisTemplete postVoiceSynthesisTemplete = new PostVoiceSynthesisTemplete();// 创建模板请求体
-        request.setPostVoiceSynthesisTemplete(postVoiceSynthesisTemplete);// 设置请求
-        // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
-        postVoiceSynthesisTemplete.name = "TempleteName";
-        // 设置处理模式Asyc（异步合成）Sync（同步合成）;是否必传：否
-        postVoiceSynthesisTemplete.mode = "Sync";
-        // 设置音频格式，支持 wav、mp3、pcm ;是否必传：否
-        postVoiceSynthesisTemplete.codec = "pcm";
-        // 设置音色，取值和限制介绍请见下表;是否必传：否
-        postVoiceSynthesisTemplete.voiceType = "aixiaoxing";
-        // 设置音量，取值范围 [-10,10];是否必传：否
-        postVoiceSynthesisTemplete.volume = "2";
-        // 设置语速，取值范围 [50,200];是否必传：否
-        postVoiceSynthesisTemplete.speed = "200";
-        // 设置情绪，不同音色支持的情绪不同，详见下表;是否必传：否
-        postVoiceSynthesisTemplete.emotion = "arousal";
+        UpdateNoiseReductionTempleteRequest request = new UpdateNoiseReductionTempleteRequest(bucket, "templateId");
+        UpdateNoiseReductionTemplete updateNoiseReductionTemplete = new UpdateNoiseReductionTemplete();// 更新模板请求体
+        request.setUpdateNoiseReductionTemplete(updateNoiseReductionTemplete);// 设置请求
+        // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64。;是否必传：是
+        updateNoiseReductionTemplete.name = "NoiseReductionTempleteTest";
+        NoiseReduction noiseReduction = new NoiseReduction();
+        updateNoiseReductionTemplete.noiseReduction = noiseReduction;
+        // 设置封装格式，支持 mp3、m4a、wav;是否必传：否
+        noiseReduction.format = "wav";
+        // 设置采样率单位：Hz可选 8000、12000、16000、24000、32000、44100、48000;是否必传：否
+        noiseReduction.samplerate = "16000";
 
-        ciService.postVoiceSynthesisTempleteAsync(request, new CosXmlResultListener() {
+        ciService.updateNoiseReductionTempleteAsync(request, new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
-                // result 创建模板的结果
+                // result 更新模板的结果
                 // 详细字段请查看api文档或者SDK源码
-                PostVoiceSynthesisTempleteResult result = (PostVoiceSynthesisTempleteResult) cosResult;
+                UpdateNoiseReductionTempleteResult result = (UpdateNoiseReductionTempleteResult) cosResult;
 
             }
             @Override
@@ -100,8 +95,8 @@ public class PostVoiceSynthesisTemplateSnippet {
     }
 
     @Test
-    public void testPostVoiceSynthesisTemplate() {
+    public void testUpdateNoiseReductionTemplate() {
         initService();
-        postVoiceSynthesisTemplate();
+        updateNoiseReductionTemplate();
     }
 }

@@ -10,10 +10,9 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
-import com.tencent.cos.xml.model.ci.ai.PostVideoTargetTemplete;
-import com.tencent.cos.xml.model.ci.ai.PostVideoTargetTempleteRequest;
-import com.tencent.cos.xml.model.ci.ai.PostVideoTargetTempleteResult;
-import com.tencent.cos.xml.model.ci.common.VideoTargetRec;
+import com.tencent.cos.xml.model.ci.ai.PostVoiceSynthesisTemplete;
+import com.tencent.cos.xml.model.ci.ai.PostVoiceSynthesisTempleteRequest;
+import com.tencent.cos.xml.model.ci.ai.PostVoiceSynthesisTempleteResult;
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
@@ -21,7 +20,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class PostVideoTargetTemplateSnippet {
+public class PostVoiceSynthesisTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
@@ -48,29 +47,33 @@ public class PostVideoTargetTemplateSnippet {
         }
     }
 
-    private void postVideoTargetTemplate() {
+    private void postVoiceSynthesisTemplate() {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
-        PostVideoTargetTempleteRequest request = new PostVideoTargetTempleteRequest(bucket);
-        PostVideoTargetTemplete postVideoTargetTemplete = new PostVideoTargetTemplete();// 创建模板请求体
-        request.setPostVideoTargetTemplete(postVideoTargetTemplete);// 设置请求
+        PostVoiceSynthesisTempleteRequest request = new PostVoiceSynthesisTempleteRequest(bucket);
+        PostVoiceSynthesisTemplete postVoiceSynthesisTemplete = new PostVoiceSynthesisTemplete();// 创建模板请求体
+        request.setPostVoiceSynthesisTemplete(postVoiceSynthesisTemplete);// 设置请求
         // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
-        postVideoTargetTemplete.name = "TemplateName";
-        VideoTargetRec videoTargetRec = new VideoTargetRec();
-        postVideoTargetTemplete.videoTargetRec = videoTargetRec;
-        // 设置是否开启人体检测，取值 true/false;是否必传：否
-        videoTargetRec.body = "true";
-        // 设置是否开启宠物检测，取值 true/false;是否必传：否
-        videoTargetRec.pet = "false";
-        // 设置是否开启车辆检测，取值 true/false;是否必传：否
-        videoTargetRec.car = "true";
+        postVoiceSynthesisTemplete.name = "TempleteName";
+        // 设置处理模式Asyc（异步合成）Sync（同步合成）;是否必传：否
+        postVoiceSynthesisTemplete.mode = "Sync";
+        // 设置音频格式，支持 wav、mp3、pcm ;是否必传：否
+        postVoiceSynthesisTemplete.codec = "pcm";
+        // 设置音色，取值和限制介绍请见下表;是否必传：否
+        postVoiceSynthesisTemplete.voiceType = "aixiaoxing";
+        // 设置音量，取值范围 [-10,10];是否必传：否
+        postVoiceSynthesisTemplete.volume = "2";
+        // 设置语速，取值范围 [50,200];是否必传：否
+        postVoiceSynthesisTemplete.speed = "200";
+        // 设置情绪，不同音色支持的情绪不同，详见下表;是否必传：否
+        postVoiceSynthesisTemplete.emotion = "arousal";
 
-        ciService.postVideoTargetTempleteAsync(request, new CosXmlResultListener() {
+        ciService.postVoiceSynthesisTempleteAsync(request, new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
                 // result 创建模板的结果
                 // 详细字段请查看api文档或者SDK源码
-                PostVideoTargetTempleteResult result = (PostVideoTargetTempleteResult) cosResult;
+                PostVoiceSynthesisTempleteResult result = (PostVoiceSynthesisTempleteResult) cosResult;
 
             }
             @Override
@@ -97,8 +100,8 @@ public class PostVideoTargetTemplateSnippet {
     }
 
     @Test
-    public void testPostVideoTargetTemplate() {
+    public void testPostVoiceSynthesisTemplate() {
         initService();
-        postVideoTargetTemplate();
+        postVoiceSynthesisTemplate();
     }
 }

@@ -10,10 +10,9 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
-import com.tencent.cos.xml.model.ci.ai.UpdateNoiseReductionTemplete;
-import com.tencent.cos.xml.model.ci.ai.UpdateNoiseReductionTempleteRequest;
-import com.tencent.cos.xml.model.ci.ai.UpdateNoiseReductionTempleteResult;
-import com.tencent.cos.xml.model.ci.common.NoiseReduction;
+import com.tencent.cos.xml.model.ci.media.TemplateVoiceSeparate;
+import com.tencent.cos.xml.model.ci.media.TemplateVoiceSeparateRequest;
+import com.tencent.cos.xml.model.ci.media.TemplateVoiceSeparateResult;
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
@@ -21,7 +20,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class UpdateNoiseReductionTemplateSnippet {
+public class PostVoiceSeparateTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
@@ -48,39 +47,45 @@ public class UpdateNoiseReductionTemplateSnippet {
         }
     }
 
-    private void updateNoiseReductionTemplate() {
-        // 存储桶名称，格式为 BucketName-APPID
-        String bucket = "examplebucket-1250000000";
-        UpdateNoiseReductionTempleteRequest request = new UpdateNoiseReductionTempleteRequest(bucket, "templateId");
-        UpdateNoiseReductionTemplete updateNoiseReductionTemplete = new UpdateNoiseReductionTemplete();// 更新模板请求体
-        request.setUpdateNoiseReductionTemplete(updateNoiseReductionTemplete);// 设置请求
-        // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64。;是否必传：是
-        updateNoiseReductionTemplete.name = "NoiseReductionTempleteTest";
-        NoiseReduction noiseReduction = new NoiseReduction();
-        updateNoiseReductionTemplete.noiseReduction = noiseReduction;
-        // 设置封装格式，支持 mp3、m4a、wav;是否必传：否
-        noiseReduction.format = "wav";
-        // 设置采样率单位：Hz可选 8000、12000、16000、24000、32000、44100、48000;是否必传：否
-        noiseReduction.samplerate = "16000";
+    private void postVoiceSeparateTemplate() {
+		// 存储桶名称，格式为 BucketName-APPID
+		String bucket = "examplebucket-1250000000";
+		TemplateVoiceSeparateRequest request = new TemplateVoiceSeparateRequest(bucket);
+		TemplateVoiceSeparate templateVoiceSeparate = new TemplateVoiceSeparate();// 创建模板请求体
+		request.setTemplateVoiceSeparate(templateVoiceSeparate);// 设置请求
+		// 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
+		templateVoiceSeparate.name = "TemplateName";
+		// 设置输出音频IsAudio：输出人声IsBackground：输出背景声AudioAndBackground：输出人声和背景声MusicMode：输出人声、背景声、Bass声、鼓声;是否必传：是
+		templateVoiceSeparate.audioMode = "IsAudio";
+		TemplateVoiceSeparate.AudioConfig audioConfig = new TemplateVoiceSeparate.AudioConfig();
+		templateVoiceSeparate.audioConfig = audioConfig;
+		// 设置编解码格式，取值 aac、mp3、flac、amr。当 Request.AudioMode 为 MusicMode 时，仅支持 mp3、wav、acc;是否必传：否
+		audioConfig.codec = "aac";
+		// 设置采样率单位：Hz可选 8000、11025、22050、32000、44100、48000、96000当 Codec 设置为 aac/flac 时，不支持 8000当 Codec 设置为 mp3 时，不支持 8000 和 96000当 Codec 设置为 amr 时，只支持 8000当 Request.AudioMode 为 MusicMode 时，该参数无效;是否必传：否
+		audioConfig.samplerate = "44100";
+		// 设置音频码率单位：Kbps值范围：[8，1000]当 Request.AudioMode 为 MusicMode 时，该参数无效;是否必传：否
+		audioConfig.bitrate = "128";
+		// 设置声道数当 Codec 设置为 aac/flac，支持1、2、4、5、6、8当 Codec 设置为 mp3，支持1、2 当 Codec 设置为 amr，只支持1当 Request.AudioMode 为 MusicMode 时，该参数无效;是否必传：否
+		audioConfig.channels = "4";
 
-        ciService.updateNoiseReductionTempleteAsync(request, new CosXmlResultListener() {
-            @Override
-            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
-                // result 更新模板的结果
-                // 详细字段请查看api文档或者SDK源码
-                UpdateNoiseReductionTempleteResult result = (UpdateNoiseReductionTempleteResult) cosResult;
+		ciService.templateVoiceSeparateAsync(request, new CosXmlResultListener() {
+			@Override
+			public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+				// result 创建模板的结果
+				// 详细字段请查看api文档或者SDK源码
+				TemplateVoiceSeparateResult result = (TemplateVoiceSeparateResult) cosResult;
 
-            }
-            @Override
-            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
-                if (clientException != null) {
-                    clientException.printStackTrace();
-                } else {
-                    serviceException.printStackTrace();
-                }
-            }
-        });
-    }
+			}
+			@Override
+			public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+				if (clientException != null) {
+					clientException.printStackTrace();
+				} else {
+					serviceException.printStackTrace();
+				}
+			}
+		});
+	}
 
     private void initService() {
         // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
@@ -95,8 +100,8 @@ public class UpdateNoiseReductionTemplateSnippet {
     }
 
     @Test
-    public void testUpdateNoiseReductionTemplate() {
+    public void testPostVoiceSeparateTemplate() {
         initService();
-        updateNoiseReductionTemplate();
+        postVoiceSeparateTemplate();
     }
 }

@@ -10,10 +10,10 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
-import com.tencent.cos.xml.model.ci.ai.UpdateVideoTargetTemplete;
-import com.tencent.cos.xml.model.ci.ai.UpdateVideoTargetTempleteRequest;
-import com.tencent.cos.xml.model.ci.ai.UpdateVideoTargetTempleteResult;
-import com.tencent.cos.xml.model.ci.common.VideoTargetRec;
+import com.tencent.cos.xml.model.ci.ai.PostNoiseReductionTemplete;
+import com.tencent.cos.xml.model.ci.ai.PostNoiseReductionTempleteRequest;
+import com.tencent.cos.xml.model.ci.ai.PostNoiseReductionTempleteResult;
+import com.tencent.cos.xml.model.ci.common.NoiseReduction;
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
@@ -21,7 +21,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class UpdateVideoTargetTemplateSnippet {
+public class PostNoiseReductionTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
@@ -48,29 +48,27 @@ public class UpdateVideoTargetTemplateSnippet {
         }
     }
 
-    private void updateVideoTargetTemplate() {
+    private void postNoiseReductionTemplate() {
         // 存储桶名称，格式为 BucketName-APPID
         String bucket = "examplebucket-1250000000";
-        UpdateVideoTargetTempleteRequest request = new UpdateVideoTargetTempleteRequest(bucket, "TemplateId");
-        UpdateVideoTargetTemplete updateVideoTargetTemplete = new UpdateVideoTargetTemplete();// 更新模板请求体
-        request.setUpdateVideoTargetTemplete(updateVideoTargetTemplete);// 设置请求
-        // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
-        updateVideoTargetTemplete.name = "TemplateName";
-        VideoTargetRec videoTargetRec = new VideoTargetRec();
-        updateVideoTargetTemplete.videoTargetRec = videoTargetRec;
-        // 设置是否开启人体检测，取值 true/false;是否必传：否
-        videoTargetRec.body = "true";
-        // 设置是否开启宠物检测，取值 true/false;是否必传：否
-        videoTargetRec.pet = "false";
-        // 设置是否开启车辆检测，取值 true/false;是否必传：否
-        videoTargetRec.car = "true";
+        PostNoiseReductionTempleteRequest request = new PostNoiseReductionTempleteRequest(bucket);
+        PostNoiseReductionTemplete postNoiseReductionTemplete = new PostNoiseReductionTemplete();// 创建模板请求体
+        request.setPostNoiseReductionTemplete(postNoiseReductionTemplete);// 设置请求
+        // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64。;是否必传：是
+        postNoiseReductionTemplete.name = "TempleteName";
+        NoiseReduction noiseReduction = new NoiseReduction();
+        postNoiseReductionTemplete.noiseReduction = noiseReduction;
+        // 设置封装格式，支持 mp3、m4a、wav;是否必传：否
+        noiseReduction.format = "wav";
+        // 设置采样率单位：Hz可选 8000、12000、16000、24000、32000、44100、48000;是否必传：否
+        noiseReduction.samplerate = "16000";
 
-        ciService.updateVideoTargetTempleteAsync(request, new CosXmlResultListener() {
+        ciService.postNoiseReductionTempleteAsync(request, new CosXmlResultListener() {
             @Override
             public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
-                // result 更新模板的结果
+                // result 创建模板的结果
                 // 详细字段请查看api文档或者SDK源码
-                UpdateVideoTargetTempleteResult result = (UpdateVideoTargetTempleteResult) cosResult;
+                PostNoiseReductionTempleteResult result = (PostNoiseReductionTempleteResult) cosResult;
 
             }
             @Override
@@ -97,8 +95,8 @@ public class UpdateVideoTargetTemplateSnippet {
     }
 
     @Test
-    public void testUpdateVideoTargetTemplate() {
+    public void testPostNoiseReductionTemplate() {
         initService();
-        updateVideoTargetTemplate();
+        postNoiseReductionTemplate();
     }
 }

@@ -10,9 +10,9 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
-import com.tencent.cos.xml.model.ci.media.TemplateVoiceSeparate;
-import com.tencent.cos.xml.model.ci.media.TemplateVoiceSeparateRequest;
-import com.tencent.cos.xml.model.ci.media.TemplateVoiceSeparateResult;
+import com.tencent.cos.xml.model.ci.ai.UpdateVoiceSynthesisTemplete;
+import com.tencent.cos.xml.model.ci.ai.UpdateVoiceSynthesisTempleteRequest;
+import com.tencent.cos.xml.model.ci.ai.UpdateVoiceSynthesisTempleteResult;
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
@@ -20,7 +20,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class PostVoiceSeparateTemplateSnippet {
+public class UpdateVoiceSynthesisTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
@@ -47,33 +47,33 @@ public class PostVoiceSeparateTemplateSnippet {
         }
     }
 
-    private void postVoiceSeparateTemplate() {
+    private void updateVoiceSynthesisTemplate() {
 		// 存储桶名称，格式为 BucketName-APPID
 		String bucket = "examplebucket-1250000000";
-		TemplateVoiceSeparateRequest request = new TemplateVoiceSeparateRequest(bucket);
-		TemplateVoiceSeparate templateVoiceSeparate = new TemplateVoiceSeparate();// 创建模板请求体
-		request.setTemplateVoiceSeparate(templateVoiceSeparate);// 设置请求
+		UpdateVoiceSynthesisTempleteRequest request = new UpdateVoiceSynthesisTempleteRequest(bucket, "templateId");
+		UpdateVoiceSynthesisTemplete updateVoiceSynthesisTemplete = new UpdateVoiceSynthesisTemplete();// 更新模板请求体
+		request.setUpdateVoiceSynthesisTemplete(updateVoiceSynthesisTemplete);// 设置请求
 		// 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
-		templateVoiceSeparate.name = "TemplateName";
-		// 设置输出音频IsAudio：输出人声IsBackground：输出背景声AudioAndBackground：输出人声和背景声MusicMode：输出人声、背景声、Bass声、鼓声;是否必传：是
-		templateVoiceSeparate.audioMode = "IsAudio";
-		TemplateVoiceSeparate.AudioConfig audioConfig = new TemplateVoiceSeparate.AudioConfig();
-		templateVoiceSeparate.audioConfig = audioConfig;
-		// 设置编解码格式，取值 aac、mp3、flac、amr。当 Request.AudioMode 为 MusicMode 时，仅支持 mp3、wav、acc;是否必传：否
-		audioConfig.codec = "aac";
-		// 设置采样率单位：Hz可选 8000、11025、22050、32000、44100、48000、96000当 Codec 设置为 aac/flac 时，不支持 8000当 Codec 设置为 mp3 时，不支持 8000 和 96000当 Codec 设置为 amr 时，只支持 8000当 Request.AudioMode 为 MusicMode 时，该参数无效;是否必传：否
-		audioConfig.samplerate = "44100";
-		// 设置音频码率单位：Kbps值范围：[8，1000]当 Request.AudioMode 为 MusicMode 时，该参数无效;是否必传：否
-		audioConfig.bitrate = "128";
-		// 设置声道数当 Codec 设置为 aac/flac，支持1、2、4、5、6、8当 Codec 设置为 mp3，支持1、2 当 Codec 设置为 amr，只支持1当 Request.AudioMode 为 MusicMode 时，该参数无效;是否必传：否
-		audioConfig.channels = "4";
+		updateVoiceSynthesisTemplete.name = "TempleteName";
+		// 设置处理模式Asyc（异步合成）Sync（同步合成）;是否必传：否
+		updateVoiceSynthesisTemplete.mode = "Sync";
+		// 设置音频格式，支持 wav、mp3、pcm ;是否必传：否
+		updateVoiceSynthesisTemplete.codec = "pcm";
+		// 设置音色，取值和限制介绍请见下表;是否必传：否
+		updateVoiceSynthesisTemplete.voiceType = "ruxue";
+		// 设置音量，取值范围 [-10,10];是否必传：否
+		updateVoiceSynthesisTemplete.volume = "2";
+		// 设置语速，取值范围 [50,200];是否必传：否
+		updateVoiceSynthesisTemplete.speed = "200";
+		// 设置情绪，不同音色支持的情绪不同，详见下表;是否必传：否
+		updateVoiceSynthesisTemplete.emotion = "arousal";
 
-		ciService.templateVoiceSeparateAsync(request, new CosXmlResultListener() {
+		ciService.updateVoiceSynthesisTempleteAsync(request, new CosXmlResultListener() {
 			@Override
 			public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
-				// result 创建模板的结果
+				// result 更新模板的结果
 				// 详细字段请查看api文档或者SDK源码
-				TemplateVoiceSeparateResult result = (TemplateVoiceSeparateResult) cosResult;
+				UpdateVoiceSynthesisTempleteResult result = (UpdateVoiceSynthesisTempleteResult) cosResult;
 
 			}
 			@Override
@@ -100,8 +100,8 @@ public class PostVoiceSeparateTemplateSnippet {
     }
 
     @Test
-    public void testPostVoiceSeparateTemplate() {
+    public void testUpdateVoiceSynthesisTemplate() {
         initService();
-        postVoiceSeparateTemplate();
+        updateVoiceSynthesisTemplate();
     }
 }

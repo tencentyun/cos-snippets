@@ -10,9 +10,10 @@ import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
-import com.tencent.cos.xml.model.ci.ai.UpdateVoiceSynthesisTemplete;
-import com.tencent.cos.xml.model.ci.ai.UpdateVoiceSynthesisTempleteRequest;
-import com.tencent.cos.xml.model.ci.ai.UpdateVoiceSynthesisTempleteResult;
+import com.tencent.cos.xml.model.ci.ai.UpdateVideoTargetTemplete;
+import com.tencent.cos.xml.model.ci.ai.UpdateVideoTargetTempleteRequest;
+import com.tencent.cos.xml.model.ci.ai.UpdateVideoTargetTempleteResult;
+import com.tencent.cos.xml.model.ci.common.VideoTargetRec;
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
@@ -20,7 +21,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class UpdateVoiceSynthesisTemplateSnippet {
+public class UpdateVideoTargetTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
@@ -47,45 +48,41 @@ public class UpdateVoiceSynthesisTemplateSnippet {
         }
     }
 
-    private void updateVoiceSynthesisTemplate() {
-		// 存储桶名称，格式为 BucketName-APPID
-		String bucket = "examplebucket-1250000000";
-		UpdateVoiceSynthesisTempleteRequest request = new UpdateVoiceSynthesisTempleteRequest(bucket, "templateId");
-		UpdateVoiceSynthesisTemplete updateVoiceSynthesisTemplete = new UpdateVoiceSynthesisTemplete();// 更新模板请求体
-		request.setUpdateVoiceSynthesisTemplete(updateVoiceSynthesisTemplete);// 设置请求
-		// 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
-		updateVoiceSynthesisTemplete.name = "TempleteName";
-		// 设置处理模式Asyc（异步合成）Sync（同步合成）;是否必传：否
-		updateVoiceSynthesisTemplete.mode = "Sync";
-		// 设置音频格式，支持 wav、mp3、pcm ;是否必传：否
-		updateVoiceSynthesisTemplete.codec = "pcm";
-		// 设置音色，取值和限制介绍请见下表;是否必传：否
-		updateVoiceSynthesisTemplete.voiceType = "ruxue";
-		// 设置音量，取值范围 [-10,10];是否必传：否
-		updateVoiceSynthesisTemplete.volume = "2";
-		// 设置语速，取值范围 [50,200];是否必传：否
-		updateVoiceSynthesisTemplete.speed = "200";
-		// 设置情绪，不同音色支持的情绪不同，详见下表;是否必传：否
-		updateVoiceSynthesisTemplete.emotion = "arousal";
+    private void updateVideoTargetTemplate() {
+        // 存储桶名称，格式为 BucketName-APPID
+        String bucket = "examplebucket-1250000000";
+        UpdateVideoTargetTempleteRequest request = new UpdateVideoTargetTempleteRequest(bucket, "TemplateId");
+        UpdateVideoTargetTemplete updateVideoTargetTemplete = new UpdateVideoTargetTemplete();// 更新模板请求体
+        request.setUpdateVideoTargetTemplete(updateVideoTargetTemplete);// 设置请求
+        // 设置模板名称，仅支持中文、英文、数字、_、-和*，长度不超过 64;是否必传：是
+        updateVideoTargetTemplete.name = "TemplateName";
+        VideoTargetRec videoTargetRec = new VideoTargetRec();
+        updateVideoTargetTemplete.videoTargetRec = videoTargetRec;
+        // 设置是否开启人体检测，取值 true/false;是否必传：否
+        videoTargetRec.body = "true";
+        // 设置是否开启宠物检测，取值 true/false;是否必传：否
+        videoTargetRec.pet = "false";
+        // 设置是否开启车辆检测，取值 true/false;是否必传：否
+        videoTargetRec.car = "true";
 
-		ciService.updateVoiceSynthesisTempleteAsync(request, new CosXmlResultListener() {
-			@Override
-			public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
-				// result 更新模板的结果
-				// 详细字段请查看api文档或者SDK源码
-				UpdateVoiceSynthesisTempleteResult result = (UpdateVoiceSynthesisTempleteResult) cosResult;
+        ciService.updateVideoTargetTempleteAsync(request, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult cosResult) {
+                // result 更新模板的结果
+                // 详细字段请查看api文档或者SDK源码
+                UpdateVideoTargetTempleteResult result = (UpdateVideoTargetTempleteResult) cosResult;
 
-			}
-			@Override
-			public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
-				if (clientException != null) {
-					clientException.printStackTrace();
-				} else {
-					serviceException.printStackTrace();
-				}
-			}
-		});
-	}
+            }
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException clientException, CosXmlServiceException serviceException) {
+                if (clientException != null) {
+                    clientException.printStackTrace();
+                } else {
+                    serviceException.printStackTrace();
+                }
+            }
+        });
+    }
 
     private void initService() {
         // 存储桶region可以在COS控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ ，关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
@@ -100,8 +97,8 @@ public class UpdateVoiceSynthesisTemplateSnippet {
     }
 
     @Test
-    public void testUpdateVoiceSynthesisTemplate() {
+    public void testUpdateVideoTargetTemplate() {
         initService();
-        updateVoiceSynthesisTemplate();
+        updateVideoTargetTemplate();
     }
 }

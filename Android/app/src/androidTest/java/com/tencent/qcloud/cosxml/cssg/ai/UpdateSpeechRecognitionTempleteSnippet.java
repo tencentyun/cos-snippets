@@ -21,7 +21,7 @@ import com.tencent.qcloud.core.common.QCloudClientException;
 
 import org.junit.Test;
 
-public class UpdateSpeechRecognitionTemplateSnippet {
+public class UpdateSpeechRecognitionTempleteSnippet {
     private Context context;
     private CIService ciService;
     public static class ServerCredentialProvider extends BasicLifecycleCredentialProvider {
