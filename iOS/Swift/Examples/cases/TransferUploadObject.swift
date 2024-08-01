@@ -69,7 +69,7 @@ class TransferUploadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailF
                     // 文件下载链接
                     let location = result.location;
                     // 获取文件crc64
-                    let crc64 = result?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
+                    let crc64 = result.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
                 } else {
                     print(error!);
                 }

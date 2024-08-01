@@ -5,6 +5,7 @@
 #import <QCloudCOSXML/QCloudAbortMultipfartUploadRequest.h>
 #import <QCloudCOSXML/QCloudMultipartInfo.h>
 #import <QCloudCOSXML/QCloudCompleteMultipartUploadInfo.h>
+#import <QCloudCOSXML/QCloudRequestProgress.h>
 
 
 @interface ListObjects : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>

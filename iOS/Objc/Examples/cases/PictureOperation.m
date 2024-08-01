@@ -9,6 +9,7 @@
 #import <QCloudCOSXML/QCloudBatchimageRecognitionRequest.h>
 #import <QCloudCOSXML/QCloudPostImageAuditReportRequest.h>
 #import <QCloudCOSXML/QCloudPostTextAuditReportRequest.h>
+#import "QCloudCIUploadOperationsRequest.h"
 
 @interface PictureOperation : XCTestCase <QCloudSignatureProvider, QCloudCredentailFenceQueueDelegate>
 
@@ -80,10 +81,6 @@
     // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
     op.is_pic_info = NO;
     QCloudPicOperationRule * rule = [[QCloudPicOperationRule alloc]init];
-    // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-    request.fileid = @"test";
-    // rule 参数请前往图片基础操作页面，选择对应的操作，查看rules.rule参数。 https://cloud.tencent.com/document/product/460/6924
-    request.rule = @"imageMogr2/***";
     op.rule = @[rule];
     request.picOperations = op;
     [request setFinishBlock:^(QCloudImageProcessResult * outputObject, NSError *error) {

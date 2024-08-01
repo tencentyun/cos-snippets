@@ -89,14 +89,11 @@
     }];
     
     // 监听上传结果
-    [put setFinishBlock:^(id outputObject, NSError *error) {
-        // 可以从 outputObject 中获取 response 中 etag 或者自定义头部等信息
-        NSDictionary * result = (NSDictionary *)outputObject;
+    [put setFinishBlock:^(QCloudUploadObjectResult * _Nullable result, NSError * _Nullable error) {
         // 在上传结果 result.location 中获取上传文件的下载链接
         NSString * fileUrl = result.location;
         // 获取文件crc64
-        NSString * crc64 = [[outputObject __originHTTPURLResponse__].allHeaderFields valueForKey:@"x-cos-hash-crc64ecma"];
-
+        NSString * crc64 = [[result __originHTTPURLResponse__].allHeaderFields valueForKey:@"x-cos-hash-crc64ecma"];
     }];
     
     [put setInitMultipleUploadFinishBlock:^(QCloudInitiateMultipartUploadResult *

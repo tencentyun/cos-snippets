@@ -82,13 +82,13 @@
     // 获取预签名函数，默认签入Header Host；您也可以选择不签入Header Host，但可能导致请求失败或安全漏洞
     getPresignedURLRequest.signHost = YES;
     
-    
     // http 请求参数，传入的请求参数需与实际请求相同，能够防止用户篡改此HTTP请求的参数
-    getPresignedURLRequest.requestParameters = @{@"param1":@"value1",@"param1":@"value1"};
-    
+    [getPresignedURLRequest setValue:@"value1" forRequestParameter:@"param1"];
+    [getPresignedURLRequest setValue:@"value2" forRequestParameter:@"param2"];
     
     // http 请求头部，传入的请求头部需包含在实际请求中，能够防止用户篡改签入此处的HTTP请求头部
-    getPresignedURLRequest.requestHeaders = @{@"param1":@"value1",@"param1":@"value1"};
+    [getPresignedURLRequest setValue:@"value1" forRequestHeader:@"param1"];
+    [getPresignedURLRequest setValue:@"value2" forRequestHeader:@"param2"];
     
     
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
@@ -127,10 +127,12 @@
     getPresignedURLRequest.signHost = YES;
     
     // http 请求参数，传入的请求参数需与实际请求相同，能够防止用户篡改此HTTP请求的参数
-    getPresignedURLRequest.requestParameters = @{@"param1":@"value1",@"param1":@"value1"};
+    [getPresignedURLRequest setValue:@"value1" forRequestParameter:@"param1"];
+    [getPresignedURLRequest setValue:@"value2" forRequestParameter:@"param2"];
     
     // http 请求头部，传入的请求头部需包含在实际请求中，能够防止用户篡改签入此处的HTTP请求头部
-    getPresignedURLRequest.requestHeaders = @{@"param1":@"value1",@"param1":@"value1"};
+    [getPresignedURLRequest setValue:@"value1" forRequestHeader:@"param1"];
+    [getPresignedURLRequest setValue:@"value2" forRequestHeader:@"param2"];
     
     // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
     getPresignedURLRequest.object = @"exampleobject";

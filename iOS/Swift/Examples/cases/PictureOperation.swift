@@ -48,24 +48,20 @@ class PictureOperation: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
     // 上传时图片处理
     func uploadWithPicOperation() {
         //.cssg-snippet-body-start:[swift-upload-with-pic-operation]
-        let request = QCloudCIUploadOperationsRequest()
+        let request = QCloudCIUploadOperationsRequest<AnyObject>()
         // 对象键，是对象在 COS 上的完整路径，如果带目录的话，格式为 "video/xxx/movie.mp4"
         request.object = "exampleobject"
         // 存储桶名称，由 BucketName-Appid 组成，可以在 COS 控制台查看 https://console.cloud.tencent.com/cos5/bucket
         request.bucket = "examplebucket-1250000000"
-        request.body = "123456789".data(using: .utf8)
+        request.body = NSData();
         let op = QCloudPicOperations()
         // 是否返回原图信息。0表示不返回原图信息，1表示返回原图信息，默认为0
         op.is_pic_info = false
         let rule = QCloudPicOperationRule()
-        // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-        request.fileid = "test"
-        // rule 参数请前往图片基础操作页面，选择对应的操作，查看rules.rule参数。 https://cloud.tencent.com/document/product/460/6924
-        request.rule = "imageMogr2/***"
         op.rule = [rule]
         request.picOperations = op
-        request.setFinish { (outputObject: QCloudImageProcessResult?, error: Error?) in
-            // 完成回调
+        request.setFinish { result, error in
+            
         }
         QCloudCOSXMLService.defaultCOSXML().uploadOperations(request)
         //.cssg-snippet-body-end
