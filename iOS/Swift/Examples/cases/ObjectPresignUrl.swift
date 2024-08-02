@@ -105,7 +105,7 @@ class ObjectPresignUrl: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         
         // 使用预签名 URL 请求的 HTTP 方法。有效值（大小写敏感）为：
         // @"GET"、@"PUT"、@"POST"、@"DELETE"
-        getPresign.httpMethod = "PUT";
+        getPresign.httpMethod = "GET";
         
         
         // 获取预签名函数，默认签入Header Host；您也可以选择不签入Header Host，但可能导致请求失败或安全漏洞
