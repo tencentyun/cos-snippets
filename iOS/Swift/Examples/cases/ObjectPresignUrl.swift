@@ -83,6 +83,7 @@ class ObjectPresignUrl: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
             if let result = result {
                 // 预签名 URL
                 let url = result.presienedURL
+                downloadFile(presignedURL: url, retryCount: 0)
             } else {
                 print(error!);
             }
@@ -92,6 +93,36 @@ class ObjectPresignUrl: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         
         //.cssg-snippet-body-end
     }
+
+   func downloadFile(presignedURL: String, retryCount: Int) {
+    // 使用预签名链接进行下载文件
+    guard let url = URL(string: presignedURL) else {
+        print("Invalid URL")
+        return
+    }
+
+    var request = URLRequest(url: url)
+    // 指定HTTPMethod为GET
+    request.httpMethod = "GET"
+
+    let task = URLSession.shared.downloadTask(with: request) { location, response, error in
+        if let error = error {
+            if (self.isNetworkErrorAndRecoverable(error as NSError) || (error as NSError).code >= 500) && retryCount == 0 {
+                self.downloadFile(presignedURL: presignedURL, retryCount: retryCount + 1)
+            }
+        } else if let location = location {
+            // location 下载成功后的本地文件路径
+            print("Downloaded file location: \(location)")
+        }
+
+        // 在 response 中查看下载结果
+        if let httpResponse = response as? HTTPURLResponse {
+            print("Download completed with status code: \(httpResponse.statusCode)")
+        }
+    }
+
+    task.resume()
+}
     
     // 获取预签名上传链接
     func getPresignUploadUrl() {
@@ -128,6 +159,7 @@ class ObjectPresignUrl: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
             if let result = result {
                 // 预签名 URL
                 let url = result.presienedURL
+                 uploadFile(presignedURL: url, retryCount: 0)
             } else {
                 print(error!);
             }
@@ -138,7 +170,69 @@ class ObjectPresignUrl: XCTestCase,QCloudSignatureProvider,QCloudCredentailFence
         //.cssg-snippet-body-end
     }
     // .cssg-methods-pragma
+
+    func uploadFile(presignedURL: String, retryCount: Int) {
+           // 使用预签名链接进行上传文件
+           guard let url = URL(string: presignedURL) else {
+               print("Invalid URL")
+               return
+           }
+
+           var request = URLRequest(url: url)
+           // 指定HTTPMethod 为PUT
+           request.httpMethod = "PUT"
+
+           // fromData 为需要上传的文件
+           let dataToUpload = "testtest".data(using: .utf8)!
+
+           let task = URLSession.shared.uploadTask(with: request, from: dataToUpload) { data, response, error in
+               if let error = error {
+                   if (self.isNetworkErrorAndRecoverable(error as NSError) || (error as NSError).code >= 500) && retryCount == 0 {
+                       self.uploadFile(presignedURL: presignedURL, retryCount: retryCount + 1)
+                   }
+               }
+
+               // 在 response 中查看上传结果
+               if let httpResponse = response as? HTTPURLResponse {
+                   print("Upload completed with status code: \(httpResponse.statusCode)")
+               }
+           }
+
+           task.resume()
+       }
     
+    func isNetworkErrorAndRecoverable(_ error: NSError) -> Bool {
+        if error.domain == NSURLErrorDomain {
+            switch error.code {
+            case NSURLErrorCancelled,
+                 NSURLErrorBadURL,
+                 NSURLErrorNotConnectedToInternet,
+                 NSURLErrorSecureConnectionFailed,
+                 NSURLErrorServerCertificateHasBadDate,
+                 NSURLErrorServerCertificateUntrusted,
+                 NSURLErrorServerCertificateHasUnknownRoot,
+                 NSURLErrorServerCertificateNotYetValid,
+                 NSURLErrorClientCertificateRejected,
+                 NSURLErrorClientCertificateRequired,
+                 NSURLErrorCannotLoadFromNetwork:
+                return false
+            case NSURLErrorCannotConnectToHost:
+                fallthrough
+            default:
+                return true
+            }
+        }
+    
+        if let userInfo = error.userInfo as? [String: Any],
+           let serverCode = userInfo["Code"] as? String {
+            if serverCode == "InvalidDigest" || serverCode == "BadDigest" ||
+               serverCode == "InvalidSHA1Digest" || serverCode == "RequestTimeOut" {
+                return true
+            }
+        }
+    
+        return false
+    }
     
     func testObjectPresignUrl() {
         // 获取预签名下载链接
