@@ -99,6 +99,8 @@
                                              NSError * _Nonnull error) {
         // 预签名 URL
         NSString* presignedURL = result.presienedURL;
+        [self downloadFile:presignedURL retryCount:0];
+        
     }];
     
     
@@ -107,6 +109,47 @@
     //.cssg-snippet-body-end
     
 }
+
+-(void)downloadFile:(NSString *)presignedURL retryCount:(NSInteger)retryCount{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:presignedURL]];
+    // 指定HTTPMethod为GET
+    request.HTTPMethod = @"GET";
+    [[[NSURLSession sharedSession] downloadTaskWithRequest:request completionHandler:^(NSURL *_Nullable location, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+      // location 下载成功后的本地文件路径
+    }] resume];
+}
+
+
+- (BOOL)isNetworkErrorAndRecoverable:(NSError *)error {
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        switch (error.code) {
+            case NSURLErrorCancelled:
+            case NSURLErrorBadURL:
+            case NSURLErrorNotConnectedToInternet:
+            case NSURLErrorSecureConnectionFailed:
+            case NSURLErrorServerCertificateHasBadDate:
+            case NSURLErrorServerCertificateUntrusted:
+            case NSURLErrorServerCertificateHasUnknownRoot:
+            case NSURLErrorServerCertificateNotYetValid:
+            case NSURLErrorClientCertificateRejected:
+            case NSURLErrorClientCertificateRequired:
+            case NSURLErrorCannotLoadFromNetwork:
+                return NO;
+            case NSURLErrorCannotConnectToHost:
+            default:
+                return YES;
+        }
+    }
+    if (error.userInfo && error.userInfo[@"Code"]) {
+        NSString *serverCode = error.userInfo[@"Code"];
+        if ([serverCode isEqualToString:@"InvalidDigest"] || [serverCode isEqualToString:@"BadDigest"] ||
+            [serverCode isEqualToString:@"InvalidSHA1Digest"] || [serverCode isEqualToString:@"RequestTimeOut"]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 
 /**
  * 获取预签名上传链接
@@ -141,6 +184,7 @@
                                              NSError * _Nonnull error) {
           // 预签名 URL
           NSString* presignedURL = result.presienedURL;
+           [self uploadFile:presignedURL retryCount:0];
     }];
         
     [[QCloudCOSXMLService defaultCOSXML] getPresignedURL:getPresignedURLRequest];
@@ -149,7 +193,21 @@
     
 }
 // .cssg-methods-pragma
+-(void)uploadFile:(NSString *)presignedURL retryCount:(NSInteger)retryCount{
+    // 使用预签名链接进行上传文件
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:presignedURL]];
+    // 指定HTTPMethod 为PUT
+    request.HTTPMethod = @"PUT";
+    // fromData 为需要上传的文件
+    [[[NSURLSession sharedSession]
+    uploadTaskWithRequest:request fromData:[@"testtest" dataUsingEncoding:NSUTF8StringEncoding] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error && ([self isNetworkErrorAndRecoverable:error] || error.code >= 500) && retryCount == 0) {
+            [self uploadFile:presignedURL retryCount:retryCount + 1];
+        }
+    // response中查看上传结果
+    }]resume];
 
+}
 
 - (void)testObjectPresignUrl {
     // 获取预签名下载链接
