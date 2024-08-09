@@ -1,32 +1,28 @@
 package com.tencent.qcloud.cosxml.cssg;
 
-import android.support.annotation.Nullable;
-
-import com.tencent.cos.xml.*;
-import com.tencent.cos.xml.common.*;
-import com.tencent.cos.xml.exception.*;
-import com.tencent.cos.xml.listener.*;
-import com.tencent.cos.xml.model.*;
-import com.tencent.cos.xml.model.object.*;
-import com.tencent.cos.xml.model.bucket.*;
-import com.tencent.cos.xml.model.tag.*;
-import com.tencent.cos.xml.transfer.*;
-import com.tencent.qcloud.core.auth.*;
-import com.tencent.qcloud.core.common.*;
-import com.tencent.qcloud.core.http.*;
-import com.tencent.cos.xml.model.service.*;
-
-
 import android.content.Context;
-import android.util.Log;
+import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
+
+import com.tencent.cos.xml.CosXmlService;
+import com.tencent.cos.xml.CosXmlServiceConfig;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.model.PresignedUrlRequest;
+import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
+import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
+import com.tencent.qcloud.core.auth.SessionQCloudCredentials;
+import com.tencent.qcloud.core.common.QCloudClientException;
+import com.tencent.qcloud.core.http.RequestBodySerializer;
 
 import org.junit.Test;
 
-import java.net.*;
-import java.util.*;
-import java.nio.charset.Charset;
-import java.io.*;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ObjectPresignUrl {
 
@@ -75,8 +71,16 @@ public class ObjectPresignUrl {
             // 设置不签名 Host
             presignedUrlRequest.addNoSignHeader("Host");
 
-            String urlWithSign = cosXmlService.getPresignedURL(presignedUrlRequest);
-
+            // 获取到预签名下载链接
+            final String urlWithSign = cosXmlService.getPresignedURL(presignedUrlRequest);
+            // 开始下载
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String localPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/wechat.png";
+                    downloadFile(urlWithSign, localPath);
+                }
+            }).start();
         } catch (CosXmlClientException e) {
             e.printStackTrace();
         }
@@ -93,14 +97,15 @@ public class ObjectPresignUrl {
             String bucket = "examplebucket-1250000000"; //存储桶名称
             String cosPath = "exampleobject"; //即对象在存储桶中的位置标识符。
             String method = "PUT"; //请求 HTTP 方法
+            // 本地文件路径
+            final String localPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/wechat.png";
             PresignedUrlRequest presignedUrlRequest = new PresignedUrlRequest(bucket
                     , cosPath) {
                 @Override
                 public RequestBodySerializer getRequestBody()
                         throws CosXmlClientException {
                     //用于计算 put 等需要带上 body 的请求的签名 URL
-                    return RequestBodySerializer.string("text/plain",
-                            "this is test");
+                    return RequestBodySerializer.file(null, new File(localPath));
                 }
             };
             presignedUrlRequest.setRequestMethod(method);
@@ -108,7 +113,14 @@ public class ObjectPresignUrl {
             presignedUrlRequest.setSignKeyTime(60);
             // 设置不签名 Host
             presignedUrlRequest.addNoSignHeader("Host");
-            String urlWithSign = cosXmlService.getPresignedURL(presignedUrlRequest);
+            final String urlWithSign = cosXmlService.getPresignedURL(presignedUrlRequest);
+            // 开始上传
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    uploadFile(urlWithSign, localPath);
+                }
+            }).start();
         } catch (CosXmlClientException e) {
             e.printStackTrace();
         }
@@ -142,5 +154,114 @@ public class ObjectPresignUrl {
         getPresignUploadUrl();
         // .cssg-methods-pragma
 
+    }
+
+    public void downloadFile(String fileUrl, String localPath) {
+        int retryCount = 0;
+        boolean success = false;
+        while (!success && retryCount < 3) {
+            HttpURLConnection connection = null;
+            InputStream input = null;
+            FileOutputStream output = null;
+            try {
+                URL url = new URL(fileUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    if (connection.getResponseCode() >= 500) {
+                        retryCount++;
+                        continue;
+                    } else {
+                        throw new RuntimeException("Server returned HTTP " + connection.getResponseCode()
+                                + " " + connection.getResponseMessage());
+                    }
+                }
+                input = connection.getInputStream();
+                output = new FileOutputStream(localPath);
+                byte data[] = new byte[4096];
+                int count;
+                while ((count = input.read(data)) != -1) {
+                    output.write(data, 0, count);
+                }
+                success = true;
+            } catch (Exception e) {
+                retryCount++;
+            } finally {
+                try {
+                    if (output != null)
+                        output.close();
+                    if (input != null)
+                        input.close();
+                } catch (Exception ignored) {
+                }
+                if (connection != null)
+                    connection.disconnect();
+            }
+        }
+        if (!success) {
+            throw new RuntimeException("Failed to download file after 3 attempts");
+        }
+    }
+
+    public void uploadFile(String targetUrl, String filePath) {
+        int retryCount = 0;
+        boolean success = false;
+
+        while (!success && retryCount < 3) {
+            HttpURLConnection connection = null;
+            DataOutputStream outputStream = null;
+            FileInputStream fileInputStream = null;
+
+            try {
+                fileInputStream = new FileInputStream(filePath);
+
+                URL url = new URL(targetUrl);
+                connection = (HttpURLConnection) url.openConnection();
+
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+
+                connection.setRequestMethod("POST");
+
+                outputStream = new DataOutputStream(connection.getOutputStream());
+                int bytesRead;
+                byte[] buffer = new byte[8192];
+                while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                outputStream.flush();
+
+                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    if (connection.getResponseCode() >= 500) {
+                        retryCount++;
+                        continue;
+                    } else {
+                        throw new RuntimeException("Server returned HTTP " + connection.getResponseCode()
+                                + " " + connection.getResponseMessage());
+                    }
+                }
+
+                success = true;
+            } catch (Exception e) {
+                retryCount++;
+            } finally {
+                try {
+                    if (outputStream != null)
+                        outputStream.close();
+                    if (fileInputStream != null)
+                        fileInputStream.close();
+                } catch (Exception ignored) {
+                }
+
+                if (connection != null)
+                    connection.disconnect();
+            }
+        }
+
+        if (!success) {
+            throw new RuntimeException("Failed to upload file after 3 attempts");
+        }
     }
 }
