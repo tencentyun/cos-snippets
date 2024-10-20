@@ -32,11 +32,6 @@ def put_bucket_policy():
                     "Resource": [
                         "qcs::cos:ap-guangzhou:uid/1250000000:examplebucket-1250000000/*"
                     ]
-                    "condition": {
-                        "ip_equal": {
-                        "qcs:ip": "10.121.2.10/24"
-                        }
-                    }
                 }
             ],
             "version": "2.0"
