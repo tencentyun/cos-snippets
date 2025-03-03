@@ -64,7 +64,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
         request.localCacheDownloadOffset = 100;
 
         // 监听下载进度
-        request.sendProcessBlock = { (bytesDownload, totalBytesDownload,
+        request.downProcessBlock = { (bytesDownload, totalBytesDownload,
             totalBytesExpectedToDownload) in
             
             // bytesDownload                   新增字节数
@@ -106,7 +106,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
             request.localCacheDownloadOffset = 100;
 
             // 监听下载进度
-            request.sendProcessBlock = { (bytesDownload, totalBytesDownload,
+            request.downProcessBlock = { (bytesDownload, totalBytesDownload,
                 totalBytesExpectedToDownload) in
                 
                 // bytesDownload                   新增字节数
@@ -170,7 +170,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
                     request.localCacheDownloadOffset = 100;
 
                     // 监听下载进度
-                    request.sendProcessBlock = { (bytesDownload, totalBytesDownload,
+                    request.downProcessBlock = { (bytesDownload, totalBytesDownload,
                         totalBytesExpectedToDownload) in
                         
                         // bytesDownload                   新增字节数
@@ -219,7 +219,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
         request.localCacheDownloadOffset = 100;
 
         // 监听下载进度
-        request.sendProcessBlock = { (bytesDownload, totalBytesDownload,
+        request.downProcessBlock = { (bytesDownload, totalBytesDownload,
             totalBytesExpectedToDownload) in
             
             // bytesDownload                   新增字节数
@@ -288,7 +288,7 @@ class TransferDownloadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentai
         request.localCacheDownloadOffset = 100;
 
         // 监听下载进度
-        request.sendProcessBlock = { (bytesDownload, totalBytesDownload,
+        request.downProcessBlock = { (bytesDownload, totalBytesDownload,
             totalBytesExpectedToDownload) in
             
             // bytesDownload                   新增字节数
