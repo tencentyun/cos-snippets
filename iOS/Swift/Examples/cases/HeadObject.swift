@@ -67,7 +67,7 @@ class HeadObject: XCTestCase,QCloudSignatureProvider,QCloudCredentailFenceQueueD
             if let result = result {
                 // result 包含响应的 header 信息
                 // 获取文件crc64
-                let crc64 = (result as? NSData)?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
+                let crc64 = (result as? NSObject)?.__originHTTPURLResponse__.allHeaderFields["x-cos-hash-crc64ecma"];
             } else {
                 print(error!);
             }
