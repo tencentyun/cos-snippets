@@ -150,12 +150,7 @@
     // 处理结果的文件路径名称，如以/开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
     rule.fileid = @"test";
 
-    // 盲水印图片在cos上的地址：如http://ci-1253653367.cos.ap-guangzhou.myqcloud.com/watermark_icon.png
-     rule.imageURL = @"watermarkURL";
-     //操作：有效值 :QCloudPicOperationRuleActionPut:添加盲水印  QCloudPicOperationRuleActionExtrac:提取盲水印
-     rule.actionType =QCloudPicOperationRuleActionPut;
-    // 盲水印类型，有效值：QCloudPicOperationRuleHalf 半盲；QCloudPicOperationRuleFull: 全盲；QCloudPicOperationRuleText 文字
-    rule.type = QCloudPicOperationRuleFull;
+    rule.rule = @"watermark/3/type/1/image/aHR0cDovL2V4YW1wbGVzLTEyNTEwMDAw";
     op.rule = @[rule];
     put.picOperations = op;
     [put setFinishBlock:^(QCloudPutObjectWatermarkResult *outputObject, NSError *error) {
