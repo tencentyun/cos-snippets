@@ -205,6 +205,7 @@
             [self uploadFile:presignedURL retryCount:retryCount + 1];
         }
     // response中查看上传结果
+    // 具体错误码请查看 https://cloud.tencent.com/document/product/436/7730#.E9.94.99.E8.AF.AF.E7.A0.81.E5.88.97.E8.A1.A8
     }]resume];
 
 }
