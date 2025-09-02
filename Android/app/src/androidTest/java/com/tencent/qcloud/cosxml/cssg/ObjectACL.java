@@ -68,18 +68,18 @@ public class ObjectACL {
         PutObjectACLRequest putObjectACLRequest = new PutObjectACLRequest(bucket,
                 cosPath);
 
-        // 设置 对象 访问权限
-        putObjectACLRequest.setXCOSACL("public-read");
+		// 设置 对象 访问权限（创建者具备 FULL_CONTROL 权限，匿名用户组具备 READ 权限）
+		putObjectACLRequest.setXCOSACL("public-read");
+		// 设置 对象 私有权限（创建者具备 FULL_CONTROL 权限，其他人没有权限）
+		putObjectACLRequest.setXCOSACL("private");
+		// 设置 对象 默认权限（此时根据各级目录的显式设置及存储桶的设置来确定是否允许请求）
+		putObjectACLRequest.setXCOSACL("default");
+
 
         // 赋予被授权者读的权限
         ACLAccount readACLS = new ACLAccount();
         readACLS.addAccount("100000000001", "100000000001");
         putObjectACLRequest.setXCOSGrantRead(readACLS);
-
-        // 赋予被授权者读写的权限
-        ACLAccount writeandReadACLS = new ACLAccount();
-        writeandReadACLS.addAccount("100000000001", "100000000001");
-        putObjectACLRequest.setXCOSReadWrite(writeandReadACLS);
 
         cosXmlService.putObjectACLAsync(putObjectACLRequest,
                 new CosXmlResultListener() {
