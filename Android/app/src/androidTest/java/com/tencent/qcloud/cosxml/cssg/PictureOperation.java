@@ -102,7 +102,18 @@ public class PictureOperation {
      */
     private void processWithPicOperation() {
         //.cssg-snippet-body-start:[process-with-pic-operation]
+		// 存储桶名称，由bucketname-appid 组成，appid必须填入，可以在COS控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
+		String bucket = "examplebucket-1250000000";
+        String cosPath = "exampleobject"; // 对象在存储桶中的位置标识符，即称对象键
 
+        List<PicOperationRule> rules = new LinkedList<>();
+        // 添加一条将图片转化为 png 格式的 rule，处理后的图片在存储桶中的位置标识符为
+        // examplepngobject
+        rules.add(new PicOperationRule("examplepngobject", "imageView2/format/png"));
+        PicOperations picOperations = new PicOperations(true, rules);
+
+        ImageProcessRequest imageProcessRequest = new ImageProcessRequest(bucket, cosPath, picOperations);
+		ImageProcessResult imageProcessResult = cosXmlService.imageProcess(imageProcessRequest);
         //.cssg-snippet-body-end
     }
 
