@@ -111,11 +111,36 @@
 }
 
 -(void)downloadFile:(NSString *)presignedURL retryCount:(NSInteger)retryCount{
+    // 使用预签名链接进行下载文件
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:presignedURL]];
     // 指定HTTPMethod为GET
     request.HTTPMethod = @"GET";
     [[[NSURLSession sharedSession] downloadTaskWithRequest:request completionHandler:^(NSURL *_Nullable location, NSURLResponse *_Nullable response, NSError *_Nullable error) {
-      // location 下载成功后的本地文件路径
+        // 具体错误码请查看 https://cloud.tencent.com/document/product/436/7730#.E9.94.99.E8.AF.AF.E7.A0.81.E5.88.97.E8.A1.A8
+        NSInteger statusCode = 0;
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            statusCode = [(NSHTTPURLResponse *)response statusCode];
+        }
+
+        if (error && [self isNetworkErrorAndRecoverable:error] && retryCount == 0) {
+            // 网络可恢复错误，进行重试
+            [self downloadFile:presignedURL retryCount:retryCount + 1];
+        } else if (!error && statusCode >= 500 && retryCount == 0) {
+            // 服务端 5xx 错误，进行重试
+            [self downloadFile:presignedURL retryCount:retryCount + 1];
+        } else if (error) {
+            // 文件下载失败，执行失败的业务逻辑
+            NSLog(@"文件下载失败：%@", error);
+        } else if (statusCode >= 200 && statusCode < 300) {
+            // location 下载成功后的本地文件路径
+            NSLog(@"文件下载成功，本地路径：%@", location.path);
+        } else {
+            // 4xx 等其他错误
+            // 下载任务的错误信息在 location 对应的临时文件中，需要读取解析
+            NSData *errorData = [NSData dataWithContentsOfURL:location];
+            NSString *errorBody = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
+            NSLog(@"文件下载失败，状态码：%ld，响应体：%@", (long)statusCode, errorBody);
+        }
     }] resume];
 }
 
@@ -198,15 +223,40 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:presignedURL]];
     // 指定HTTPMethod 为PUT
     request.HTTPMethod = @"PUT";
-    // fromData 为需要上传的文件
+
+    // 方式一：从文件路径上传（推荐，更贴近真实场景）
+    // NSURL *fileURL = [NSURL fileURLWithPath:@"/path/to/your/file"];
+    // NSData *fileData = [NSData dataWithContentsOfURL:fileURL];
+
+    // 方式二：从 NSData 上传（此处使用测试数据演示）
+    NSData *fileData = [@"testtest" dataUsingEncoding:NSUTF8StringEncoding];
+
     [[[NSURLSession sharedSession]
-    uploadTaskWithRequest:request fromData:[@"testtest" dataUsingEncoding:NSUTF8StringEncoding] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error && ([self isNetworkErrorAndRecoverable:error] || error.code >= 500) && retryCount == 0) {
-            [self uploadFile:presignedURL retryCount:retryCount + 1];
+      uploadTaskWithRequest:request fromData:fileData completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 具体错误码请查看 https://cloud.tencent.com/document/product/436/7730#.E9.94.99.E8.AF.AF.E7.A0.81.E5.88.97.E8.A1.A8
+        NSInteger statusCode = 0;
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            statusCode = [(NSHTTPURLResponse *)response statusCode];
         }
-    // response中查看上传结果
-    // 具体错误码请查看 https://cloud.tencent.com/document/product/436/7730#.E9.94.99.E8.AF.AF.E7.A0.81.E5.88.97.E8.A1.A8
-    }]resume];
+
+        if (error && [self isNetworkErrorAndRecoverable:error] && retryCount == 0) {
+            // 网络可恢复错误，进行重试
+            [self uploadFile:presignedURL retryCount:retryCount + 1];
+        } else if (!error && statusCode >= 500 && retryCount == 0) {
+            // 服务端 5xx 错误，进行重试
+            [self uploadFile:presignedURL retryCount:retryCount + 1];
+        } else if (error) {
+            // 文件上传失败，执行失败的业务逻辑
+            NSLog(@"文件上传失败：%@", error);
+        } else if (statusCode >= 200 && statusCode < 300) {
+            // 文件上传成功，执行成功的业务逻辑
+            NSLog(@"文件上传成功");
+        } else {
+            // 4xx 等其他错误，解析响应体中的错误信息
+            NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"文件上传失败，状态码：%ld，响应体：%@", (long)statusCode, responseBody);
+        }
+    }] resume];
 
 }
 
